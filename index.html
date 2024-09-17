@@ -354,7 +354,7 @@
 
         function playClickSound() {
             var sound = document.getElementById('click-sound');
-            sound.currentTime = 0;
+            sound.currentTime = 0; // Ensure the sound starts from the beginning
             sound.play();
         }
 
@@ -394,7 +394,7 @@
         }
 
         window.addEventListener("beforeunload", function (e) {
-            var confirmationMessage = 'Your data will be kept even if you leave this page.';
+            var confirmationMessage = 'If you refresh the page, your data will be kept safely. No information will be lost.';
             (e || window.event).returnValue = confirmationMessage;
             return confirmationMessage;
         });

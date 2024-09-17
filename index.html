@@ -398,18 +398,22 @@
         function checkForUpdates() {
             const url = window.location.href;
             let lastModified = document.lastModified;
+            let updateDetected = false;
 
             setInterval(() => {
-                fetch(url, { method: 'HEAD', cache: 'no-store' })
-                    .then(response => {
-                        const newLastModified = response.headers.get('last-modified');
-                        if (newLastModified && newLastModified !== lastModified) {
-                            lastModified = newLastModified;
-                            alert('There is a new version of the file, please Reload to update it, you will not lose anything after reload.');
-                            location.reload();
-                        }
-                    })
-                    .catch(console.error);
+                if (!updateDetected) {
+                    fetch(url, { method: 'HEAD', cache: 'no-store' })
+                        .then(response => {
+                            const newLastModified = response.headers.get('last-modified');
+                            if (newLastModified && newLastModified !== lastModified) {
+                                updateDetected = true; // Stop further checks
+                                lastModified = newLastModified;
+                                alert('There is a new version of the file, please Reload to update it, you will not lose anything after reload.');
+                                location.reload();
+                            }
+                        })
+                        .catch(console.error);
+                }
             }, 10000);
         }
 

@@ -21,14 +21,15 @@
             margin: 0 auto;
         }
         .counter-section {
-            background-color: rgba(0, 61, 91, 0.85);
+            background-color: rgba(255, 255, 255, 0.85); /* Soft white background */
             margin: 10px;
-            padding: 20px;
+            padding: 15px;
             width: 40%;
             text-align: center;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             min-width: 300px;
+            color: #003D5B; /* Darker text color */
         }
         .counter-section h2 {
             margin-bottom: 10px;
@@ -48,7 +49,7 @@
             cursor: pointer;
             border: none;
             border-radius: 8px;
-            color: #fff;
+            color: #000; /* Changed text color to black */
             background-color: #1DD3B0;
             transition: transform 0.3s, box-shadow 0.3s;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -69,7 +70,7 @@
             font-size: 24px;
             border: none;
             background: transparent;
-            color: #fff;
+            color: #003D5B;
             pointer-events: none;
         }
         .points {
@@ -91,8 +92,8 @@
             z-index: 1000;
         }
         .action-buttons button {
-            background-color: #FFA45B; /* Same as info button */
-            color: #fff;
+            background-color: #FFA45B;
+            color: #000; /* Changed text color to black */
             border: none;
             border-radius: 50%;
             width: 40px;
@@ -128,10 +129,6 @@
         .action-buttons button:hover::after {
             opacity: 1;
         }
-        /* Specific Styles for Bookmark Button */
-        .action-buttons .bookmark {
-            background-color: #FFA45B; /* Same as info button */
-        }
         /* Popup Styles */
         .popup, .achievement-popup, .achievement-passed-popup {
             display: none;
@@ -140,10 +137,12 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             font-size: 0.9em;
             z-index: 1002; /* Ensure popups are above tooltips */
+            opacity: 0; /* For fade-in/out */
+            transition: opacity 0.5s ease;
         }
         .popup {
-            background-color: rgba(0, 61, 91, 0.95);
-            color: #fff;
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #003D5B;
             bottom: 80px;
             left: 20px;
             width: 300px;
@@ -151,8 +150,8 @@
         }
         /* Close Button Styles */
         .popup .close-btn {
-            background-color: #FFA45B; /* Same as other buttons */
-            color: #fff;
+            background-color: #FFA45B;
+            color: #000; /* Changed text color to black */
             border: none;
             border-radius: 50%;
             width: 25px;
@@ -210,8 +209,13 @@
         <button class="info-button" onclick="togglePopup()" data-tooltip="Information">!</button>
     </div>
 
-    <!-- Counters Container -->
+    <!-- Total Points Section -->
     <div class="counter-container">
+        <div class="counter-section">
+            <h2>Total Points</h2>
+            <div class="points"><span id="total-points">0</span></div>
+        </div>
+
         <!-- Individual Counter Sections -->
         <div class="counter-section" data-id="chats">
             <h2>Chats</h2>
@@ -267,12 +271,6 @@
             </div>
             <div class="points">Points: <span id="mesh-points">0</span></div>
         </div>
-
-        <!-- Total Points Section -->
-        <div class="counter-section">
-            <h2>Total Points</h2>
-            <div class="points"><span id="total-points">0</span></div>
-        </div>
     </div>
 
     <!-- Footer -->
@@ -293,10 +291,8 @@
         <p><u>Note:</u> Vacation is not considered absenteeism. <br> Sick Leave, no Show, etc. <br> If the Utilization is under 80%, the bonus is reduced to 50%.</p>
     </div>
 
-    <!-- Achievement Popup for Exact Targets -->
+    <!-- Achievement Popups -->
     <div class="achievement-popup" id="achievementPopup"></div>
-
-    <!-- Achievement Popup for Passed Targets -->
     <div class="achievement-passed-popup" id="achievementPassedPopup"></div>
 
     <script>
@@ -326,7 +322,6 @@
             document.getElementById('total-points').innerText = storedTotal.toFixed(1);
             previousTotal = storedTotal;
             checkAchievements(storedTotal);
-            checkBookmarkStatus();
         };
 
         // Handle counter button actions
@@ -389,26 +384,39 @@
 
         // Display achievement popup
         function displayAchievement(threshold, passed) {
+            let popup;
             if (passed) {
-                const popup = document.getElementById('achievementPassedPopup');
+                popup = document.getElementById('achievementPassedPopup');
                 popup.innerText = `Congratulations! You have surpassed ${threshold} points!`;
-                popup.style.display = 'block';
-                setTimeout(() => { popup.style.display = 'none'; }, 4000);
             } else {
-                const popup = document.getElementById('achievementPopup');
+                popup = document.getElementById('achievementPopup');
                 popup.innerText = `Target of ${threshold} points reached!`;
-                popup.style.display = 'block';
-                setTimeout(() => { popup.style.display = 'none'; }, 4000);
             }
+            popup.style.display = 'block';
+            setTimeout(() => {
+                popup.style.opacity = '1';
+            }, 10); // Delay to trigger CSS transition
+            setTimeout(() => {
+                popup.style.opacity = '0';
+                setTimeout(() => {
+                    popup.style.display = 'none';
+                }, 500);
+            }, 4000);
         }
 
         // Toggle info popup
         function togglePopup() {
             const popup = document.getElementById('infoPopup');
             if (popup.style.display === 'block') {
-                popup.style.display = 'none';
+                popup.style.opacity = '0';
+                setTimeout(() => {
+                    popup.style.display = 'none';
+                }, 500);
             } else {
                 popup.style.display = 'block';
+                setTimeout(() => {
+                    popup.style.opacity = '1';
+                }, 10); // Delay to trigger CSS transition
                 // Add event listener to close popup when clicking outside
                 document.addEventListener('click', outsideClickListener);
             }
@@ -419,7 +427,10 @@
             const popup = document.getElementById('infoPopup');
             const infoButton = document.querySelector('.info-button');
             if (!popup.contains(event.target) && !infoButton.contains(event.target)) {
-                popup.style.display = 'none';
+                popup.style.opacity = '0';
+                setTimeout(() => {
+                    popup.style.display = 'none';
+                }, 500);
                 document.removeEventListener('click', outsideClickListener);
             }
         }
@@ -427,7 +438,10 @@
         // Close popup when clicking the close button
         function closePopup() {
             const popup = document.getElementById('infoPopup');
-            popup.style.display = 'none';
+            popup.style.opacity = '0';
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 500);
             document.removeEventListener('click', outsideClickListener);
         }
 
@@ -447,7 +461,6 @@
 
         // Prevent data loss on page unload (optional since data is saved)
         window.addEventListener("beforeunload", function (e) {
-            // You can remove this if data persistence makes it unnecessary
             const confirmationMessage = 'If you refresh the page, your data will be kept safely. No information will be lost.';
             (e || window.event).returnValue = confirmationMessage;
             return confirmationMessage;

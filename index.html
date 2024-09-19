@@ -43,6 +43,15 @@
             --achievement-achieved-text-color: #000000;
             --achievement-surpassed-bg-color: #ffcc80; /* Soft orange */
             --achievement-surpassed-text-color: #000000;
+
+            /* Button Border Color */
+            --button-border-color: black; /* Default theme border color */
+
+            /* Menu Icon Color */
+            --menu-icon-color: black; /* Default theme menu icon color */
+
+            /* Action Buttons Icon Color */
+            --action-button-icon-color: black; /* Default theme action buttons icon color */
         }
 
         /* Dark Themes */
@@ -61,6 +70,12 @@
 
             --popup-bg-color: rgba(30, 30, 47, 0.95);
             --popup-text-color: #e0e0e0;
+
+            --button-border-color: white; /* Dark themes border color */
+
+            --menu-icon-color: white; /* Dark themes menu icon color */
+
+            --action-button-icon-color: white; /* Dark themes action buttons icon color */
         }
 
         .theme-dark2 {
@@ -78,6 +93,12 @@
 
             --popup-bg-color: rgba(44, 62, 80, 0.95);
             --popup-text-color: #ecf0f1;
+
+            --button-border-color: white; /* Dark themes border color */
+
+            --menu-icon-color: white; /* Dark themes menu icon color */
+
+            --action-button-icon-color: white; /* Dark themes action buttons icon color */
         }
 
         .theme-dark3 {
@@ -95,6 +116,12 @@
 
             --popup-bg-color: rgba(0, 0, 0, 0.95);
             --popup-text-color: #f5f5f5;
+
+            --button-border-color: white; /* Dark themes border color */
+
+            --menu-icon-color: white; /* Dark themes menu icon color */
+
+            --action-button-icon-color: white; /* Dark themes action buttons icon color */
         }
 
         body {
@@ -223,20 +250,20 @@
         /* Main Menu Button */
         .action-buttons .menu-button {
             background: var(--menu-button-gradient);
-            color: var(--button-text-color);
-            border: none;
+            border: 2px solid var(--button-border-color); /* Added border */
             border-radius: 50%;
             width: 70px;
             height: 70px;
             font-size: 1.5rem;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s, background 0.5s, color 0.5s;
+            transition: transform 0.3s, box-shadow 0.3s, background 0.5s, border-color 0.5s;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             z-index: 2; /* Ensure menu button is above action buttons */
+            overflow: hidden; /* To contain the icon rotation */
         }
 
         .action-buttons .menu-button:hover {
@@ -244,24 +271,35 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
 
+        /* Menu Button Icon */
+        .action-buttons .menu-button i {
+            color: var(--menu-icon-color);
+            transition: transform 0.5s, color 0.5s;
+        }
+
+        /* Rotate Icon When Active */
+        .action-buttons.active .menu-button i {
+            transform: rotate(90deg);
+        }
+
         /* Individual Action Buttons */
         .action-buttons .action-button {
             position: absolute;
             width: 60px;
             height: 60px;
+            border: 2px solid var(--button-border-color); /* Added border */
             border-radius: 50%;
-            border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--button-text-color);
+            /* Removed color: var(--button-text-color); */
             font-size: 1.2rem;
             font-weight: bold;
-            transition: transform 0.3s, opacity 0.3s, box-shadow 0.3s, background-color 0.5s, color 0.5s;
+            transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             opacity: 0;
-            transform: translateY(0) scale(0);
+            transform: scale(0);
             pointer-events: none;
             z-index: 1; /* Ensure action buttons are below menu button */
         }
@@ -270,7 +308,7 @@
         .action-buttons.active .action-button {
             opacity: 1;
             pointer-events: auto;
-            transition: transform 0.3s, opacity 0.3s;
+            transform: scale(1);
         }
 
         /* Specific Positions for Action Buttons (Horizontal Alignment) */
@@ -798,7 +836,7 @@
             // Keep the achievement popup for 30 seconds
             setTimeout(() => {
                 popup.classList.remove('show');
-            }, 15000);
+            }, 30000);
         }
 
         // Toggle info popup
@@ -814,7 +852,9 @@
             // Also close the menu if it's open
             if (actionButtonsContainer.classList.contains('active')) {
                 actionButtonsContainer.classList.remove('active');
-                menuButton.innerHTML = '<i class="fas fa-bars"></i>';
+                const icon = menuButton.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
             }
         }
 
@@ -841,10 +881,13 @@
             actionButtonsContainer.classList.toggle('active');
 
             // Change menu icon to close icon when active
+            const icon = menuButton.querySelector('i');
             if (actionButtonsContainer.classList.contains('active')) {
-                menuButton.innerHTML = '<i class="fas fa-times"></i>';
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
             } else {
-                menuButton.innerHTML = '<i class="fas fa-bars"></i>';
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
             }
         });
 
@@ -852,7 +895,9 @@
         document.addEventListener('click', (e) => {
             if (!actionButtonsContainer.contains(e.target) && e.target !== menuButton && actionButtonsContainer.classList.contains('active')) {
                 actionButtonsContainer.classList.remove('active');
-                menuButton.innerHTML = '<i class="fas fa-bars"></i>';
+                const icon = menuButton.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
             }
         });
 

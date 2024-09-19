@@ -5,13 +5,132 @@
     <title>Counters with Points</title>
     <!-- Link to Ubuntu font from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+    <!-- Link to Font Awesome for Icons via jsDelivr CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <style>
+        /* Default Theme Variables */
+        :root {
+            --bg-gradient: linear-gradient(to bottom, #003D5B, #25E2CC);
+            --text-color: #ffffff;
+            --section-bg-color: rgba(255, 255, 255, 0.85);
+            --section-border-color: #dddddd;
+            --section-text-color: #003D5B;
+            --button-bg-color: #1DD3B0;
+            --button-decrease-bg-color: #FF6B6B;
+            --button-reset-bg-color: #FFA45B;
+            --button-reset-text-color: #000000;
+            --footer-text-color: #000000;
+            --copy-btn-bg-color: #FFA45B;
+            --copy-btn-text-color: #ffffff;
+            
+            /* Button Text Color */
+            --button-text-color: #000000; /* Default theme buttons have black text */
+
+            /* Popup Styles */
+            --popup-bg-color: rgba(255, 255, 255, 0.95);
+            --popup-text-color: #003D5B;
+
+            /* Achievement Popup Styles */
+            --achievement-popup-bg-color: #25E2CC;
+            --achievement-popup-text-color: #003D5B;
+            --achievement-passed-popup-bg-color: #FF5722;
+            --achievement-passed-popup-text-color: #FFFFFF;
+        }
+
+        /* Dark Theme 1 */
+        .theme-dark1 {
+            --bg-gradient: linear-gradient(to bottom, #1e1e2f, #9a8c98);
+            --text-color: #e0e0e0;
+            --section-bg-color: rgba(30, 30, 47, 0.9);
+            --section-border-color: #5a5a7f;
+            --section-text-color: #e0e0e0;
+            --button-bg-color: #6a1b9a;
+            --button-decrease-bg-color: #c62828;
+            --button-reset-bg-color: #ff8f00;
+            --button-reset-text-color: #ffffff;
+            --footer-text-color: #ffffff;
+            --copy-btn-bg-color: #ff8f00;
+            --copy-btn-text-color: #ffffff;
+            
+            /* Button Text Color for Dark Themes */
+            --button-text-color: #ffffff; /* Dark themes buttons have white text */
+
+            /* Popup Styles for Dark Themes */
+            --popup-bg-color: rgba(30, 30, 47, 0.95);
+            --popup-text-color: #e0e0e0;
+
+            /* Achievement Popup Styles for Dark Themes */
+            --achievement-popup-bg-color: #1e1e2f;
+            --achievement-popup-text-color: #e0e0e0;
+            --achievement-passed-popup-bg-color: #c62828;
+            --achievement-passed-popup-text-color: #ffffff;
+        }
+
+        /* Dark Theme 2 */
+        .theme-dark2 {
+            --bg-gradient: linear-gradient(to bottom, #2c3e50, #34495e);
+            --text-color: #ecf0f1;
+            --section-bg-color: rgba(44, 62, 80, 0.9);
+            --section-border-color: #7f8c8d;
+            --section-text-color: #ecf0f1;
+            --button-bg-color: #2980b9;
+            --button-decrease-bg-color: #c0392b;
+            --button-reset-bg-color: #27ae60;
+            --button-reset-text-color: #ffffff;
+            --footer-text-color: #ecf0f1;
+            --copy-btn-bg-color: #27ae60;
+            --copy-btn-text-color: #ffffff;
+            
+            /* Button Text Color for Dark Themes */
+            --button-text-color: #ffffff; /* Dark themes buttons have white text */
+
+            /* Popup Styles for Dark Themes */
+            --popup-bg-color: rgba(44, 62, 80, 0.95);
+            --popup-text-color: #ecf0f1;
+
+            /* Achievement Popup Styles for Dark Themes */
+            --achievement-popup-bg-color: #2c3e50;
+            --achievement-popup-text-color: #ecf0f1;
+            --achievement-passed-popup-bg-color: #c0392b;
+            --achievement-passed-popup-text-color: #ffffff;
+        }
+
+        /* Dark Theme 3 */
+        .theme-dark3 {
+            --bg-gradient: linear-gradient(to bottom, #000000, #434343);
+            --text-color: #f5f5f5;
+            --section-bg-color: rgba(0, 0, 0, 0.9);
+            --section-border-color: #555555;
+            --section-text-color: #f5f5f5;
+            --button-bg-color: #8e44ad;
+            --button-decrease-bg-color: #e74c3c;
+            --button-reset-bg-color: #f1c40f;
+            --button-reset-text-color: #000000;
+            --footer-text-color: #f5f5f5;
+            --copy-btn-bg-color: #f1c40f;
+            --copy-btn-text-color: #000000;
+            
+            /* Button Text Color for Dark Themes */
+            --button-text-color: #ffffff; /* Dark themes buttons have white text */
+
+            /* Popup Styles for Dark Themes */
+            --popup-bg-color: rgba(0, 0, 0, 0.95);
+            --popup-text-color: #f5f5f5;
+
+            /* Achievement Popup Styles for Dark Themes */
+            --achievement-popup-bg-color: #000000;
+            --achievement-popup-text-color: #f5f5f5;
+            --achievement-passed-popup-bg-color: #e74c3c;
+            --achievement-passed-popup-text-color: #ffffff;
+        }
+
         body {
             font-family: 'Ubuntu', sans-serif;
-            background: linear-gradient(to bottom, #003D5B, #25E2CC);
+            background: var(--bg-gradient);
             margin: 0;
             padding: 20px;
-            color: #fff;
+            color: var(--text-color);
+            transition: background 0.5s, color 0.5s;
         }
         .counter-container {
             display: flex;
@@ -21,7 +140,7 @@
             margin: 0 auto;
         }
         .counter-section {
-            background-color: rgba(255, 255, 255, 0.85); /* Soft white background */
+            background-color: var(--section-bg-color); /* Updated to use theme variable */
             margin: 10px;
             padding: 15px;
             width: 40%;
@@ -29,7 +148,9 @@
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             min-width: 300px;
-            color: #003D5B; /* Darker text color */
+            color: var(--section-text-color); /* Updated to use theme variable */
+            border: 1px solid var(--section-border-color); /* Updated to use theme variable */
+            transition: background-color 0.5s, border-color 0.5s, color 0.5s;
         }
         .counter-section h2 {
             margin-bottom: 10px;
@@ -49,16 +170,20 @@
             cursor: pointer;
             border: none;
             border-radius: 8px;
-            color: #000; /* Changed text color to black */
-            background-color: #1DD3B0;
-            transition: transform 0.3s, box-shadow 0.3s;
+            
+            /* Updated to use CSS variable for text color */
+            color: var(--button-text-color);
+            
+            background-color: var(--button-bg-color);
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s, color 0.5s;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .counter button.decrease {
-            background-color: #FF6B6B;
+            background-color: var(--button-decrease-bg-color);
         }
         .counter button.reset {
-            background-color: #FFA45B;
+            background-color: var(--button-reset-bg-color);
+            color: var(--button-reset-text-color); /* Specific text color for reset button */
         }
         .counter button:hover {
             transform: scale(1.1);
@@ -70,7 +195,7 @@
             font-size: 24px;
             border: none;
             background: transparent;
-            color: #003D5B;
+            color: var(--section-text-color);
             pointer-events: none;
         }
         .points {
@@ -80,7 +205,8 @@
             text-align: center;
             margin-top: 40px;
             font-size: 0.9em;
-            color: #000000;
+            color: var(--footer-text-color);
+            transition: color 0.5s;
         }
         .action-buttons {
             position: fixed;
@@ -92,16 +218,22 @@
             z-index: 1000;
         }
         .action-buttons button {
-            background-color: #FFA45B;
-            color: #000; /* Changed text color to black */
+            background-color: var(--button-reset-bg-color);
+            
+            /* Updated to use CSS variable for text color */
+            color: var(--button-text-color);
+            
             border: none;
             border-radius: 50%;
             width: 40px;
             height: 40px;
-            font-size: 24px;
+            font-size: 20px;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s, color 0.5s;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
         }
         .action-buttons button:hover {
@@ -139,10 +271,11 @@
             z-index: 1002; /* Ensure popups are above tooltips */
             opacity: 0; /* For fade-in/out */
             transition: opacity 0.5s ease;
+            border: 1px solid var(--section-border-color);
         }
         .popup {
-            background-color: rgba(255, 255, 255, 0.95);
-            color: #003D5B;
+            background-color: var(--popup-bg-color);
+            color: var(--popup-text-color);
             bottom: 80px;
             left: 20px;
             width: 300px;
@@ -150,15 +283,18 @@
         }
         /* Close Button Styles */
         .popup .close-btn {
-            background-color: #FFA45B;
-            color: #000; /* Changed text color to black */
+            background-color: var(--button-reset-bg-color);
+            
+            /* Specific text color for close button */
+            color: var(--button-text-color);
+            
             border: none;
             border-radius: 50%;
             width: 25px;
             height: 25px;
             font-size: 16px;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s, color 0.5s;
             position: absolute;
             top: 10px;
             right: 10px;
@@ -172,26 +308,31 @@
             box-shadow: 0 6px 12px rgba(0,0,0,0.3);
         }
         .achievement-popup {
+            background-color: var(--achievement-popup-bg-color);
+            color: var(--achievement-popup-text-color);
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #25E2CC;
-            color: #003D5B;
             font-size: 1.2em;
             padding: 10px 20px;
             border-radius: 8px;
             position: fixed;
         }
         .achievement-passed-popup {
+            background-color: var(--achievement-passed-popup-bg-color);
+            color: var(--achievement-passed-popup-text-color);
             top: 60px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #FF5722; /* Different color for passed targets */
-            color: #FFFFFF;
             font-size: 1.2em;
             padding: 10px 20px;
             border-radius: 8px;
             position: fixed;
+        }
+        /* Show Popups */
+        .popup.show, .achievement-popup.show, .achievement-passed-popup.show {
+            display: block;
+            opacity: 1;
         }
         @media screen and (max-width: 900px) {
             .counter-section {
@@ -203,17 +344,27 @@
 </head>
 <body>
 
-    <!-- Action Buttons: Bookmark and Info -->
+    <!-- Action Buttons: Theme Switcher, Bookmark, and Info -->
     <div class="action-buttons">
-        <button class="bookmark" onclick="addBookmark()" data-tooltip="Add to Bookmarks">★</button>
-        <button class="info-button" onclick="togglePopup()" data-tooltip="Information">!</button>
+        <!-- Theme Switcher Button -->
+        <button class="theme-switcher" id="themeSwitcher" data-tooltip="Switch Theme">
+            <i class="fas fa-sun"></i>
+        </button>
+        <!-- Bookmark Button -->
+        <button class="bookmark-button" onclick="addBookmark()" data-tooltip="Add to Bookmarks">
+            <i class="fas fa-bookmark"></i>
+        </button>
+        <!-- Info Button -->
+        <button class="info-button" onclick="togglePopup()" data-tooltip="Information">
+            <i class="fas fa-info-circle"></i>
+        </button>
     </div>
 
     <!-- Total Points Section -->
     <div class="counter-container">
         <div class="counter-section">
             <h2>Total Points</h2>
-            <div class="points"><span id="total-points">0</span></div>
+            <div class="points"><span id="total-points">0.0</span></div>
         </div>
 
         <!-- Individual Counter Sections -->
@@ -225,7 +376,7 @@
                 <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
                 <button class="reset" onclick="handleCounter(this, 'reset')">Reset</button>
             </div>
-            <div class="points">Points: <span id="chats-points">0</span></div>
+            <div class="points">Points: <span id="chats-points">0.0</span></div>
         </div>
 
         <div class="counter-section" data-id="voicechats">
@@ -236,7 +387,7 @@
                 <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
                 <button class="reset" onclick="handleCounter(this, 'reset')">Reset</button>
             </div>
-            <div class="points">Points: <span id="voicechats-points">0</span></div>
+            <div class="points">Points: <span id="voicechats-points">0.0</span></div>
         </div>
 
         <div class="counter-section" data-id="images">
@@ -247,7 +398,7 @@
                 <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
                 <button class="reset" onclick="handleCounter(this, 'reset')">Reset</button>
             </div>
-            <div class="points">Points: <span id="images-points">0</span></div>
+            <div class="points">Points: <span id="images-points">0.0</span></div>
         </div>
 
         <div class="counter-section" data-id="audios">
@@ -258,7 +409,7 @@
                 <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
                 <button class="reset" onclick="handleCounter(this, 'reset')">Reset</button>
             </div>
-            <div class="points">Points: <span id="audios-points">0</span></div>
+            <div class="points">Points: <span id="audios-points">0.0</span></div>
         </div>
 
         <div class="counter-section" data-id="mesh">
@@ -269,7 +420,7 @@
                 <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
                 <button class="reset" onclick="handleCounter(this, 'reset')">Reset</button>
             </div>
-            <div class="points">Points: <span id="mesh-points">0</span></div>
+            <div class="points">Points: <span id="mesh-points">0.0</span></div>
         </div>
     </div>
 
@@ -280,14 +431,14 @@
 
     <!-- Popup Information -->
     <div class="popup" id="infoPopup">
-        <button class="close-btn" onclick="closePopup()">×</button>
+        <button class="close-btn" onclick="closePopup()">&times;</button>
         <p><u>Bonus target:</u> <br><br> Average Points per day (280);</p>
         <p>Quality at 95% and over;</p>
         <p>Utilization at 80%;</p>
         <p><u>Bonus Level 1:</u><br>300 points (target points);<br>25 BGN (points bonus);<br>95% Quality Target;<br>25 BGN (quality bonus);</p>
         <p><u>Bonus Level 2:</u><br>350 points (target points);<br>50 BGN (points bonus);<br>96% Quality Target;<br>50 BGN (quality bonus);</p>
         <p><u>Bonus Level 3:</u><br>400 points (target points);<br>100 BGN (points bonus);<br>97% Quality Target;<br>100 BGN (quality bonus);</p>
-        <p><u>Auto Fail Bonus:</u><br>Attendance: more than 2 days absence; <br> 6 delays during the month;<br>Escalation: DPA or GDPR breach; <br> No Ethical behavior in Chat, Calls, or Emails; <br> Valid escalation received by the Client;</p>
+        <p><u>Auto Fail Bonus:</u><br>Attendance: more than 2 days absence; <br>6 delays during the month;<br>Escalation: DPA or GDPR breach; <br>No Ethical behavior in Chat, Calls, or Emails; <br>Valid escalation received by the Client;</p>
         <p><u>Note:</u> Vacation is not considered absenteeism. <br> Sick Leave, no Show, etc. <br> If the Utilization is under 80%, the bonus is reduced to 50%.</p>
     </div>
 
@@ -296,6 +447,68 @@
     <div class="achievement-passed-popup" id="achievementPassedPopup"></div>
 
     <script>
+        // Theme Management
+        const themes = ['default', 'dark1', 'dark2', 'dark3'];
+        let currentThemeIndex = 0;
+
+        const themeSwitcher = document.getElementById('themeSwitcher');
+
+        // Load saved theme on page load
+        window.onload = () => {
+            const savedTheme = localStorage.getItem('selectedTheme');
+            if (savedTheme) {
+                currentThemeIndex = themes.indexOf(savedTheme);
+                if (currentThemeIndex === -1) currentThemeIndex = 0;
+                applyTheme(themes[currentThemeIndex]);
+            } else {
+                applyTheme('default');
+            }
+
+            // Initialize counters and points
+            Object.keys(pointsPerCount).forEach(id => {
+                const count = parseInt(localStorage.getItem(id)) || 0;
+                document.getElementById(id).value = count;
+                updatePoints(id, count);
+            });
+            const storedTotal = parseFloat(localStorage.getItem('total-points')) || 0;
+            document.getElementById('total-points').innerText = storedTotal.toFixed(1);
+            previousTotal = storedTotal;
+            checkAchievements(storedTotal);
+        };
+
+        function applyTheme(theme) {
+            // Remove all theme classes except default
+            document.body.classList.remove(...themes.filter(t => t !== 'default').map(t => `theme-${t}`));
+            
+            if (theme !== 'default') {
+                document.body.classList.add(`theme-${theme}`);
+            }
+
+            // Update theme switcher tooltip and icon
+            if (theme === 'default') {
+                themeSwitcher.innerHTML = '<i class="fas fa-sun"></i>';
+                themeSwitcher.setAttribute('data-tooltip', 'Default Theme');
+            } else if (theme === 'dark1') {
+                themeSwitcher.innerHTML = '<i class="fas fa-moon"></i>';
+                themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 1');
+            } else if (theme === 'dark2') {
+                themeSwitcher.innerHTML = '<i class="fas fa-cloud-moon"></i>';
+                themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 2');
+            } else if (theme === 'dark3') {
+                themeSwitcher.innerHTML = '<i class="fas fa-meteor"></i>';
+                themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 3');
+            }
+
+            // Save the selected theme
+            localStorage.setItem('selectedTheme', theme);
+        }
+
+        // Theme switcher button click event
+        themeSwitcher.addEventListener('click', () => {
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            applyTheme(themes[currentThemeIndex]);
+        });
+
         // Points per count
         const pointsPerCount = {
             chats: 2,
@@ -310,19 +523,6 @@
 
         // Previous total points to track threshold crossing
         let previousTotal = 0;
-
-        // Initialize counters and points on page load
-        window.onload = () => {
-            Object.keys(pointsPerCount).forEach(id => {
-                const count = parseInt(localStorage.getItem(id)) || 0;
-                document.getElementById(id).value = count;
-                updatePoints(id, count);
-            });
-            const storedTotal = parseFloat(localStorage.getItem('total-points')) || 0;
-            document.getElementById('total-points').innerText = storedTotal.toFixed(1);
-            previousTotal = storedTotal;
-            checkAchievements(storedTotal);
-        };
 
         // Handle counter button actions
         function handleCounter(button, action) {
@@ -392,31 +592,19 @@
                 popup = document.getElementById('achievementPopup');
                 popup.innerText = `Target of ${threshold} points reached!`;
             }
-            popup.style.display = 'block';
+            popup.classList.add('show');
             setTimeout(() => {
-                popup.style.opacity = '1';
-            }, 10); // Delay to trigger CSS transition
-            setTimeout(() => {
-                popup.style.opacity = '0';
-                setTimeout(() => {
-                    popup.style.display = 'none';
-                }, 500);
+                popup.classList.remove('show');
             }, 4000);
         }
 
         // Toggle info popup
         function togglePopup() {
             const popup = document.getElementById('infoPopup');
-            if (popup.style.display === 'block') {
-                popup.style.opacity = '0';
-                setTimeout(() => {
-                    popup.style.display = 'none';
-                }, 500);
+            if (popup.classList.contains('show')) {
+                popup.classList.remove('show');
             } else {
-                popup.style.display = 'block';
-                setTimeout(() => {
-                    popup.style.opacity = '1';
-                }, 10); // Delay to trigger CSS transition
+                popup.classList.add('show');
                 // Add event listener to close popup when clicking outside
                 document.addEventListener('click', outsideClickListener);
             }
@@ -427,10 +615,7 @@
             const popup = document.getElementById('infoPopup');
             const infoButton = document.querySelector('.info-button');
             if (!popup.contains(event.target) && !infoButton.contains(event.target)) {
-                popup.style.opacity = '0';
-                setTimeout(() => {
-                    popup.style.display = 'none';
-                }, 500);
+                popup.classList.remove('show');
                 document.removeEventListener('click', outsideClickListener);
             }
         }
@@ -438,10 +623,7 @@
         // Close popup when clicking the close button
         function closePopup() {
             const popup = document.getElementById('infoPopup');
-            popup.style.opacity = '0';
-            setTimeout(() => {
-                popup.style.display = 'none';
-            }, 500);
+            popup.classList.remove('show');
             document.removeEventListener('click', outsideClickListener);
         }
 

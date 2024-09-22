@@ -299,19 +299,22 @@
             font-weight: bold;
             transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s, background-color 0.5s, color 0.5s, border-color 0.5s;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            opacity: 0.3;
-            pointer-events: none;
+            opacity: 0.3; /* Increased from 0.3 for better visibility */
+            pointer-events: auto; /* Enabled pointer events */
             position: relative; /* To position tooltips correctly */
         }
 
-        /* Make buttons fully visible on hover */
+        /* Remove the following parent hover effect */
+        /*
         .action-buttons:hover .action-button {
             opacity: 1;
             pointer-events: auto;
         }
+        */
 
         /* Hover effect for individual buttons */
         .action-buttons .action-button:hover {
+            opacity: 1; /* Fully visible on hover */
             transform: scale(1.1);
             box-shadow: 0 6px 12px rgba(0,0,0,0.3);
         }
@@ -716,15 +719,15 @@
     <!-- Popup Information -->
     <div class="popup" id="infoPopup" role="dialog" aria-modal="true" aria-labelledby="infoPopupTitle">
         <button class="close-btn" onclick="closePopup()" aria-label="Close Popup">&times;</button>
-        <h3 id="infoPopupTitle"><u>Bonus Target</u></h3>
+        <h3 id="infoPopupTitle">Bonus Target</h3>
         <p>Average Points per day (280);</p>
         <p>Quality at 95% and over;</p>
-        <p>Utilization at 80%;</p>
-        <p><u>Bonus Level 1:</u><br>300 points (target points);<br>25 BGN (points bonus);<br>95% Quality Target;<br>25 BGN (quality bonus);</p>
-        <p><u>Bonus Level 2:</u><br>350 points (target points);<br>50 BGN (points bonus);<br>96% Quality Target;<br>50 BGN (quality bonus);</p>
-        <p><u>Bonus Level 3:</u><br>400 points (target points);<br>100 BGN (points bonus);<br>97% Quality Target;<br>100 BGN (quality bonus);</p>
-        <p><u>Auto Fail Bonus:</u><br>Attendance: more than 2 days absence;<br>6 delays during the month;<br>Escalation: DPA or GDPR breach;<br>No Ethical behavior in Chat, Calls, or Emails;<br>Valid escalation received by the Client;</p>
-        <p><u>Note:</u> Vacation is not considered absenteeism.<br>Sick Leave, no Show, etc.<br>If the Utilization is under 80%, the bonus is reduced to 50%.</p>
+        <p>Utilization at 80%;</p><br>
+        <p><b>Bonus Level 1:</b><br>300 points (target points);<br>25 BGN (points bonus);<br>95% Quality Target;<br>25 BGN (quality bonus);</p><br>
+        <p><b>Bonus Level 2:</b><br>350 points (target points);<br>50 BGN (points bonus);<br>96% Quality Target;<br>50 BGN (quality bonus);</p><br>
+        <p><b>Bonus Level 3:</b><br>400 points (target points);<br>100 BGN (points bonus);<br>97% Quality Target;<br>100 BGN (quality bonus);</p><br>
+        <p><b>Auto Fail Bonus:</b><br>Attendance: more than 2 days absence;<br>6 delays during the month;<br>Escalation: DPA or GDPR breach;<br>No Ethical behavior in Chat, Calls, or Emails;<br>Valid escalation received by the Client;</p><br>
+        <p><b>Note:</b> Vacation is not considered absenteeism.<br>Sick Leave, no Show, etc.<br>If the Utilization is under 80%, the bonus is reduced to 50%.</p>
     </div>
 
     <!-- Container for Achievement Popups -->
@@ -998,7 +1001,7 @@
                 // Capitalize and format as "Item: count || Points: points"
                 return `${capitalizeFirstLetter(getDisplayName(id))}: ${count} || Points: ${points}`;
             }).join('\n');
-
+            
             // Format the data to be saved
             const dataToSave = `--- Save at ${timestamp} ---\nTotal Points: ${totalPoints}\n${counters}\n\n`;
 

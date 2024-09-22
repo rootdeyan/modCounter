@@ -29,6 +29,7 @@
             --button-theme-switcher-bg-color: #ffffff;
             --button-bookmark-bg-color: #ffffff;
             --button-info-bg-color: #ffffff;
+            --button-save-bg-color: #ffffff; /* Added for Save Button */
 
             /* Button Text Color */
             --button-text-color: #ffffff;
@@ -62,6 +63,7 @@
             --button-theme-switcher-bg-color: #ffffff;
             --button-bookmark-bg-color: #ffffff;
             --button-info-bg-color: #ffffff;
+            --button-save-bg-color: #ffffff; /* Consistent for Save Button */
 
             --popup-bg-color: rgba(30, 30, 47, 0.95);
             --popup-text-color: #e0e0e0;
@@ -82,6 +84,7 @@
             --button-theme-switcher-bg-color: #ffffff;
             --button-bookmark-bg-color: #ffffff;
             --button-info-bg-color: #ffffff;
+            --button-save-bg-color: #ffffff; /* Consistent for Save Button */
 
             --popup-bg-color: rgba(44, 62, 80, 0.95);
             --popup-text-color: #ecf0f1;
@@ -102,6 +105,7 @@
             --button-theme-switcher-bg-color: #ffffff;
             --button-bookmark-bg-color: #ffffff;
             --button-info-bg-color: #ffffff;
+            --button-save-bg-color: #ffffff; /* Consistent for Save Button */
 
             --popup-bg-color: rgba(0, 0, 0, 0.95);
             --popup-text-color: #f5f5f5;
@@ -570,7 +574,7 @@
 </head>
 <body>
 
-    <!-- Action Buttons: Theme Switcher, Bookmark, and Info -->
+    <!-- Action Buttons: Theme Switcher, Bookmark, Info, and Save -->
     <div class="action-buttons" id="actionButtons">
         <!-- Theme Switcher Button -->
         <button class="action-button theme-switcher" id="themeSwitcher" data-tooltip="Switch Theme" aria-label="Switch Theme">
@@ -583,6 +587,10 @@
         <!-- Info Button -->
         <button class="action-button info-button" onclick="togglePopup()" data-tooltip="Information" aria-label="Information">
             <i class="fas fa-info-circle"></i>
+        </button>
+        <!-- Save Button -->
+        <button class="action-button save-button" onclick="saveData()" data-tooltip="Save Data" aria-label="Save Data">
+            <i class="fas fa-save"></i>
         </button>
     </div>
 
@@ -873,6 +881,54 @@
             } else { // Other browsers
                 alert('Press ' + (navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? 'Cmd' : 'Ctrl') + '+D to bookmark this page.');
             }
+        }
+
+        // Save data to modCounter.txt
+        function saveData() {
+            const timestamp = new Date().toLocaleString();
+            const totalPoints = document.getElementById('total-points').innerText;
+
+            // Collect data from all counters
+            const counters = Object.keys(pointsPerCount).map(id => {
+                const count = document.getElementById(id).value;
+                const points = document.getElementById(`${id}-points`).innerText;
+                return `${capitalizeFirstLetter(id)}: Count = ${count}, Points = ${points}`;
+            }).join('\n');
+
+            // Format the data to be saved
+            const dataToSave = `--- Save at ${timestamp} ---\nTotal Points: ${totalPoints}\n${counters}\n\n`;
+
+            // Retrieve existing data from localStorage
+            let existingData = localStorage.getItem('modCounterData') || '';
+
+            // Prepend the new data
+            const updatedData = dataToSave + existingData;
+
+            // Save the updated data back to localStorage
+            localStorage.setItem('modCounterData', updatedData);
+
+            // Create a Blob from the updated data
+            const blob = new Blob([updatedData], { type: 'text/plain' });
+
+            // Create a download link and trigger the download
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'modCounter.txt';
+            document.body.appendChild(a);
+            a.click();
+
+            // Clean up
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            // Notify the user
+            alert('Data has been saved to modCounter.txt');
+        }
+
+        // Capitalize the first letter of a string
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
         // Handle popup animations on animation end

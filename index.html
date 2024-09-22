@@ -687,6 +687,9 @@
 
         const themeSwitcher = document.getElementById('themeSwitcher');
 
+        // Flag to track data changes
+        let dataChanged = false;
+
         // Load saved theme on page load
         window.onload = () => {
             const savedTheme = localStorage.getItem('selectedTheme');
@@ -780,6 +783,9 @@
             localStorage.setItem(id, count);
             updatePoints(id, count);
             updateTotalPoints();
+
+            // Set dataChanged flag to true since data has been modified
+            dataChanged = true;
         }
 
         // Update points for a specific counter
@@ -885,6 +891,11 @@
 
         // Save data to modCounter.txt
         function saveData() {
+            if (!dataChanged) {
+                alert('No changes to save.');
+                return;
+            }
+
             const timestamp = new Date().toLocaleString();
             const totalPoints = document.getElementById('total-points').innerText;
 
@@ -921,6 +932,9 @@
             // Clean up
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
+
+            // Reset the dataChanged flag
+            dataChanged = false;
 
             // Notify the user
             alert('Data has been saved to modCounter.txt');

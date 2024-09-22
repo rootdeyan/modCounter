@@ -690,7 +690,22 @@
         // Flag to track data changes
         let dataChanged = false;
 
-        // Load saved theme on page load
+        // Points per count
+        const pointsPerCount = {
+            chats: 2,
+            voicechats: 4,
+            images: 0.2,
+            audios: 2,
+            mesh: 0.2
+        };
+
+        // Achievement thresholds
+        const achievementThresholds = [300, 350, 400];
+
+        // Previous total points to track threshold crossing
+        let previousTotal = 0;
+
+        // Load saved theme and data on page load
         window.onload = () => {
             const savedTheme = localStorage.getItem('selectedTheme');
             if (savedTheme) {
@@ -745,21 +760,6 @@
             currentThemeIndex = (currentThemeIndex + 1) % themes.length;
             applyTheme(themes[currentThemeIndex]);
         });
-
-        // Points per count
-        const pointsPerCount = {
-            chats: 2,
-            voicechats: 4,
-            images: 0.2,
-            audios: 2,
-            mesh: 0.2
-        };
-
-        // Achievement thresholds
-        const achievementThresholds = [300, 350, 400];
-
-        // Previous total points to track threshold crossing
-        let previousTotal = 0;
 
         // Handle counter button actions
         function handleCounter(button, action) {
@@ -889,21 +889,22 @@
             }
         }
 
-        // Save data to modCounter.txt
+        // Save data to modCounter.txt with the specified format
         function saveData() {
             if (!dataChanged) {
                 alert('No changes to save.');
                 return;
             }
 
-            const timestamp = new Date().toLocaleString();
+            const timestamp = getFormattedTimestamp();
             const totalPoints = document.getElementById('total-points').innerText;
 
             // Collect data from all counters
             const counters = Object.keys(pointsPerCount).map(id => {
                 const count = document.getElementById(id).value;
                 const points = document.getElementById(`${id}-points`).innerText;
-                return `${capitalizeFirstLetter(id)}: Count = ${count}, Points = ${points}`;
+                // Capitalize and format as "Item: count // Points: points"
+                return `${capitalizeFirstLetter(getDisplayName(id))}: ${count} || Points: ${points}`;
             }).join('\n');
 
             // Format the data to be saved
@@ -940,9 +941,32 @@
             alert('Data has been saved to modCounter.txt');
         }
 
-        // Capitalize the first letter of a string
+        // Helper function to get formatted timestamp as dd/mm/yyyy and hh:mm
+        function getFormattedTimestamp() {
+            const now = new Date();
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+            const year = now.getFullYear();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            return `${day}/${month}/${year} and ${hours}:${minutes}`;
+        }
+
+        // Helper function to capitalize the first letter
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        // Helper function to get display name for each counter
+        function getDisplayName(id) {
+            const displayNames = {
+                chats: 'Chats',
+                voicechats: 'Voice Chats',
+                images: 'Images',
+                audios: 'Audios',
+                mesh: 'Mesh 2D/3D'
+            };
+            return displayNames[id] || id;
         }
 
         // Handle popup animations on animation end

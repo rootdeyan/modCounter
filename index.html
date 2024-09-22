@@ -26,7 +26,6 @@
             --footer-text-color: #000000;
 
             /* Action Button Colors */
-            --menu-button-gradient: linear-gradient(135deg, #ffffff, #fffefe);
             --button-theme-switcher-bg-color: #ffffff;
             --button-bookmark-bg-color: #ffffff;
             --button-info-bg-color: #ffffff;
@@ -47,9 +46,6 @@
             /* Button Border Color */
             --button-border-color: black; /* Default theme border color */
 
-            /* Menu Icon Color */
-            --menu-icon-color: black; /* Default theme menu icon color */
-
             /* Action Buttons Icon Color */
             --action-button-icon-color: black; /* Default theme action buttons icon color */
         }
@@ -63,7 +59,6 @@
             --section-text-color: #e0e0e0;
             --footer-text-color: #000000;
 
-            --menu-button-gradient: linear-gradient(135deg, #ffffff, #ffffff);
             --button-theme-switcher-bg-color: #ffffff;
             --button-bookmark-bg-color: #ffffff;
             --button-info-bg-color: #ffffff;
@@ -72,8 +67,6 @@
             --popup-text-color: #e0e0e0;
 
             --button-border-color: rgb(0, 0, 0); /* Dark themes border color */
-
-            --menu-icon-color: rgb(0, 0, 0); /* Dark themes menu icon color */
 
             --action-button-icon-color: rgb(0, 0, 0); /* Dark themes action buttons icon color */
         }
@@ -86,7 +79,6 @@
             --section-text-color: #ecf0f1;
             --footer-text-color: #ffffff;
 
-            --menu-button-gradient: linear-gradient(135deg, #ffffff, #ffffff);
             --button-theme-switcher-bg-color: #ffffff;
             --button-bookmark-bg-color: #ffffff;
             --button-info-bg-color: #ffffff;
@@ -95,8 +87,6 @@
             --popup-text-color: #ecf0f1;
 
             --button-border-color: rgb(0, 0, 0); /* Dark themes border color */
-
-            --menu-icon-color: rgb(0, 0, 0); /* Dark themes menu icon color */
 
             --action-button-icon-color: rgb(0, 0, 0); /* Dark themes action buttons icon color */
         }
@@ -109,7 +99,6 @@
             --section-text-color: #f5f5f5;
             --footer-text-color: #f5f5f5;
 
-            --menu-button-gradient: linear-gradient(135deg, #ffffff, #ffffff);
             --button-theme-switcher-bg-color: #ffffff;
             --button-bookmark-bg-color: #ffffff;
             --button-info-bg-color: #ffffff;
@@ -118,8 +107,6 @@
             --popup-text-color: #f5f5f5;
 
             --button-border-color: rgb(0, 0, 0); /* Dark themes border color */
-
-            --menu-icon-color: rgb(0, 0, 0); /* Dark themes menu icon color */
 
             --action-button-icon-color: rgb(0, 0, 0); /* Dark themes action buttons icon color */
         }
@@ -238,102 +225,55 @@
         /* Action Buttons Container */
         .action-buttons {
             position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            gap: 15px; /* Space between buttons */
             z-index: 1001; /* Higher than other elements */
-        }
-
-        /* Main Menu Button */
-        .action-buttons .menu-button {
-            background: var(--menu-button-gradient);
-            border: 2px solid var(--button-border-color); /* Added border */
-            border-radius: 50%;
-            width: 70px;
-            height: 70px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s, background 0.5s, border-color 0.5s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            z-index: 2; /* Ensure menu button is above action buttons */
-            overflow: hidden; /* To contain the icon rotation */
-        }
-
-        .action-buttons .menu-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Menu Button Icon */
-        .action-buttons .menu-button i {
-            color: var(--menu-icon-color);
-            transition: transform 0.5s, color 0.5s;
-        }
-
-        /* Rotate Icon When Active */
-        .action-buttons.active .menu-button i {
-            transform: rotate(90deg);
         }
 
         /* Individual Action Buttons */
         .action-buttons .action-button {
-            position: absolute;
-            width: 60px;
-            height: 60px;
+            width: 50px; /* Reduced from 60px to 50px */
+            height: 50px; /* Reduced from 60px to 50px */
             border: 2px solid var(--button-border-color); /* Added border */
             border-radius: 50%;
+            background-color: var(--button-theme-switcher-bg-color);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Removed color: var(--button-text-color); */
             font-size: 1.2rem;
             font-weight: bold;
-            transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+            transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s, background-color 0.5s, color 0.5s, border-color 0.5s;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            transform: scale(0);
+            opacity: 0.3;
             pointer-events: none;
-            z-index: 1; /* Ensure action buttons are below menu button */
+            position: relative; /* To position tooltips correctly */
         }
 
-        /* Positioning the individual buttons horizontally above the menu button when active */
-        .action-buttons.active .action-button {
+        /* Make buttons fully visible on hover */
+        .action-buttons:hover .action-button {
             opacity: 1;
             pointer-events: auto;
-            transform: scale(1);
         }
 
-        /* Specific Positions for Action Buttons (Horizontal Alignment) */
-        .action-buttons.active .theme-switcher {
-            transform: translateY(-80px) translateX(-80px) scale(1);
-            background-color: var(--button-theme-switcher-bg-color);
-        }
-
-        .action-buttons.active .bookmark-button {
-            transform: translateY(-80px) translateX(0) scale(1);
-            background-color: var(--button-bookmark-bg-color);
-        }
-
-        .action-buttons.active .info-button {
-            transform: translateY(-80px) translateX(80px) scale(1);
-            background-color: var(--button-info-bg-color);
+        /* Hover effect for individual buttons */
+        .action-buttons .action-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
         }
 
         /* Tooltip Styles */
         .action-buttons .action-button::after {
             content: attr(data-tooltip);
             position: absolute;
-            bottom: 70px; /* Position above the button */
-            left: 50%;
-            transform: translateX(-50%);
+            left: 60px; /* Adjusted from 70px to 60px for smaller buttons */
+            top: 50%;
+            transform: translateY(-50%);
             background-color: rgba(0, 0, 0, 0.7);
             color: #fff;
             padding: 5px 10px;
@@ -351,9 +291,9 @@
         }
 
         /* Popup Styles */
-        .popup, .achievement-popup {
+        .popup {
             display: none;
-            padding: 15px;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             font-size: 1rem;
@@ -362,27 +302,24 @@
             transition: opacity 0.5s ease, transform 0.5s ease;
             border: 1px solid var(--section-border-color);
             position: fixed;
-            left: 50%;
-            transform: translateX(-50%) translateY(-20px);
-            width: 90%;
-            max-width: 500px;
-        }
-
-        .popup {
+            top: 50%;
+            left: 80px; /* Positioned to the right of the action buttons */
+            transform: translateY(-50%) translateX(-20px);
             background-color: var(--popup-bg-color);
             color: var(--popup-text-color);
-            bottom: 160px; /* Positioned above the action buttons */
+            max-width: 400px; /* Increased from 300px to 400px */
+            width: 90%;
+            padding: 25px; /* Increased padding for larger size */
         }
 
+        /* Show and hide animations for Info Popup */
         .popup.show {
             display: block;
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+            animation: fadeInSlideRight 0.5s forwards;
         }
 
         .popup.hide {
-            opacity: 0;
-            transform: translateX(-50%) translateY(-20px);
+            animation: fadeOutSlideLeft 0.5s forwards;
         }
 
         .popup .close-btn {
@@ -411,66 +348,68 @@
         }
 
         /* Achievement Popup Styles */
-        .achievement-popup {
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-20px);
-            width: 300px;
-            text-align: center;
-            padding: 20px;
-            border: none;
-            border-radius: 10px;
-            opacity: 0;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        /* We no longer have a static achievement popup. Popups are dynamically created. */
+
+        /* Animations */
+        @keyframes fadeInSlideRight {
+            from {
+                opacity: 0;
+                transform: translateY(-50%) translateX(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(-50%) translateX(0);
+            }
         }
 
-        .achievement-popup.show {
-            display: block;
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+        @keyframes fadeOutSlideLeft {
+            from {
+                opacity: 1;
+                transform: translateY(-50%) translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-50%) translateX(-40px);
+            }
         }
 
-        .achievement-popup.hide {
-            opacity: 0;
-            transform: translateX(-50%) translateY(-20px);
+        /* Achievement Popup Animations */
+        @keyframes fadeInSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Achievement Colors */
-        .achievement-achieved {
-            background-color: var(--achievement-achieved-bg-color);
-            color: var(--achievement-achieved-text-color);
-        }
-
-        .achievement-surpassed {
-            background-color: var(--achievement-surpassed-bg-color);
-            color: var(--achievement-surpassed-text-color);
+        @keyframes fadeOutSlideUp {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
         }
 
         /* Responsive Adjustments */
         @media screen and (max-width: 768px) {
-            .action-buttons .menu-button {
-                width: 60px;
-                height: 60px;
-                font-size: 1.3rem;
+            .action-buttons {
+                left: 10px;
             }
 
             .action-buttons .action-button {
-                width: 55px;
-                height: 55px;
-                font-size: 1.2rem;
+                width: 45px; /* Reduced from 50px to 45px */
+                height: 45px; /* Reduced from 50px to 45px */
+                font-size: 1.0rem; /* Adjusted font size */
             }
 
-            .action-buttons.active .theme-switcher {
-                transform: translateY(-70px) translateX(-60px) scale(1);
-            }
-
-            .action-buttons.active .bookmark-button {
-                transform: translateY(-70px) translateX(0) scale(1);
-            }
-
-            .action-buttons.active .info-button {
-                transform: translateY(-70px) translateX(60px) scale(1);
+            .action-buttons .action-button::after {
+                left: 55px; /* Adjusted from 60px to 55px */
             }
 
             .counter-section h2 {
@@ -493,11 +432,12 @@
                 font-size: 1rem;
             }
 
-            .popup, .achievement-popup {
-                padding: 15px 20px;
-                font-size: 0.95rem;
-                width: 90%;
-                max-width: 400px;
+            /* Popup adjustments for medium screens */
+            .popup {
+                left: 70px; /* Adjusted from 80px to 70px */
+                max-width: 350px; /* Increased from 300px to 350px */
+                width: 85%;
+                padding: 20px; /* Adjusted padding */
             }
 
             .popup .close-btn {
@@ -508,28 +448,18 @@
         }
 
         @media screen and (max-width: 480px) {
-            .action-buttons .menu-button {
-                width: 50px;
-                height: 50px;
-                font-size: 1rem;
+            .action-buttons {
+                left: 5px;
             }
 
             .action-buttons .action-button {
-                width: 50px;
-                height: 50px;
-                font-size: 1rem;
+                width: 40px; /* Reduced from 45px to 40px */
+                height: 40px; /* Reduced from 45px to 40px */
+                font-size: 0.9rem; /* Adjusted font size */
             }
 
-            .action-buttons.active .theme-switcher {
-                transform: translateY(-60px) translateX(-50px) scale(1);
-            }
-
-            .action-buttons.active .bookmark-button {
-                transform: translateY(-60px) translateX(0) scale(1);
-            }
-
-            .action-buttons.active .info-button {
-                transform: translateY(-60px) translateX(50px) scale(1);
+            .action-buttons .action-button::after {
+                left: 50px; /* Adjusted from 55px to 50px */
             }
 
             .counter-container {
@@ -560,11 +490,12 @@
                 font-size: 0.95rem;
             }
 
-            .popup, .achievement-popup {
-                padding: 10px 15px;
-                font-size: 0.9rem;
+            /* Popup adjustments for small screens */
+            .popup {
+                left: 60px; /* Adjusted from 70px to 60px */
+                max-width: 400px; /* Further increased to accommodate larger content */
                 width: 90%;
-                max-width: 300px;
+                padding: 25px; /* Increased padding */
             }
 
             .popup .close-btn {
@@ -573,27 +504,85 @@
                 font-size: 0.9rem;
             }
         }
+
+        /* Container for dynamically created achievement popups */
+        .achievement-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1002; /* Above action buttons and info popup */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px; /* Space between multiple popups */
+        }
+
+        /* Styles for individual achievement popups */
+        .achievement-popup {
+            background-color: var(--popup-bg-color);
+            color: var(--popup-text-color);
+            width: 400px;
+            max-width: 90%;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInSlideDown 0.5s forwards;
+            position: relative;
+        }
+
+        .achievement-popup.achievement-achieved {
+            background-color: var(--achievement-achieved-bg-color);
+            color: var(--achievement-achieved-text-color);
+        }
+
+        .achievement-popup.achievement-surpassed {
+            background-color: var(--achievement-surpassed-bg-color);
+            color: var(--achievement-surpassed-text-color);
+        }
+
+        /* Animations for Achievement Popups */
+        @keyframes fadeInSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOutSlideUp {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Action Buttons: Main Menu and Individual Action Buttons -->
+    <!-- Action Buttons: Theme Switcher, Bookmark, and Info -->
     <div class="action-buttons" id="actionButtons">
         <!-- Theme Switcher Button -->
-        <button class="action-button theme-switcher" id="themeSwitcher" data-tooltip="Switch Theme">
+        <button class="action-button theme-switcher" id="themeSwitcher" data-tooltip="Switch Theme" aria-label="Switch Theme">
             <i class="fas fa-sun"></i>
         </button>
         <!-- Bookmark Button -->
-        <button class="action-button bookmark-button" onclick="addBookmark()" data-tooltip="Add to Bookmarks">
+        <button class="action-button bookmark-button" onclick="addBookmark()" data-tooltip="Add to Bookmarks" aria-label="Add to Bookmarks">
             <i class="fas fa-bookmark"></i>
         </button>
         <!-- Info Button -->
-        <button class="action-button info-button" onclick="togglePopup()" data-tooltip="Information">
+        <button class="action-button info-button" onclick="togglePopup()" data-tooltip="Information" aria-label="Information">
             <i class="fas fa-info-circle"></i>
-        </button>
-        <!-- Main Menu Button -->
-        <button class="menu-button" id="menuButton" data-tooltip="Menu">
-            <i class="fas fa-bars"></i>
         </button>
     </div>
 
@@ -667,20 +656,21 @@
     </footer>
 
     <!-- Popup Information -->
-    <div class="popup" id="infoPopup">
-        <button class="close-btn" onclick="closePopup()">&times;</button>
-        <p><u>Bonus target:</u> <br><br> Average Points per day (280);</p>
+    <div class="popup" id="infoPopup" role="dialog" aria-modal="true" aria-labelledby="infoPopupTitle">
+        <button class="close-btn" onclick="closePopup()" aria-label="Close Popup">&times;</button>
+        <h3 id="infoPopupTitle"><u>Bonus Target</u></h3>
+        <p>Average Points per day (280);</p>
         <p>Quality at 95% and over;</p>
         <p>Utilization at 80%;</p>
         <p><u>Bonus Level 1:</u><br>300 points (target points);<br>25 BGN (points bonus);<br>95% Quality Target;<br>25 BGN (quality bonus);</p>
         <p><u>Bonus Level 2:</u><br>350 points (target points);<br>50 BGN (points bonus);<br>96% Quality Target;<br>50 BGN (quality bonus);</p>
         <p><u>Bonus Level 3:</u><br>400 points (target points);<br>100 BGN (points bonus);<br>97% Quality Target;<br>100 BGN (quality bonus);</p>
-        <p><u>Auto Fail Bonus:</u><br>Attendance: more than 2 days absence; <br>6 delays during the month;<br>Escalation: DPA or GDPR breach; <br>No Ethical behavior in Chat, Calls, or Emails; <br>Valid escalation received by the Client;</p>
-        <p><u>Note:</u> Vacation is not considered absenteeism. <br> Sick Leave, no Show, etc. <br> If the Utilization is under 80%, the bonus is reduced to 50%.</p>
+        <p><u>Auto Fail Bonus:</u><br>Attendance: more than 2 days absence;<br>6 delays during the month;<br>Escalation: DPA or GDPR breach;<br>No Ethical behavior in Chat, Calls, or Emails;<br>Valid escalation received by the Client;</p>
+        <p><u>Note:</u> Vacation is not considered absenteeism.<br>Sick Leave, no Show, etc.<br>If the Utilization is under 80%, the bonus is reduced to 50%.</p>
     </div>
 
-    <!-- Achievement Popup -->
-    <div class="achievement-popup" id="achievementPopup"></div>
+    <!-- Container for Achievement Popups -->
+    <div class="achievement-container" id="achievementContainer"></div>
 
     <script>
         // Theme Management
@@ -820,42 +810,55 @@
 
         // Display achievement popup
         function displayAchievement(threshold, type) {
-            const popup = document.getElementById('achievementPopup');
+            const achievementContainer = document.getElementById('achievementContainer');
+
+            // Create a new popup element
+            const popup = document.createElement('div');
+            popup.classList.add('achievement-popup');
             if (type === 'achieved') {
-                popup.classList.remove('achievement-surpassed');
                 popup.classList.add('achievement-achieved');
-                popup.innerText = `🎉 Target of ${threshold} points reached!`;
+                popup.innerHTML = `🎉 <strong>Target of ${threshold} points reached!</strong>`;
             } else if (type === 'surpassed') {
-                popup.classList.remove('achievement-achieved');
                 popup.classList.add('achievement-surpassed');
-                popup.innerText = `🏆 Congratulations! You surpassed ${threshold} points!`;
+                popup.innerHTML = `🏆 <strong>Congratulations! You surpassed ${threshold} points!</strong>`;
             }
 
-            popup.classList.add('show');
+            // Append the popup to the container
+            achievementContainer.appendChild(popup);
 
-            // Keep the achievement popup for 30 seconds
+            // After 15 seconds, start the fadeOutSlideUp animation
             setTimeout(() => {
-                popup.classList.remove('show');
-            }, 30000);
+                popup.style.animation = 'fadeOutSlideUp 0.5s forwards';
+            }, 15000); // 15000 milliseconds = 15 seconds
+
+            // Remove the popup from the DOM after the fade-out animation completes
+            popup.addEventListener('animationend', (event) => {
+                if (event.animationName === 'fadeOutSlideUp') {
+                    achievementContainer.removeChild(popup);
+                }
+            });
         }
 
         // Toggle info popup
         function togglePopup() {
             const popup = document.getElementById('infoPopup');
-            popup.classList.toggle('show');
+            if (popup.classList.contains('show')) {
+                popup.classList.remove('show');
+                popup.classList.add('hide');
+            } else {
+                popup.classList.remove('hide');
+                popup.style.display = 'block'; // Ensure it's displayed
+                // Trigger reflow to restart animation
+                void popup.offsetWidth;
+                popup.classList.add('show');
+            }
         }
 
         // Close popup when clicking the close button
         function closePopup() {
             const popup = document.getElementById('infoPopup');
             popup.classList.remove('show');
-            // Also close the menu if it's open
-            if (actionButtonsContainer.classList.contains('active')) {
-                actionButtonsContainer.classList.remove('active');
-                const icon = menuButton.querySelector('i');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
+            popup.classList.add('hide');
         }
 
         // Add to bookmarks functionality
@@ -872,33 +875,14 @@
             }
         }
 
-        // Toggle Action Buttons
-        const menuButton = document.getElementById('menuButton');
-        const actionButtonsContainer = document.getElementById('actionButtons');
-
-        menuButton.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent triggering document click
-            actionButtonsContainer.classList.toggle('active');
-
-            // Change menu icon to close icon when active
-            const icon = menuButton.querySelector('i');
-            if (actionButtonsContainer.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
+        // Handle popup animations on animation end
+        const infoPopup = document.getElementById('infoPopup');
+        infoPopup.addEventListener('animationend', (event) => {
+            if (event.animationName === 'fadeOutSlideLeft') {
+                infoPopup.classList.remove('hide');
+                infoPopup.style.display = 'none';
             }
-        });
-
-        // Close action buttons only when clicking outside the menu button or action buttons
-        document.addEventListener('click', (e) => {
-            if (!actionButtonsContainer.contains(e.target) && e.target !== menuButton && actionButtonsContainer.classList.contains('active')) {
-                actionButtonsContainer.classList.remove('active');
-                const icon = menuButton.querySelector('i');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
+            // No need to handle 'show' as it's already set
         });
 
         // Prevent data loss on page unload (optional since data is saved)

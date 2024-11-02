@@ -4,731 +4,706 @@
     <meta charset="UTF-8">
     <title>Counters with Points</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google Fonts: Montserrat as Futura Alternative -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Alata -->
+    <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ===========================
-   Reset and Base Styles
-   =========================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-:root {
-    /* ===========================
-       Theme Variables
-       =========================== */
-    /* Default Theme Variables */
-    --bg-gradient: linear-gradient(to bottom, #003D5B, #25E2CC);
-    --text-color: #ffffff;
-    --section-bg-color: rgba(255, 255, 255, 0.85);
-    --section-border-color: #dddddd;
-    --section-text-color: #003D5B;
-    --footer-text-color: #000000;
-
-    /* Backlight Color for Light Theme */
-    --backlight-color: rgba(255, 255, 255, 0.8); /* Increased opacity for stronger glow */
-
-    /* Action Button Colors */
-    --button-theme-switcher-bg-color: #ffffff;
-    --button-bookmark-bg-color: #ffffff;
-    --button-info-bg-color: #ffffff;
-    --button-save-bg-color: #ffffff; /* Added for Save Button */
-
-    /* Button Text Color */
-    --button-text-color: #ffffff;
-
-    /* Popup Styles */
-    --popup-bg-color: rgba(255, 255, 255, 0.95);
-    --popup-text-color: #003D5B;
-
-    /* Achievement Popup Styles */
-    --achievement-achieved-bg-color: #d4edda; /* Soft green */
-    --achievement-achieved-text-color: #000000;
-    --achievement-surpassed-bg-color: #ffcc80; /* Soft orange */
-    --achievement-surpassed-text-color: #000000;
-
-    /* Button Border Color */
-    --button-border-color: black; /* Default theme border color */
-
-    /* Action Buttons Icon Color */
-    --action-button-icon-color: black; /* Default theme action buttons icon color */
-
-    /* Animation Variables */
-    --animation-duration: 0.3s;
-    --animation-ease: ease-in-out;
-    --color-increase: #28a745; /* Green */
-    --color-decrease: #dc3545; /* Red */
-}
-
-/* ===========================
-   Dark Themes
-   =========================== */
-.theme-dark1 {
-    --bg-gradient: linear-gradient(to bottom, #1e1e2f, #9a8c98);
-    --text-color: #e0e0e0;
-    --section-bg-color: rgba(30, 30, 47, 0.9);
-    --section-border-color: #5a5a7f;
-    --section-text-color: #e0e0e0;
-    --footer-text-color: #000000;
-
-    --backlight-color: rgba(0, 0, 0, 0.8); /* Increased opacity for stronger glow */
-
-    --button-theme-switcher-bg-color: #ffffff;
-    --button-bookmark-bg-color: #ffffff;
-    --button-info-bg-color: #ffffff;
-    --button-save-bg-color: #ffffff; /* Consistent for Save Button */
-
-    --popup-bg-color: rgba(30, 30, 47, 0.95);
-    --popup-text-color: #e0e0e0;
-
-    --button-border-color: rgb(0, 0, 0); /* Dark themes border color */
-
-    --action-button-icon-color: rgb(0, 0, 0); /* Dark themes action buttons icon color */
-}
-
-.theme-dark2 {
-    --bg-gradient: linear-gradient(to bottom, #2c3e50, #34495e);
-    --text-color: #ecf0f1;
-    --section-bg-color: rgba(44, 62, 80, 0.9);
-    --section-border-color: #7f8c8d;
-    --section-text-color: #ecf0f1;
-    --footer-text-color: #ffffff;
-
-    --backlight-color: rgba(0, 0, 0, 0.8); /* Increased opacity for stronger glow */
-
-    --button-theme-switcher-bg-color: #ffffff;
-    --button-bookmark-bg-color: #ffffff;
-    --button-info-bg-color: #ffffff;
-    --button-save-bg-color: #ffffff; /* Consistent for Save Button */
-
-    --popup-bg-color: rgba(44, 62, 80, 0.95);
-    --popup-text-color: #ecf0f1;
-
-    --button-border-color: rgb(0, 0, 0); /* Dark themes border color */
-
-    --action-button-icon-color: rgb(0, 0, 0); /* Dark themes action buttons icon color */
-}
-
-.theme-dark3 {
-    --bg-gradient: linear-gradient(to bottom, #000000, #434343);
-    --text-color: #f5f5f5;
-    --section-bg-color: rgba(0, 0, 0, 0.9);
-    --section-border-color: #555555;
-    --section-text-color: #f5f5f5;
-    --footer-text-color: #f5f5f5;
-
-    --backlight-color: rgba(255, 255, 255, 0.8); /* Increased opacity for stronger glow */
-
-    --button-theme-switcher-bg-color: #ffffff;
-    --button-bookmark-bg-color: #ffffff;
-    --button-info-bg-color: #ffffff;
-    --button-save-bg-color: #ffffff; /* Consistent for Save Button */
-
-    --popup-bg-color: rgba(0, 0, 0, 0.95);
-    --popup-text-color: #f5f5f5;
-
-    --button-border-color: rgb(0, 0, 0); /* Dark themes border color */
-
-    --action-button-icon-color: rgb(0, 0, 0); /* Dark themes action buttons icon color */
-}
-
-/* ===========================
-   Body Styling
-   =========================== */
-body {
-    font-family: 'Montserrat', sans-serif; /* Changed from 'Ubuntu' to 'Montserrat' */
-    background: var(--bg-gradient);
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin: 0;
-    padding: 20px;
-    color: var(--text-color);
-    transition: background 0.5s, color 0.5s;
-}
-
-/* ===========================
-   Counter Container Styling
-   =========================== */
-.counter-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    gap: 10px; /* Reduced gap for less space between boxes */
-}
-
-/* ===========================
-   Individual Counter Sections
-   =========================== */
-.counter-section {
-    background-color: var(--section-bg-color);
-    margin: 2px; /* Reduced margin for less space */
-    padding: 15px; /* Reduced padding for smaller boxes */
-    flex: 1 1 300px;
-    max-width: 400px;
-    text-align: center;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    color: var(--section-text-color);
-    border: 1px solid var(--section-border-color);
-    transition: background-color 0.5s, border-color 0.5s, color 0.5s, box-shadow 0.3s;
-    /* Backlight Animation */
-    position: relative;
-}
-
-/* Backlight Animation on Hover for Counter Sections */
-.counter-section:hover {
-    box-shadow: 
-        0 0 20px var(--backlight-color), 
-        0 4px 15px var(--backlight-color), 
-        0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Specific Style for Total Points Section */
-.counter-section.total-points-section h1 {
-    font-size: 2.2rem; /* Reduced font size for Total Points */
-    margin: 0; /* Remove default margin */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px; /* Space between text and points */
-}
-
-.counter-section.total-points-section {
-    padding: 15px; /* Consistent with other sections */
-}
-
-/* New Time Spent Display */
-.time-spent {
-    font-size: 0.8rem; /* Smaller font size */
-    margin-top: 5px; /* Spacing above */
-    color: var(--section-text-color); /* Consistent text color */
-}
-
-.counter-section h2 {
-    margin-bottom: 10px; /* Increased margin for better spacing */
-    font-size: 1.8rem; /* Increased font size for box titles */
-}
-
-.counter {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 10px; /* Increased margin */
-    flex-wrap: wrap;
-    gap: 10px; /* Increased gap between buttons and input */
-}
-
-.counter button {
-    flex: 1 1 40px; /* Slightly larger buttons */
-    min-width: 40px; /* Adjusted min-width */
-    height: 50px; /* Increased height */
-    font-size: 1.3rem; /* Increased font size */
-    font-weight: bold;
-    margin: 2px;
-    cursor: pointer;
-    border: none;
-    border-radius: 8px; /* Kept consistent */
-    color: var(--button-text-color);
-    transition: 
-        transform 0.3s, 
-        box-shadow 0.3s, 
-        background-color 0.5s, 
-        color 0.5s, 
-        box-shadow 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Maintained shadow */
-    z-index: 1; /* Ensure buttons are above other elements */
-    background-color: inherit; /* Ensure background-color is inherited */
-}
-
-/* Specific Button Styles */
-.counter button.decrease {
-    background-color: var(--button-decrease-bg-color, #d9534f);
-}
-
-.counter button.reset {
-    background-color: var(--button-reset-bg-color, #f0ad4e);
-    flex: 1 1 90px; /* Adjusted flex basis */
-    min-width: 90px; /* Adjusted min-width */
-    height: 50px; /* Consistent height */
-    font-size: 1rem; /* Adjusted font size */
-}
-
-.counter button.increase {
-    background-color: var(--button-increase-bg-color, #5cb85c);
-}
-
-/* Enhanced Hover Effect for Counter Buttons */
-.counter button:hover {
-    transform: scale(1.05);
-    box-shadow: 
-        0 0 15px var(--backlight-color), 
-        0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-.counter input {
-    width: 60px; /* Increased width */
-    text-align: center;
-    font-size: 2rem; /* Increased font size for count numbers */
-    border: none;
-    background: transparent;
-    color: var(--section-text-color);
-    pointer-events: none;
-    font-weight: bold;
-    position: relative; /* For animation purposes */
-    transition: color var(--animation-duration) var(--animation-ease);
-}
-
-/* Number Animation Styles */
-.increase-animation {
-    color: var(--color-increase);
-    transition: color var(--animation-duration) var(--animation-ease);
-}
-
-.decrease-animation {
-    color: var(--color-decrease);
-    transition: color var(--animation-duration) var(--animation-ease);
-}
-
-.points {
-    font-size: 1.3rem; /* Increased font size for Points section */
-    font-weight: bold;
-    position: relative; /* For animation purposes */
-    transition: color var(--animation-duration) var(--animation-ease);
-}
-
-.points.increase-animation {
-    color: var(--color-increase);
-    transition: color var(--animation-duration) var(--animation-ease);
-}
-
-.points.decrease-animation {
-    color: var(--color-decrease);
-    transition: color var(--animation-duration) var(--animation-ease);
-}
-
-footer {
-    text-align: center;
-    margin-top: 30px; /* Maintained margin */
-    font-size: 1rem; /* Increased font size */
-    color: var(--footer-text-color);
-    transition: color 0.5s;
-}
-
-/* ===========================
-   Action Buttons Styling
-   =========================== */
-.action-buttons {
-    position: fixed;
-    top: 50%;
-    left: 20px;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px; /* Space between buttons */
-    z-index: 1001; /* Higher than other elements */
-}
-
-/* Individual Action Buttons */
-.action-buttons .action-button {
-    width: 50px; /* Consistent width */
-    height: 50px; /* Consistent height */
-    border: 2px solid var(--button-border-color); /* Maintained border */
-    border-radius: 50%; /* Circular buttons */
-    background-color: var(--button-theme-switcher-bg-color); /* Restored white background */
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    font-weight: bold;
-    transition: 
-        opacity 0.3s, 
-        transform 0.3s, 
-        box-shadow 0.3s, 
-        background-color 0.5s, 
-        color 0.5s, 
-        border-color 0.5s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-    opacity: 0.3; /* Slightly faded appearance */
-    pointer-events: auto; /* Ensure the buttons are clickable */
-    position: relative; /* For tooltip positioning */
-    background-color: var(--button-theme-switcher-bg-color); /* Ensure white background */
-}
-
-/* Enhanced Hover Effect for Action Buttons */
-.action-buttons .action-button:hover {
-    opacity: 1; /* Fully visible on hover */
-    transform: scale(1.1); /* Slight enlargement */
-    box-shadow: 
-        0 0 15px var(--backlight-color), /* Stronger glow effect */
-        0 6px 12px rgba(0,0,0,0.3); /* Enhanced shadow */
-}
-
-/* Tooltip Styles for Action Buttons */
-.action-buttons .action-button::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    left: 60px; /* Adjusted from 70px to 60px for smaller buttons */
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 4px;
-    white-space: nowrap;
-    font-size: 0.8rem;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-    z-index: 3; /* Ensure tooltips are above all */
-}
-
-.action-buttons .action-button:hover::after {
-    opacity: 1;
-}
-
-/* ===========================
-   Popup Styling
-   =========================== */
-.popup {
-    display: none;
-    padding: 15px; /* Reduced padding */
-    border-radius: 6px; /* Reduced border-radius */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    font-size: 0.95rem; /* Slightly smaller font */
-    z-index: 1002; /* Ensure popups are above tooltips and action buttons */
-    opacity: 0;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    border: 1px solid var(--section-border-color);
-    position: fixed;
-    top: 50%;
-    left: 80px; /* Positioned to the right of the action buttons */
-    transform: translateY(-50%) translateX(-20px);
-    background-color: var(--popup-bg-color);
-    color: var(--popup-text-color);
-    max-width: 400px; /* Increased from 300px to 400px */
-    width: 90%;
-}
-
-/* Show and hide animations for Info Popup */
-.popup.show {
-    display: block;
-    animation: fadeInSlideRight 0.5s forwards;
-}
-
-.popup.hide {
-    animation: fadeOutSlideLeft 0.5s forwards;
-}
-
-.popup .close-btn {
-    background-color: var(--button-reset-bg-color, #f0ad4e);
-    color: var(--button-text-color);
-    border: none;
-    border-radius: 50%;
-    width: 25px; /* Reduced size */
-    height: 25px; /* Reduced size */
-    font-size: 1rem; /* Adjusted font size */
-    cursor: pointer;
-    transition: 
-        transform 0.3s, 
-        box-shadow 0.3s, 
-        background-color 0.5s, 
-        color 0.5s;
-    position: absolute;
-    top: 5px; /* Adjusted position */
-    right: 5px; /* Adjusted position */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    z-index: 1003; /* Ensure close button is above popup content */
-}
-
-.popup .close-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-}
-
-/* ===========================
-   Popup Animations
-   =========================== */
-@keyframes fadeInSlideRight {
-    from {
-        opacity: 0;
-        transform: translateY(-50%) translateX(-40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(-50%) translateX(0);
-    }
-}
-
-@keyframes fadeOutSlideLeft {
-    from {
-        opacity: 1;
-        transform: translateY(-50%) translateX(0);
-    }
-    to {
-        opacity: 0;
-        transform: translateY(-50%) translateX(-40px);
-    }
-}
-
-/* ===========================
-   Achievement Popup Styling
-   =========================== */
-.achievement-container {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1002; /* Above action buttons and info popup */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px; /* Space between multiple popups */
-}
-
-/* Styles for Individual Achievement Popups */
-.achievement-popup {
-    background-color: var(--popup-bg-color);
-    color: var(--popup-text-color);
-    width: 400px; /* Increased width for larger popups */
-    max-width: 90%;
-    padding: 25px; /* Increased padding */
-    border-radius: 10px; /* Slightly increased border-radius */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    font-size: 1rem; /* Increased font size */
-    text-align: center;
-    opacity: 0;
-    animation: fadeInSlideDown 0.5s forwards;
-    position: relative;
-}
-
-.achievement-popup.achievement-achieved {
-    background-color: var(--achievement-achieved-bg-color);
-    color: var(--achievement-achieved-text-color);
-}
-
-.achievement-popup.achievement-surpassed {
-    background-color: var(--achievement-surpassed-bg-color);
-    color: var(--achievement-surpassed-text-color);
-}
-
-/* Achievement Popup Animations */
-@keyframes fadeInSlideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeOutSlideUp {
-    from {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    to {
-        opacity: 0;
-        transform: translateY(-40px);
-    }
-}
-
-/* ===========================
-   Responsive Adjustments
-   =========================== */
-@media screen and (max-width: 768px) {
-    .action-buttons {
-        left: 10px;
-    }
-
-    .action-buttons .action-button {
-        width: 45px; /* Reduced from 50px to 45px */
-        height: 45px; /* Reduced from 50px to 45px */
-        font-size: 1rem; /* Adjusted font size */
-    }
-
-    .action-buttons .action-button::after {
-        left: 55px; /* Adjusted from 60px to 55px */
-    }
-
-    .counter-section h2 {
-        font-size: 1.6rem; /* Slightly smaller on medium screens */
-    }
-
-    .counter button {
-        flex: 1 1 35px;
-        min-width: 35px;
-        height: 45px;
-        font-size: 1.2rem;
-    }
-
-    .counter input {
-        width: 55px;
-        font-size: 1.5rem; /* Adjusted to match increased size */
-    }
-
-    .points {
-        font-size: 1.1rem;
-    }
-
-    /* Popup Adjustments for Medium Screens */
-    .popup {
-        left: 70px; /* Adjusted from 80px to 70px */
-        max-width: 350px; /* Increased from 300px to 350px */
-        width: 85%;
-        padding: 15px; /* Adjusted padding */
-    }
-
-    .popup .close-btn {
-        width: 20px;
-        height: 20px;
-        font-size: 0.9rem;
-    }
-
-    /* Specific Style for Total Points Section on Smaller Screens */
-    .counter-section.total-points-section h1 {
-        font-size: 2.0rem; /* Adjusted font size */
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .action-buttons {
-        left: 5px;
-    }
-
-    .action-buttons .action-button {
-        width: 40px; /* Reduced from 45px to 40px */
-        height: 40px; /* Reduced from 45px to 40px */
-        font-size: 0.9rem; /* Adjusted font size */
-    }
-
-    .action-buttons .action-button::after {
-        left: 50px; /* Adjusted from 55px to 50px */
-    }
-
-    .counter-container {
-        padding: 0 10px;
-    }
-
-    .action-buttons .action-button {
-        margin-bottom: 10px;
-    }
-
-    .counter-section h2 {
-        font-size: 1.4rem; /* Adjusted font size */
-    }
-
-    .counter button {
-        flex: 1 1 30px;
-        min-width: 30px;
-        height: 40px;
-        font-size: 1.1rem;
-    }
-
-    .counter input {
-        width: 50px;
-        font-size: 1.5rem; /* Adjusted to match larger size */
-    }
-
-    .points {
-        font-size: 1rem;
-    }
-
-    /* Popup Adjustments for Small Screens */
-    .popup {
-        left: 60px; /* Adjusted from 70px to 60px */
-        max-width: 400px; /* Further increased to accommodate larger content */
-        width: 90%;
-        padding: 15px; /* Increased padding */
-    }
-
-    .popup .close-btn {
-        width: 18px;
-        height: 18px;
-        font-size: 0.8rem;
-    }
-
-    /* Specific Style for Total Points Section on Very Small Screens */
-    .counter-section.total-points-section h1 {
-        font-size: 1.8rem; /* Adjusted font size */
-    }
-}
-
-/* ===========================
-   Achievement Popup Styling
-   =========================== */
-.achievement-container {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1002; /* Above action buttons and info popup */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px; /* Space between multiple popups */
-}
-
-.achievement-popup {
-    background-color: var(--popup-bg-color);
-    color: var(--popup-text-color);
-    width: 400px; /* Increased width for larger popups */
-    max-width: 90%;
-    padding: 25px; /* Increased padding */
-    border-radius: 10px; /* Slightly increased border-radius */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    font-size: 1rem; /* Increased font size */
-    text-align: center;
-    opacity: 0;
-    animation: fadeInSlideDown 0.5s forwards;
-    position: relative;
-}
-
-.achievement-popup.achievement-achieved {
-    background-color: var(--achievement-achieved-bg-color);
-    color: var(--achievement-achieved-text-color);
-}
-
-.achievement-popup.achievement-surpassed {
-    background-color: var(--achievement-surpassed-bg-color);
-    color: var(--achievement-surpassed-text-color);
-}
-
-@keyframes fadeInSlideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeOutSlideUp {
-    from {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    to {
-        opacity: 0;
-        transform: translateY(-40px);
-    }
-}
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Theme Variables */
+            /* Default Theme Variables */
+            --bg-gradient: linear-gradient(to bottom, #003D5B, #25E2CC);
+            --text-color: #ffffff;
+            --section-bg-color: rgba(255, 255, 255, 0.85);
+            --section-border-color: #dddddd;
+            --section-text-color: #003D5B;
+            --footer-text-color: #000000;
+
+            /* Backlight Color for Light Theme */
+            --backlight-color: rgba(255, 255, 255, 0.8);
+
+            /* Action Button Colors */
+            --button-theme-switcher-bg-color: #ffffff;
+            --button-bookmark-bg-color: #ffffff;
+            --button-info-bg-color: #ffffff;
+            --button-save-bg-color: #ffffff;
+
+            /* Button Text Color */
+            --button-text-color: #ffffff;
+
+            /* Popup Styles */
+            --popup-bg-color: rgba(255, 255, 255, 0.95);
+            --popup-text-color: #003D5B;
+
+            /* Achievement Popup Styles */
+            --achievement-achieved-bg-color: #d4edda;
+            --achievement-achieved-text-color: #000000;
+            --achievement-surpassed-bg-color: #ffcc80;
+            --achievement-surpassed-text-color: #000000;
+
+            /* Button Border Color */
+            --button-border-color: black;
+
+            /* Action Buttons Icon Color */
+            --action-button-icon-color: black;
+
+            /* Button Background Colors */
+            --button-decrease-bg-color: #d9534f;
+            --button-increase-bg-color: #5cb85c;
+            --button-reset-bg-color: #f0ad4e;
+
+            /* Increment Button Colors */
+            --button-increment-bg-color: #28a745; /* Green color */
+
+            /* Glass Effect Background */
+            --glass-bg-color: rgba(255, 0, 0, 0.9); /* Red background */
+            --glass-border-color: rgba(0, 0, 0, 0.8); /* Black border */
+
+            /* Animation Variables */
+            --animation-duration: 0.3s;
+            --animation-ease: ease-in-out;
+            --color-increase: #28a745;
+            --color-decrease: #dc3545;
+        }
+
+        /* Dark Themes */
+        .theme-dark1 {
+            --bg-gradient: linear-gradient(to bottom, #1e1e2f, #9a8c98);
+            --text-color: #e0e0e0;
+            --section-bg-color: rgba(30, 30, 47, 0.9);
+            --section-border-color: #5a5a7f;
+            --section-text-color: #e0e0e0;
+            --footer-text-color: #000000;
+
+            --backlight-color: rgba(0, 0, 0, 0.8);
+
+            --button-increment-bg-color: #28a745; /* Green color */
+        }
+
+        .theme-dark2 {
+            --bg-gradient: linear-gradient(to bottom, #2c3e50, #34495e);
+            --text-color: #ecf0f1;
+            --section-bg-color: rgba(44, 62, 80, 0.9);
+            --section-border-color: #7f8c8d;
+            --section-text-color: #ecf0f1;
+            --footer-text-color: #ffffff;
+
+            --backlight-color: rgba(0, 0, 0, 0.8);
+
+            --button-increment-bg-color: #28a745; /* Green color */
+        }
+
+        .theme-dark3 {
+            --bg-gradient: linear-gradient(to bottom, #000000, #434343);
+            --text-color: #f5f5f5;
+            --section-bg-color: rgba(0, 0, 0, 0.9);
+            --section-border-color: #555555;
+            --section-text-color: #f5f5f5;
+            --footer-text-color: #f5f5f5;
+
+            --backlight-color: rgba(255, 255, 255, 0.8);
+
+            --button-increment-bg-color: #28a745; /* Green color */
+        }
+
+        /* Body Styling */
+        body {
+            font-family: 'Alata', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin: 0;
+            padding: 10px;
+            color: var(--text-color);
+            transition: background 0.5s, color 0.5s;
+        }
+
+        /* Counter Container Styling */
+        .counter-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 5px;
+        }
+
+        /* Individual Counter Sections */
+        .counter-section {
+            background-color: var(--section-bg-color);
+            margin: 2px;
+            padding: 10px;
+            flex: 1 1 280px;
+            max-width: 380px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            color: var(--section-text-color);
+            border: 1px solid var(--section-border-color);
+            transition: background-color 0.5s, border-color 0.5s, color 0.5s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        /* Backlight Animation on Hover for Counter Sections */
+        .counter-section:hover {
+            box-shadow:
+                0 0 20px var(--backlight-color),
+                0 4px 15px var(--backlight-color),
+                0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Specific Style for Total Points Section */
+        .counter-section.total-points-section h1 {
+            font-size: 2rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .counter-section.total-points-section {
+            padding: 10px;
+        }
+
+        .counter-section h2 {
+            margin-bottom: 8px;
+            font-size: 1.6rem;
+        }
+
+        .counter {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .counter .main-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .counter .extra-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .counter button {
+            flex: 1 1 auto;
+            min-width: 100px;
+            padding: 5px 15px; /* Decreased vertical padding, increased horizontal padding */
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin: 2px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            color: var(--button-text-color);
+            transition:
+                transform 0.3s,
+                box-shadow 0.3s,
+                background-color 0.5s,
+                color 0.5s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            font-family: 'Alata', sans-serif;
+        }
+
+        .counter button.increment {
+            flex: 1 1 auto;
+            min-width: 85px;
+            padding: 4px 12px; /* Decreased vertical padding, increased horizontal padding */
+            font-size: 1.1rem;
+            background-color: var(--button-increment-bg-color);
+        }
+
+        .counter button.decrease {
+            background-color: var(--button-decrease-bg-color);
+        }
+
+        .counter button.increase {
+            background-color: var(--button-increase-bg-color);
+        }
+
+        .reset-all {
+            background-color: var(--button-reset-bg-color);
+            color: var(--button-text-color);
+            border: none;
+            border-radius: 8px;
+            min-width: 280px;
+            padding: 12px 30px; /* Decreased vertical padding, increased horizontal padding */
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s, color 0.5s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 10px;
+            font-family: 'Alata', sans-serif;
+        }
+
+        /* Enhanced Hover Effect for Counter Buttons */
+        .counter button:hover,
+        .reset-all:hover {
+            transform: scale(1.05);
+            box-shadow:
+                0 0 15px var(--backlight-color),
+                0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .counter input {
+            width: 60px;
+            text-align: center;
+            font-size: 1.8rem;
+            border: none;
+            background: transparent;
+            color: var(--section-text-color);
+            pointer-events: none;
+            font-weight: bold;
+            position: relative;
+            transition: color var(--animation-duration) var(--animation-ease);
+        }
+
+        .increase-animation {
+            color: var(--color-increase);
+            transition: color var(--animation-duration) var(--animation-ease);
+        }
+
+        .decrease-animation {
+            color: var(--color-decrease);
+            transition: color var(--animation-duration) var(--animation-ease);
+        }
+
+        .points {
+            font-size: 1.4rem;
+            font-weight: bold;
+            position: relative;
+            transition: color var(--animation-duration) var(--animation-ease);
+        }
+
+        .points.increase-animation {
+            color: var(--color-increase);
+            transition: color var(--animation-duration) var(--animation-ease);
+        }
+
+        .points.decrease-animation {
+            color: var(--color-decrease);
+            transition: color var(--animation-duration) var(--animation-ease);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1rem;
+            color: var(--footer-text-color);
+            transition: color 0.5s;
+        }
+
+        /* Action Buttons Styling */
+        .action-buttons {
+            position: fixed;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 1001;
+        }
+
+        /* Individual Action Buttons */
+        .action-buttons .action-button {
+            width: 45px;
+            height: 45px;
+            border: 2px solid var(--button-border-color);
+            border-radius: 50%;
+            background-color: var(--button-theme-switcher-bg-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition:
+                opacity 0.3s,
+                transform 0.3s,
+                box-shadow 0.3s,
+                background-color 0.5s,
+                color 0.5s,
+                border-color 0.5s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            opacity: 0.3;
+            pointer-events: auto;
+            position: relative;
+            background-color: var(--button-theme-switcher-bg-color);
+        }
+
+        .action-buttons .action-button:hover {
+            opacity: 1;
+            transform: scale(1.1);
+            box-shadow:
+                0 0 15px var(--backlight-color),
+                0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Tooltip Styles for Action Buttons */
+        .action-buttons .action-button::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 55px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .action-buttons .action-button:hover::after {
+            opacity: 1;
+        }
+
+        /* Popup Styling */
+        .popup {
+            display: none;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            font-size: 0.95rem;
+            z-index: 1002;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            border: 1px solid var(--section-border-color);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateX(-20px);
+            background-color: var(--popup-bg-color);
+            color: var(--popup-text-color);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        /* Show and hide animations for Info Popup */
+        .popup.show {
+            display: block;
+            animation: fadeInSlideRight 0.5s forwards;
+        }
+
+        .popup.hide {
+            animation: fadeOutSlideLeft 0.5s forwards;
+        }
+
+        .popup .close-btn {
+            background-color: var(--button-reset-bg-color);
+            color: var(--button-text-color);
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition:
+                transform 0.3s,
+                box-shadow 0.3s,
+                background-color 0.5s,
+                color 0.5s;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            z-index: 1003;
+        }
+
+        .popup .close-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Reset Confirmation Popups */
+        .reset-popup {
+            display: none;
+            padding: 20px 30px; /* Decreased vertical padding, increased horizontal padding */
+            border-radius: 10px;
+            background: var(--glass-bg-color);
+            border: 3px solid var(--glass-border-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            font-size: 1.2rem;
+            color: black;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1003;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .reset-popup p {
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .reset-popup button {
+            background-color: var(--button-reset-bg-color);
+            color: black;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 25px; /* Decreased vertical padding, increased horizontal padding */
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 5px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-family: 'Alata', sans-serif;
+        }
+
+        .reset-popup button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--backlight-color), 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Popup Animations */
+        @keyframes fadeInSlideRight {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) translateX(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) translateX(0);
+            }
+        }
+
+        @keyframes fadeOutSlideLeft {
+            from {
+                opacity: 1;
+                transform: translate(-50%, -50%) translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translate(-50%, -50%) translateX(-40px);
+            }
+        }
+
+        /* Achievement Popup Styling */
+        .achievement-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1002;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Styles for Individual Achievement Popups */
+        .achievement-popup {
+            background-color: var(--popup-bg-color);
+            color: var(--popup-text-color);
+            width: 400px;
+            max-width: 90%;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInSlideDown 0.5s forwards;
+            position: relative;
+        }
+
+        .achievement-popup.achievement-achieved {
+            background-color: var(--achievement-achieved-bg-color);
+            color: var(--achievement-achieved-text-color);
+        }
+
+        .achievement-popup.achievement-surpassed {
+            background-color: var(--achievement-surpassed-bg-color);
+            color: var(--achievement-surpassed-text-color);
+        }
+
+        /* Achievement Popup Animations */
+        @keyframes fadeInSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOutSlideUp {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+        }
+
+        /* Responsive Adjustments */
+        @media screen and (max-width: 768px) {
+            .action-buttons {
+                left: 10px;
+            }
+
+            .action-buttons .action-button {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .action-buttons .action-button::after {
+                left: 50px;
+            }
+
+            .counter-section h2 {
+                font-size: 1.4rem;
+            }
+
+            .counter button {
+                font-size: 1.5rem;
+                padding: 5px 12px; /* Adjusted for responsiveness */
+            }
+
+            .counter button.increment {
+                font-size: 1rem;
+                padding: 3px 10px; /* Adjusted for responsiveness */
+            }
+
+            .counter input {
+                width: 55px;
+                font-size: 1.6rem;
+            }
+
+            .points {
+                font-size: 1.2rem;
+            }
+
+            .popup {
+                left: 50%;
+                max-width: 350px;
+                width: 85%;
+                padding: 15px;
+            }
+
+            .popup .close-btn {
+                width: 20px;
+                height: 20px;
+                font-size: 0.9rem;
+            }
+
+            .counter-section.total-points-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .reset-all {
+                padding: 12px 28px; /* Adjusted padding */
+                font-size: 1.2rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .action-buttons {
+                left: 5px;
+            }
+
+            .action-buttons .action-button {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+
+            .action-buttons .action-button::after {
+                left: 45px;
+            }
+
+            .counter-container {
+                padding: 0 5px;
+            }
+
+            .counter-section h2 {
+                font-size: 1.2rem;
+            }
+
+            .counter button {
+                font-size: 1.3rem;
+                padding: 4px 10px; /* Adjusted for small screens */
+            }
+
+            .counter button.increment {
+                font-size: 0.9rem;
+                padding: 2px 8px; /* Adjusted for small screens */
+            }
+
+            .counter input {
+                width: 50px;
+                font-size: 1.4rem;
+            }
+
+            .points {
+                font-size: 1rem;
+            }
+
+            .popup {
+                left: 50%;
+                max-width: 300px;
+                width: 90%;
+                padding: 10px;
+            }
+
+            .popup .close-btn {
+                width: 18px;
+                height: 18px;
+                font-size: 0.8rem;
+            }
+
+            .counter-section.total-points-section h1 {
+                font-size: 1.6rem;
+            }
+
+            .reset-all {
+                padding: 10px 24px; /* Adjusted padding */
+                font-size: 1.1rem;
+            }
+
+            .reset-popup {
+                padding: 15px 25px; /* Adjusted padding */
+            }
+
+            .reset-popup p {
+                font-size: 1.2rem;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -757,18 +732,18 @@ footer {
     <div class="counter-container">
         <div class="counter-section total-points-section">
             <h1>Total Points: <span id="total-points">0.0</span></h1>
-            <!-- New Time Spent Display -->
-            <div id="time-spent" class="time-spent">Time Spent: 00:00:00</div>
+            <button class="reset-all" onclick="initiateReset()">Reset All</button>
         </div>
 
         <!-- Individual Counter Sections -->
         <div class="counter-section" data-id="chats">
             <h2>Chats</h2>
             <div class="counter">
-                <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
-                <input type="text" id="chats" value="0" readonly>
-                <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
-                <button class="reset" onclick="handleCounter(this, 'reset')">Reset</button>
+                <div class="main-buttons">
+                    <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
+                    <input type="text" id="chats" value="0" readonly>
+                    <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
+                </div>
             </div>
             <div class="points">Points: <span id="chats-points">0.0</span></div>
         </div>
@@ -776,10 +751,11 @@ footer {
         <div class="counter-section" data-id="voicechats">
             <h2>Voice Chats</h2>
             <div class="counter">
-                <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
-                <input type="text" id="voicechats" value="0" readonly>
-                <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
-                <button class="reset" onclick="handleCounter(this, 'reset')">Reset</button>
+                <div class="main-buttons">
+                    <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
+                    <input type="text" id="voicechats" value="0" readonly>
+                    <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
+                </div>
             </div>
             <div class="points">Points: <span id="voicechats-points">0.0</span></div>
         </div>
@@ -787,10 +763,16 @@ footer {
         <div class="counter-section" data-id="images">
             <h2>Images</h2>
             <div class="counter">
-                <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
-                <input type="text" id="images" value="0" readonly>
-                <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
-                <button class="reset" onclick="handleCounter(this, 'reset')">Reset</button>
+                <div class="main-buttons">
+                    <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
+                    <input type="text" id="images" value="0" readonly>
+                    <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
+                </div>
+                <div class="extra-buttons">
+                    <button class="increment" onclick="handleCounter(this, 'increment', 3)">+3</button>
+                    <button class="increment" onclick="handleCounter(this, 'increment', 5)">+5</button>
+                    <button class="increment" onclick="handleCounter(this, 'increment', 10)">+10</button>
+                </div>
             </div>
             <div class="points">Points: <span id="images-points">0.0</span></div>
         </div>
@@ -798,10 +780,11 @@ footer {
         <div class="counter-section" data-id="audios">
             <h2>Audios</h2>
             <div class="counter">
-                <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
-                <input type="text" id="audios" value="0" readonly>
-                <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
-                <button class="reset" onclick="handleCounter(this, 'reset')">Reset</button>
+                <div class="main-buttons">
+                    <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
+                    <input type="text" id="audios" value="0" readonly>
+                    <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
+                </div>
             </div>
             <div class="points">Points: <span id="audios-points">0.0</span></div>
         </div>
@@ -809,10 +792,11 @@ footer {
         <div class="counter-section" data-id="mesh">
             <h2>Mesh 2D/3D</h2>
             <div class="counter">
-                <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
-                <input type="text" id="mesh" value="0" readonly>
-                <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
-                <button class="reset" onclick="handleCounter(this, 'reset')">Reset</button>
+                <div class="main-buttons">
+                    <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
+                    <input type="text" id="mesh" value="0" readonly>
+                    <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
+                </div>
             </div>
             <div class="points">Points: <span id="mesh-points">0.0</span></div>
         </div>
@@ -840,6 +824,13 @@ footer {
     <!-- Container for Achievement Popups -->
     <div class="achievement-container" id="achievementContainer"></div>
 
+    <!-- Reset Confirmation Popups -->
+    <div class="reset-popup" id="resetPopup">
+        <p id="resetMessage">Are you sure you want to reset all data?</p>
+        <button onclick="handleResetConfirmation()">Yes</button>
+        <button onclick="cancelReset()">Cancel</button>
+    </div>
+
     <script>
         // Theme Management
         const themes = ['default', 'dark1', 'dark2', 'dark3'];
@@ -865,16 +856,15 @@ footer {
         // Previous total points to track threshold crossing
         let previousTotal = 0;
 
-        /* ===========================
-           Time Spent Tracking Variables
-           =========================== */
-        let totalTimeSpent = 0; // Total accumulated time in seconds
-        let timerInterval = null; // Reference to the interval for the timer
+        // Reset Confirmation Variables
+        let resetConfirmations = 0;
+        const resetMessages = [
+            "Are you absolutely sure you want to reset all data?<br>",
+            "This action cannot be undone.<br>Do you still wish to proceed?",
+            "Final warning: <br>All your data will be lost.<br>Proceed?"
+        ];
 
-        // Initialize last increment time
-        let lastIncrementTime = 0;
-
-        // Load saved theme, data, and time on page load
+        // Load saved theme and data on page load
         window.onload = () => {
             const savedTheme = localStorage.getItem('selectedTheme');
             if (savedTheme) {
@@ -895,17 +885,12 @@ footer {
             document.getElementById('total-points').innerText = storedTotal.toFixed(1);
             previousTotal = storedTotal;
             checkAchievements(storedTotal);
-
-            // Initialize Time Spent
-            const savedTime = parseInt(localStorage.getItem('timeSpentInSeconds')) || 0;
-            totalTimeSpent = savedTime;
-            updateTimeDisplay();
         };
 
         function applyTheme(theme) {
             // Remove all theme classes except default
             document.body.classList.remove(...themes.filter(t => t !== 'default').map(t => `theme-${t}`));
-            
+
             if (theme !== 'default') {
                 document.body.classList.add(`theme-${theme}`);
             }
@@ -936,26 +921,20 @@ footer {
         });
 
         // Handle counter button actions
-        function handleCounter(button, action) {
+        function handleCounter(button, action, amount = 1) {
             const section = button.closest('.counter-section');
             const id = section.getAttribute('data-id');
             let count = parseInt(document.getElementById(id).value) || 0;
 
             let direction = ''; // To determine animation
 
-            if (action === 'increase') {
-                count += 1;
+            if (action === 'increase' || action === 'increment') {
+                count += amount;
                 direction = 'increase';
-            } else if (action === 'decrease' && count > 0) {
-                count -= 1;
+            } else if (action === 'decrease') {
+                count -= amount;
+                if (count < 0) count = 0;
                 direction = 'decrease';
-            } else if (action === 'reset') {
-                if (confirm("Are you sure you want to reset the count to zero?")) {
-                    direction = count > 0 ? 'decrease' : ''; // Only animate if resetting from a positive count
-                    count = 0;
-                } else {
-                    return;
-                }
             }
 
             // Update the count value
@@ -969,15 +948,7 @@ footer {
             updateTotalPoints();
 
             // Set dataChanged flag to true since data has been modified
-            if (action !== 'reset') {
-                dataChanged = true;
-                incrementTimeSpent(); // Track time on increase/decrease
-            }
-
-            // If reset, check if all counters are zero to reset time
-            if (action === 'reset') {
-                checkAllCountersReset();
-            }
+            dataChanged = true;
         }
 
         // Update points for a specific counter
@@ -1024,12 +995,12 @@ footer {
                 element.classList.add('increase-animation');
                 setTimeout(() => {
                     element.classList.remove('increase-animation');
-                }, 300); // Match the CSS transition duration
+                }, 300);
             } else if (direction === 'decrease') {
                 element.classList.add('decrease-animation');
                 setTimeout(() => {
                     element.classList.remove('decrease-animation');
-                }, 300); // Match the CSS transition duration
+                }, 300);
             }
         }
 
@@ -1067,7 +1038,7 @@ footer {
             // After 15 seconds, start the fadeOutSlideUp animation
             setTimeout(() => {
                 popup.style.animation = 'fadeOutSlideUp 0.5s forwards';
-            }, 15000); // 15000 milliseconds = 15 seconds
+            }, 15000);
 
             // Remove the popup from the DOM after the fade-out animation completes
             popup.addEventListener('animationend', (event) => {
@@ -1116,14 +1087,13 @@ footer {
         // Save data to modCounter.txt with the specified format
         function saveData() {
             // Check if there's any data to save
-            if (!dataChanged && totalTimeSpent === 0) {
+            if (!dataChanged) {
                 alert('No changes to save.');
                 return;
             }
 
             const timestamp = getFormattedTimestamp();
             const totalPoints = document.getElementById('total-points').innerText;
-            const timeSpent = formatTime(totalTimeSpent);
 
             // Collect data from all counters
             const counters = Object.keys(pointsPerCount).map(id => {
@@ -1132,9 +1102,9 @@ footer {
                 // Capitalize and format as "Item: count || Points: points"
                 return `${capitalizeFirstLetter(getDisplayName(id))}: ${count} || Points: ${points}`;
             }).join('\n');
-            
+
             // Format the data to be saved
-            const dataToSave = `--- Save at ${timestamp} ---\nTotal Points: ${totalPoints}\nTime Spent: ${timeSpent}\n${counters}\n\n`;
+            const dataToSave = `--- Save at ${timestamp} ---\nTotal Points: ${totalPoints}\n${counters}\n\n`;
 
             // Retrieve existing data from localStorage
             let existingData = localStorage.getItem('modCounterData') || '';
@@ -1160,11 +1130,8 @@ footer {
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
 
-            // Reset the dataChanged flag and time
+            // Reset the dataChanged flag
             dataChanged = false;
-            totalTimeSpent = 0;
-            localStorage.setItem('timeSpentInSeconds', totalTimeSpent);
-            updateTimeDisplay();
 
             // Notify the user
             alert('Data has been saved to modCounter.txt');
@@ -1205,7 +1172,6 @@ footer {
                 infoPopup.classList.remove('hide');
                 infoPopup.style.display = 'none';
             }
-            // No need to handle 'show' as it's already set
         });
 
         // Prevent data loss on page unload (optional since data is saved)
@@ -1215,60 +1181,51 @@ footer {
             return confirmationMessage;
         });
 
-        /* ===========================
-           Time Spent Tracking Script
-           =========================== */
-
-        // Function to format time as hh:mm:ss
-        function formatTime(seconds) {
-            const hrs = Math.floor(seconds / 3600);
-            const mins = Math.floor((seconds % 3600) / 60);
-            const secs = Math.floor(seconds % 60);
-            return `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
+        // Initiate Reset All Counters with Confirmation Popups
+        function initiateReset() {
+            resetConfirmations = 0;
+            showResetPopup();
         }
 
-        // Helper function to pad numbers with leading zeros
-        function pad(num) {
-            return num.toString().padStart(2, '0');
+        function showResetPopup() {
+            const resetPopup = document.getElementById('resetPopup');
+            const resetMessage = document.getElementById('resetMessage');
+            resetMessage.innerHTML = resetMessages[resetConfirmations];
+            resetPopup.style.display = 'block';
         }
 
-        // Function to update the Time Spent display
-        function updateTimeDisplay() {
-            const timeSpentElement = document.getElementById('time-spent');
-            timeSpentElement.innerText = `Time Spent: ${formatTime(totalTimeSpent)}`;
-        }
-
-        // Function to increment Time Spent on each Points action with throttling
-        function incrementTimeSpent() {
-            const now = Date.now();
-            if (now - lastIncrementTime >= 1000) { // 1000 milliseconds = 1 second
-                totalTimeSpent += 1;
-                localStorage.setItem('timeSpentInSeconds', totalTimeSpent);
-                updateTimeDisplay();
-                lastIncrementTime = now;
+        function handleResetConfirmation() {
+            resetConfirmations++;
+            if (resetConfirmations < resetMessages.length) {
+                showResetPopup();
+            } else {
+                // Perform the reset
+                resetAllCounters();
+                // Hide the popup
+                const resetPopup = document.getElementById('resetPopup');
+                resetPopup.style.display = 'none';
+                resetConfirmations = 0;
             }
         }
 
-        // Function to check if all counters are reset
-        function checkAllCountersReset() {
-            const counters = ['chats', 'voicechats', 'images', 'audios', 'mesh'];
-            const allReset = counters.every(id => parseInt(document.getElementById(id).value) === 0);
-            if (allReset) {
-                resetTimeSpent();
-            }
+        function cancelReset() {
+            const resetPopup = document.getElementById('resetPopup');
+            resetPopup.style.display = 'none';
+            resetConfirmations = 0;
         }
 
-        // Function to reset Time Spent
-        function resetTimeSpent() {
-            totalTimeSpent = 0;
-            localStorage.setItem('timeSpentInSeconds', totalTimeSpent);
-            updateTimeDisplay();
+        // Reset all counters
+        function resetAllCounters() {
+            Object.keys(pointsPerCount).forEach(id => {
+                document.getElementById(id).value = 0;
+                localStorage.setItem(id, 0);
+                updatePoints(id, 0, 'decrease');
+            });
+            updateTotalPoints();
+            // Set dataChanged flag to true
+            dataChanged = true;
         }
 
-        /* ===========================
-           End of Time Spent Tracking
-           =========================== */
     </script>
-
 </body>
 </html>

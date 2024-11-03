@@ -113,6 +113,46 @@
             --button-increment-bg-color: #28a745; /* Green color */
         }
 
+        /* New Soft Dark Themes */
+        .theme-dark4 {
+            --bg-gradient: linear-gradient(to bottom, #2b2b2b, #3d3d3d);
+            --text-color: #dcdcdc;
+            --section-bg-color: rgba(43, 43, 43, 0.95);
+            --section-border-color: #5a5a5a;
+            --section-text-color: #dcdcdc;
+            --footer-text-color: #dcdcdc;
+
+            --backlight-color: rgba(255, 255, 255, 0.1);
+
+            --button-increment-bg-color: #8bc34a; /* Light Green color */
+        }
+
+        .theme-dark5 {
+            --bg-gradient: linear-gradient(to bottom, #1c1c1c, #2a2a2a);
+            --text-color: #e0e0e0;
+            --section-bg-color: rgba(28, 28, 28, 0.95);
+            --section-border-color: #444444;
+            --section-text-color: #e0e0e0;
+            --footer-text-color: #e0e0e0;
+
+            --backlight-color: rgba(255, 255, 255, 0.15);
+
+            --button-increment-bg-color: #ff9800; /* Amber color */
+        }
+
+        .theme-dark6 {
+            --bg-gradient: linear-gradient(to bottom, #2e2e2e, #424242);
+            --text-color: #f0f0f0;
+            --section-bg-color: rgba(46, 46, 46, 0.95);
+            --section-border-color: #666666;
+            --section-text-color: #f0f0f0;
+            --footer-text-color: #f0f0f0;
+
+            --backlight-color: rgba(255, 255, 255, 0.2);
+
+            --button-increment-bg-color: #ff5722; /* Deep Orange color */
+        }
+
         /* Body Styling */
         body {
             font-family: 'Alata', sans-serif;
@@ -472,7 +512,12 @@
             font-family: 'Alata', sans-serif;
         }
 
-        .reset-popup button:hover {
+        .reset-popup button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .reset-popup button:hover:enabled {
             transform: scale(1.05);
             box-shadow: 0 0 15px var(--backlight-color), 0 6px 12px rgba(0, 0, 0, 0.3);
         }
@@ -791,13 +836,13 @@
     <!-- Reset Confirmation Popups -->
     <div class="reset-popup" id="resetPopup">
         <p id="resetMessage">Are you sure you want to reset all data?</p>
-        <button onclick="handleResetConfirmation()">Yes</button>
+        <button id="yesButton" onclick="handleResetConfirmation()">Yes</button>
         <button onclick="cancelReset()">Cancel</button>
     </div>
 
     <script>
         // Theme Management
-        const themes = ['default', 'dark1', 'dark2', 'dark3'];
+        const themes = ['default', 'dark1', 'dark2', 'dark3', 'dark4', 'dark5', 'dark6'];
         let currentThemeIndex = 0;
 
         const themeSwitcher = document.getElementById('themeSwitcher');
@@ -860,18 +905,38 @@
             }
 
             // Update theme switcher tooltip and icon
-            if (theme === 'default') {
-                themeSwitcher.innerHTML = '<i class="fas fa-sun"></i>';
-                themeSwitcher.setAttribute('data-tooltip', 'Default Theme');
-            } else if (theme === 'dark1') {
-                themeSwitcher.innerHTML = '<i class="fas fa-moon"></i>';
-                themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 1');
-            } else if (theme === 'dark2') {
-                themeSwitcher.innerHTML = '<i class="fas fa-cloud-moon"></i>';
-                themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 2');
-            } else if (theme === 'dark3') {
-                themeSwitcher.innerHTML = '<i class="fas fa-meteor"></i>';
-                themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 3');
+            switch (theme) {
+                case 'default':
+                    themeSwitcher.innerHTML = '<i class="fas fa-sun"></i>';
+                    themeSwitcher.setAttribute('data-tooltip', 'Default Theme');
+                    break;
+                case 'dark1':
+                    themeSwitcher.innerHTML = '<i class="fas fa-moon"></i>';
+                    themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 1');
+                    break;
+                case 'dark2':
+                    themeSwitcher.innerHTML = '<i class="fas fa-cloud-moon"></i>';
+                    themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 2');
+                    break;
+                case 'dark3':
+                    themeSwitcher.innerHTML = '<i class="fas fa-meteor"></i>';
+                    themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 3');
+                    break;
+                case 'dark4':
+                    themeSwitcher.innerHTML = '<i class="fas fa-cloud"></i>';
+                    themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 4');
+                    break;
+                case 'dark5':
+                    themeSwitcher.innerHTML = '<i class="fas fa-adjust"></i>';
+                    themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 5');
+                    break;
+                case 'dark6':
+                    themeSwitcher.innerHTML = '<i class="fas fa-circle"></i>';
+                    themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 6');
+                    break;
+                default:
+                    themeSwitcher.innerHTML = '<i class="fas fa-sun"></i>';
+                    themeSwitcher.setAttribute('data-tooltip', 'Default Theme');
             }
 
             // Save the selected theme
@@ -1147,14 +1212,21 @@
         function showResetPopup() {
             const resetPopup = document.getElementById('resetPopup');
             const resetMessage = document.getElementById('resetMessage');
+            const yesButton = document.getElementById('yesButton');
             resetMessage.innerHTML = resetMessages[resetConfirmations];
+            yesButton.disabled = false; // Ensure the button is enabled
             resetPopup.style.display = 'block';
         }
 
         function handleResetConfirmation() {
+            const yesButton = document.getElementById('yesButton');
+            yesButton.disabled = true; // Disable the button to prevent spam clicks
             resetConfirmations++;
             if (resetConfirmations < resetMessages.length) {
-                showResetPopup();
+                // Wait a bit before showing the next confirmation
+                setTimeout(() => {
+                    showResetPopup();
+                }, 500); // 500ms delay
             } else {
                 // Perform the reset
                 resetAllCounters();

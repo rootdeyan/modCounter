@@ -36,7 +36,7 @@
             --button-save-bg-color: #ffffff;
 
             /* Button Text Color */
-            --button-text-color: #ffffff;
+            --button-text-color: #000000;
 
             /* Popup Styles */
             --popup-bg-color: rgba(255, 255, 255, 0.95);
@@ -55,12 +55,12 @@
             --action-button-icon-color: black;
 
             /* Button Background Colors */
-            --button-decrease-bg-color: #d9534f;
-            --button-increase-bg-color: #5cb85c;
-            --button-reset-bg-color: #f0ad4e;
+            --button-decrease-bg-color: #ff0800cc;
+            --button-increase-bg-color: #2c922cda;
+            --button-reset-bg-color: #ff0800cc;
 
             /* Increment Button Colors */
-            --button-increment-bg-color: #28a745; /* Green color */
+            --button-increment-bg-color: #2c922cda; /* Green color */
 
             /* Glass Effect Background */
             --glass-bg-color: rgba(255, 255, 255, 0.9); /* White background */
@@ -69,8 +69,8 @@
             /* Animation Variables */
             --animation-duration: 0.3s;
             --animation-ease: ease-in-out;
-            --color-increase: #28a745;
-            --color-decrease: #dc3545;
+            --color-increase: #2c922cda;
+            --color-decrease: #ff0800cc;
         }
 
         /* Dark Themes */
@@ -84,7 +84,7 @@
 
             --backlight-color: rgba(255, 255, 255, 0.8); /* Changed from black to white */
 
-            --button-increment-bg-color: #28a745; /* Green color */
+            --button-increment-bg-color: #2c922cda; /* Green color */
         }
 
         .theme-dark2 {
@@ -97,7 +97,7 @@
 
             --backlight-color: rgba(255, 255, 255, 0.8); /* Changed from black to white */
 
-            --button-increment-bg-color: #28a745; /* Green color */
+            --button-increment-bg-color: #2c922cda; /* Green color */
         }
 
         .theme-dark3 {
@@ -110,7 +110,7 @@
 
             --backlight-color: rgba(255, 255, 255, 0.8); /* Already white, kept as is */
 
-            --button-increment-bg-color: #28a745; /* Green color */
+            --button-increment-bg-color: #2c922cda; /* Green color */
         }
 
         /* Soft Dark Themes */
@@ -124,7 +124,7 @@
 
             --backlight-color: rgba(255, 255, 255, 0.8); /* Increased opacity for better visibility */
 
-            --button-increment-bg-color: #8bc34a; /* Light Green color */
+            --button-increment-bg-color: #2c922cda; /* Light Green color */
         }
 
         .theme-dark5 {
@@ -137,7 +137,7 @@
 
             --backlight-color: rgba(255, 255, 255, 0.8); /* Increased opacity for better visibility */
 
-            --button-increment-bg-color: #ff9800; /* Amber color */
+            --button-increment-bg-color: #2c922cda; /* Amber color */
         }
 
         .theme-dark6 {
@@ -150,7 +150,7 @@
 
             --backlight-color: rgba(255, 255, 255, 0.8); /* Increased opacity for better visibility */
 
-            --button-increment-bg-color: #ff5722; /* Deep Orange color */
+            --button-increment-bg-color: #2c922cda; /* Deep Orange color */
         }
 
         /* Body Styling */
@@ -731,7 +731,7 @@
     <div class="counter-container">
         <div class="counter-section total-points-section">
             <h1>Totale: <span id="total-points">0.0</span></h1>
-            <button class="reset-all" onclick="initiateReset()">Inizializza tutto</button>
+            <button class="reset-all" onclick="initiateReset()">Azzera tutto</button>
             <!-- Action Buttons: Theme Switcher, Bookmark, Info, and Save -->
             <div class="action-buttons" id="actionButtons">
                 <!-- Theme Switcher Button -->
@@ -1235,7 +1235,7 @@
                 // Wait a bit before showing the next confirmation
                 setTimeout(() => {
                     showResetPopup();
-                }, 500); // 500ms delay
+                }, 1000); // 500ms delay
             } else {
                 // Perform the reset
                 resetAllCounters();

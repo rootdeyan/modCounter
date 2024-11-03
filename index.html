@@ -204,7 +204,7 @@
         .counter button {
             flex: 1 1 auto;
             min-width: 100px;
-            padding: 5px 15px; /* Decreased vertical padding, increased horizontal padding */
+            padding: 5px 15px;
             font-size: 1.6rem;
             font-weight: bold;
             margin: 2px;
@@ -225,7 +225,7 @@
         .counter button.increment {
             flex: 1 1 auto;
             min-width: 85px;
-            padding: 4px 12px; /* Decreased vertical padding, increased horizontal padding */
+            padding: 4px 12px;
             font-size: 1.1rem;
             background-color: var(--button-increment-bg-color);
         }
@@ -244,7 +244,7 @@
             border: none;
             border-radius: 8px;
             min-width: 280px;
-            padding: 12px 30px; /* Decreased vertical padding, increased horizontal padding */
+            padding: 12px 30px;
             font-size: 1.3rem;
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s, color 0.5s;
@@ -310,20 +310,16 @@
             transition: color 0.5s;
         }
 
-        /* Action Buttons Styling */
+        /* Updated Action Buttons Styling */
         .action-buttons {
-            position: fixed;
-            top: 50%;
-            left: 15px;
-            transform: translateY(-50%);
             display: flex;
-            flex-direction: column;
+            flex-direction: row; /* Arrange buttons horizontally */
             align-items: center;
+            justify-content: center;
             gap: 10px;
-            z-index: 1001;
+            margin-top: 10px; /* Add space above the buttons */
         }
 
-        /* Individual Action Buttons */
         .action-buttons .action-button {
             width: 45px;
             height: 45px;
@@ -337,22 +333,18 @@
             font-size: 1.1rem;
             font-weight: bold;
             transition:
-                opacity 0.3s,
                 transform 0.3s,
                 box-shadow 0.3s,
                 background-color 0.5s,
                 color 0.5s,
                 border-color 0.5s;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            opacity: 0.3;
-            pointer-events: auto;
             position: relative;
             background-color: var(--button-theme-switcher-bg-color);
         }
 
         .action-buttons .action-button:hover {
-            opacity: 1;
-            transform: scale(1.1);
+            transform: scale(1.05);
             box-shadow:
                 0 0 15px var(--backlight-color),
                 0 6px 12px rgba(0, 0, 0, 0.3);
@@ -362,9 +354,10 @@
         .action-buttons .action-button::after {
             content: attr(data-tooltip);
             position: absolute;
-            left: 55px;
-            top: 50%;
-            transform: translateY(-50%);
+            bottom: 100%; /* Position tooltip above the button */
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 5px; /* Gap between button and tooltip */
             background-color: rgba(0, 0, 0, 0.7);
             color: #fff;
             padding: 5px 10px;
@@ -444,7 +437,7 @@
         /* Reset Confirmation Popups */
         .reset-popup {
             display: none;
-            padding: 20px 30px; /* Decreased vertical padding, increased horizontal padding */
+            padding: 20px 30px;
             border-radius: 10px;
             background: var(--glass-bg-color);
             border: 3px solid var(--glass-border-color);
@@ -471,7 +464,7 @@
             color: black;
             border: none;
             border-radius: 8px;
-            padding: 8px 25px; /* Decreased vertical padding, increased horizontal padding */
+            padding: 8px 25px;
             font-size: 1rem;
             cursor: pointer;
             margin: 5px;
@@ -571,32 +564,18 @@
 
         /* Responsive Adjustments */
         @media screen and (max-width: 768px) {
-            .action-buttons {
-                left: 10px;
-            }
-
-            .action-buttons .action-button {
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
-            }
-
-            .action-buttons .action-button::after {
-                left: 50px;
-            }
-
             .counter-section h2 {
                 font-size: 1.4rem;
             }
 
             .counter button {
                 font-size: 1.5rem;
-                padding: 5px 12px; /* Adjusted for responsiveness */
+                padding: 5px 12px;
             }
 
             .counter button.increment {
                 font-size: 1rem;
-                padding: 3px 10px; /* Adjusted for responsiveness */
+                padding: 3px 10px;
             }
 
             .counter input {
@@ -626,26 +605,12 @@
             }
 
             .reset-all {
-                padding: 12px 28px; /* Adjusted padding */
+                padding: 12px 28px;
                 font-size: 1.2rem;
             }
         }
 
         @media screen and (max-width: 480px) {
-            .action-buttons {
-                left: 5px;
-            }
-
-            .action-buttons .action-button {
-                width: 35px;
-                height: 35px;
-                font-size: 0.9rem;
-            }
-
-            .action-buttons .action-button::after {
-                left: 45px;
-            }
-
             .counter-container {
                 padding: 0 5px;
             }
@@ -656,12 +621,12 @@
 
             .counter button {
                 font-size: 1.3rem;
-                padding: 4px 10px; /* Adjusted for small screens */
+                padding: 4px 10px;
             }
 
             .counter button.increment {
                 font-size: 0.9rem;
-                padding: 2px 8px; /* Adjusted for small screens */
+                padding: 2px 8px;
             }
 
             .counter input {
@@ -691,12 +656,12 @@
             }
 
             .reset-all {
-                padding: 10px 24px; /* Adjusted padding */
+                padding: 10px 24px;
                 font-size: 1.1rem;
             }
 
             .reset-popup {
-                padding: 15px 25px; /* Adjusted padding */
+                padding: 15px 25px;
             }
 
             .reset-popup p {
@@ -708,31 +673,30 @@
 </head>
 <body>
 
-    <!-- Action Buttons: Theme Switcher, Bookmark, Info, and Save -->
-    <div class="action-buttons" id="actionButtons">
-        <!-- Theme Switcher Button -->
-        <button class="action-button theme-switcher" id="themeSwitcher" data-tooltip="Switch Theme" aria-label="Switch Theme">
-            <i class="fas fa-sun"></i>
-        </button>
-        <!-- Bookmark Button -->
-        <button class="action-button bookmark-button" onclick="addBookmark()" data-tooltip="Add to Bookmarks" aria-label="Add to Bookmarks">
-            <i class="fas fa-bookmark"></i>
-        </button>
-        <!-- Info Button -->
-        <button class="action-button info-button" onclick="togglePopup()" data-tooltip="Information" aria-label="Information">
-            <i class="fas fa-info-circle"></i>
-        </button>
-        <!-- Save Button -->
-        <button class="action-button save-button" onclick="saveData()" data-tooltip="Save Data" aria-label="Save Data">
-            <i class="fas fa-save"></i>
-        </button>
-    </div>
-
     <!-- Total Points Section -->
     <div class="counter-container">
         <div class="counter-section total-points-section">
             <h1>Total Points: <span id="total-points">0.0</span></h1>
             <button class="reset-all" onclick="initiateReset()">Reset All</button>
+            <!-- Action Buttons: Theme Switcher, Bookmark, Info, and Save -->
+            <div class="action-buttons" id="actionButtons">
+                <!-- Theme Switcher Button -->
+                <button class="action-button theme-switcher" id="themeSwitcher" data-tooltip="Switch Theme" aria-label="Switch Theme">
+                    <i class="fas fa-sun"></i>
+                </button>
+                <!-- Bookmark Button -->
+                <button class="action-button bookmark-button" onclick="addBookmark()" data-tooltip="Add to Bookmarks" aria-label="Add to Bookmarks">
+                    <i class="fas fa-bookmark"></i>
+                </button>
+                <!-- Info Button -->
+                <button class="action-button info-button" onclick="togglePopup()" data-tooltip="Information" aria-label="Information">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+                <!-- Save Button -->
+                <button class="action-button save-button" onclick="saveData()" data-tooltip="Save Data" aria-label="Save Data">
+                    <i class="fas fa-save"></i>
+                </button>
+            </div>
         </div>
 
         <!-- Individual Counter Sections -->
@@ -1141,7 +1105,7 @@
         function getFormattedTimestamp() {
             const now = new Date();
             const day = String(now.getDate()).padStart(2, '0');
-            const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+            const month = String(now.getMonth() + 1).padStart(2, '0');
             const year = now.getFullYear();
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
@@ -1172,13 +1136,6 @@
                 infoPopup.classList.remove('hide');
                 infoPopup.style.display = 'none';
             }
-        });
-
-        // Prevent data loss on page unload (optional since data is saved)
-        window.addEventListener("beforeunload", function (e) {
-            const confirmationMessage = 'If you refresh the page, your data will be kept safely. No information will be lost.';
-            (e || window.event).returnValue = confirmationMessage;
-            return confirmationMessage;
         });
 
         // Initiate Reset All Counters with Confirmation Popups

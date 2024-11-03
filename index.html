@@ -581,11 +581,15 @@
 
         .achievement-popup.achievement-achieved {
             background-color: var(--achievement-achieved-bg-color);
+            border-style: solid;
+            border-color: #000000;
             color: var(--achievement-achieved-text-color);
         }
 
         .achievement-popup.achievement-surpassed {
             background-color: var(--achievement-surpassed-bg-color);
+            border-style: solid;
+            border-color: #000000;
             color: var(--achievement-surpassed-text-color);
         }
 
@@ -726,8 +730,8 @@
     <!-- Total Points Section -->
     <div class="counter-container">
         <div class="counter-section total-points-section">
-            <h1>Total Points: <span id="total-points">0.0</span></h1>
-            <button class="reset-all" onclick="initiateReset()">Reset All</button>
+            <h1>Totale: <span id="total-points">0.0</span></h1>
+            <button class="reset-all" onclick="initiateReset()">Inizializza tutto</button>
             <!-- Action Buttons: Theme Switcher, Bookmark, Info, and Save -->
             <div class="action-buttons" id="actionButtons">
                 <!-- Theme Switcher Button -->
@@ -751,7 +755,7 @@
 
         <!-- Individual Counter Sections -->
         <div class="counter-section" data-id="chats">
-            <h2>Chats</h2>
+            <h2>Text Abuse / Text Chat</h2>
             <div class="counter">
                 <div class="main-buttons">
                     <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
@@ -759,11 +763,11 @@
                     <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
                 </div>
             </div>
-            <div class="points">Points: <span id="chats-points">0.0</span></div>
+            <div class="points">Punti: <span id="chats-points">0.0</span></div>
         </div>
 
         <div class="counter-section" data-id="voicechats">
-            <h2>Voice Chats</h2>
+            <h2>Voice Chat</h2>
             <div class="counter">
                 <div class="main-buttons">
                     <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
@@ -771,11 +775,11 @@
                     <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
                 </div>
             </div>
-            <div class="points">Points: <span id="voicechats-points">0.0</span></div>
+            <div class="points">Punti: <span id="voicechats-points">0.0</span></div>
         </div>
 
         <div class="counter-section" data-id="images">
-            <h2>Images</h2>
+            <h2>Image</h2>
             <div class="counter">
                 <div class="main-buttons">
                     <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
@@ -788,11 +792,11 @@
                     <button class="increment" onclick="handleCounter(this, 'increment', 10)">+ 10</button>
                 </div>
             </div>
-            <div class="points">Points: <span id="images-points">0.0</span></div>
+            <div class="points">Punti: <span id="images-points">0.0</span></div>
         </div>
 
         <div class="counter-section" data-id="audios">
-            <h2>Audios</h2>
+            <h2>Audio</h2>
             <div class="counter">
                 <div class="main-buttons">
                     <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
@@ -800,11 +804,11 @@
                     <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
                 </div>
             </div>
-            <div class="points">Points: <span id="audios-points">0.0</span></div>
+            <div class="points">Punti: <span id="audios-points">0.0</span></div>
         </div>
 
         <div class="counter-section" data-id="mesh">
-            <h2>Mesh 2D/3D</h2>
+            <h2>Mesh 2D / 3D</h2>
             <div class="counter">
                 <div class="main-buttons">
                     <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
@@ -812,7 +816,7 @@
                     <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
                 </div>
             </div>
-            <div class="points">Points: <span id="mesh-points">0.0</span></div>
+            <div class="points">Punti: <span id="mesh-points">0.0</span></div>
         </div>
     </div>
 
@@ -841,8 +845,8 @@
     <!-- Reset Confirmation Popups -->
     <div class="reset-popup" id="resetPopup">
         <p id="resetMessage">Are you sure you want to reset all data?</p>
-        <button id="yesButton" onclick="handleResetConfirmation()">Yes</button>
-        <button onclick="cancelReset()">Cancel</button>
+        <button id="yesButton" onclick="handleResetConfirmation()">Si</button>
+        <button onclick="cancelReset()">No</button>
     </div>
 
     <script>
@@ -873,9 +877,9 @@
         // Reset Confirmation Variables
         let resetConfirmations = 0;
         const resetMessages = [
-            "Are you absolutely sure you want to reset all data?<br>",
-            "This action cannot be undone.<br>Do you still wish to proceed?",
-            "Final warning: <br>All your data will be lost.<br>Proceed?"
+            "Sei assolutamente sicuro di voler reimpostare tutti i dati?<br>",
+            "Vuoi comunque procedere?",
+            "<u>Avvertimento finale</u>: <br><i>Tutti i dati andranno persi.</i><br>Procedere?"
         ];
 
         // Load saved theme and data on page load
@@ -1060,10 +1064,10 @@
             popup.classList.add('achievement-popup');
             if (type === 'achieved') {
                 popup.classList.add('achievement-achieved');
-                popup.innerHTML = `🎉 <strong>Target of ${threshold} points reached!</strong>`;
+                popup.innerHTML = `🎉 <strong>Obiettivo di ${threshold} punti raggiunti!</strong>`;
             } else if (type === 'surpassed') {
                 popup.classList.add('achievement-surpassed');
-                popup.innerHTML = `🏆 <strong>Congratulations!<br>You surpassed ${threshold} points!</strong>`;
+                popup.innerHTML = `🏆 <strong>Congratulazioni!<br>Hai superato ${threshold} punti!</strong>`;
             }
 
             // Append the popup to the container

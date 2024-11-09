@@ -11,774 +11,790 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     /* Reset and Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-:root {
-    /* Theme Variables */
-    /* Default Theme Variables */
-    --bg-gradient: linear-gradient(to bottom, #003D5B, #25E2CC);
-    --text-color: #ffffff;
-    --section-bg-color: rgba(255, 255, 255, 0.85);
-    --section-border-color: #dddddd;
-    --section-text-color: #003D5B;
-    --footer-text-color: #000000;
-
-    /* Backlight Color for Light Theme */
-    --backlight-color: rgba(0, 0, 0, 0.8); /* Changed from white to black */
-
-    /* Action Button Colors */
-    --button-theme-switcher-bg-color: #ffffff;
-    --button-bookmark-bg-color: #ffffff;
-    --button-info-bg-color: #ffffff;
-    --button-save-bg-color: #ffffff;
-
-    /* Button Text Color */
-    --button-text-color: #000000;
-
-    /* Popup Styles */
-    --popup-bg-color: rgba(255, 255, 255, 0.95);
-    --popup-text-color: #003D5B;
-
-    /* Achievement Popup Styles */
-    --achievement-achieved-bg-color: #d4edda;
-    --achievement-achieved-text-color: #000000;
-    --achievement-surpassed-bg-color: #ffcc80;
-    --achievement-surpassed-text-color: #000000;
-
-    /* Button Border Color */
-    --button-border-color: black;
-
-    /* Action Buttons Icon Color */
-    --action-button-icon-color: black;
-
-    /* Button Background Colors */
-    --button-decrease-bg-color: #ff9900;
-    --button-increase-bg-color: #3dca3d;
-    --button-reset-bg-color: #ff9900;
-
-    /* Increment Button Colors */
-    --button-increment-bg-color: #3dca3d; /* Green color */
-
-    /* Glass Effect Background */
-    --glass-bg-color: rgba(255, 255, 255, 0.9); /* White background */
-    --glass-border-color: rgba(0, 0, 0, 0.8); /* Black border */
-
-    /* Animation Variables */
-    --animation-duration: 0.3s;
-    --animation-ease: ease-in-out;
-    --color-increase: #3dca3d;
-    --color-decrease: #ff9900;
-}
-
-/* Dark Themes */
-.theme-dark1 {
-    --bg-gradient: linear-gradient(to bottom, #1e1e2f, #9a8c98);
-    --text-color: #e0e0e0;
-    --section-bg-color: rgba(30, 30, 47, 0.9);
-    --section-border-color: #5a5a7f;
-    --section-text-color: #e0e0e0;
-    --footer-text-color: #000000;
-
-    --backlight-color: rgba(255, 255, 255, 0.8); /* Changed from black to white */
-
-    --button-increment-bg-color: #3dca3d; /* Green color */
-}
-
-.theme-dark2 {
-    --bg-gradient: linear-gradient(to bottom, #2c3e50, #34495e);
-    --text-color: #ecf0f1;
-    --section-bg-color: rgba(44, 62, 80, 0.9);
-    --section-border-color: #7f8c8d;
-    --section-text-color: #ecf0f1;
-    --footer-text-color: #ffffff;
-
-    --backlight-color: rgba(255, 255, 255, 0.8); /* Changed from black to white */
-
-    --button-increment-bg-color: #3dca3d; /* Green color */
-}
-
-.theme-dark3 {
-    --bg-gradient: linear-gradient(to bottom, #000000, #434343);
-    --text-color: #f5f5f5;
-    --section-bg-color: rgba(0, 0, 0, 0.9);
-    --section-border-color: #555555;
-    --section-text-color: #f5f5f5;
-    --footer-text-color: #f5f5f5;
-
-    --backlight-color: rgba(255, 255, 255, 0.8); /* Already white, kept as is */
-
-    --button-increment-bg-color: #3dca3d; /* Green color */
-}
-
-/* Soft Dark Themes */
-.theme-dark4 {
-    --bg-gradient: linear-gradient(to bottom, #2b2b2b, #3d3d3d);
-    --text-color: #dcdcdc;
-    --section-bg-color: rgba(43, 43, 43, 0.95);
-    --section-border-color: #5a5a5a;
-    --section-text-color: #dcdcdc;
-    --footer-text-color: #dcdcdc;
-
-    --backlight-color: rgba(255, 255, 255, 0.8); /* Increased opacity for better visibility */
-
-    --button-increment-bg-color: #3dca3d; /* Light Green color */
-}
-
-.theme-dark5 {
-    --bg-gradient: linear-gradient(to bottom, #1c1c1c, #2a2a2a);
-    --text-color: #e0e0e0;
-    --section-bg-color: rgba(28, 28, 28, 0.95);
-    --section-border-color: #444444;
-    --section-text-color: #e0e0e0;
-    --footer-text-color: #e0e0e0;
-
-    --backlight-color: rgba(255, 255, 255, 0.8); /* Increased opacity for better visibility */
-
-    --button-increment-bg-color: #3dca3d; /* Amber color */
-}
-
-.theme-dark6 {
-    --bg-gradient: linear-gradient(to bottom, #2e2e2e, #424242);
-    --text-color: #f0f0f0;
-    --section-bg-color: rgba(46, 46, 46, 0.95);
-    --section-border-color: #666666;
-    --section-text-color: #f0f0f0;
-    --footer-text-color: #f0f0f0;
-
-    --backlight-color: rgba(255, 255, 255, 0.8); /* Increased opacity for better visibility */
-
-    --button-increment-bg-color: #3dca3d; /* Deep Orange color */
-}
-
-/* Body Styling */
-body {
-    font-family: 'Alata', sans-serif;
-    background: var(--bg-gradient);
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin: 0;
-    padding: 10px;
-    color: var(--text-color);
-    transition: background 0.5s, color 0.5s;
-}
-
-/* Counter Container Styling */
-.counter-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    gap: 5px;
-}
-
-/* Individual Counter Sections */
-.counter-section {
-    background-color: var(--section-bg-color);
-    margin: 2px;
-    padding: 10px;
-    flex: 1 1 280px;
-    max-width: 450px;
-    text-align: center;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    color: var(--section-text-color);
-    border: 1px solid var(--section-border-color);
-    transition: background-color 0.5s, border-color 0.5s, color 0.5s, box-shadow 0.3s;
-    position: relative;
-}
-
-/* Backlight Animation on Hover for Counter Sections */
-.counter-section:hover {
-    box-shadow:
-        0 0 20px var(--backlight-color),
-        0 4px 15px var(--backlight-color),
-        0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Specific Style for Total Points Section */
-.counter-section.total-points-section h1 {
-    font-size: 2rem;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.counter-section.total-points-section {
-    padding: 10px;
-}
-
-.counter-section h2 {
-    margin-bottom: 8px;
-    font-size: 1.6rem;
-}
-
-.counter {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 8px;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.counter .main-buttons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.counter .extra-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-}
-
-.counter button {
-    flex: 1 1 auto;
-    min-width: 100px;
-    padding: 5px 15px;
-    font-size: 1.6rem;
-    font-weight: bold;
-    margin: 2px;
-    cursor: pointer;
-    border: none;
-    border-radius: 8px;
-    color: var(--button-text-color);
-    transition:
-        transform 0.3s,
-        box-shadow 0.3s,
-        background-color 0.5s,
-        color 0.5s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    font-family: 'Alata', sans-serif;
-}
-
-.counter button.increment {
-    flex: 1 1 auto;
-    min-width: 85px;
-    padding: 4px 12px;
-    font-size: 1.1rem;
-    background-color: var(--button-increment-bg-color);
-}
-
-.counter button.decrease {
-    background-color: var(--button-decrease-bg-color);
-}
-
-.counter button.increase {
-    background-color: var(--button-increase-bg-color);
-}
-
-.reset-all {
-    background-color: var(--button-reset-bg-color);
-    color: var(--button-text-color);
-    border: none;
-    border-radius: 8px;
-    min-width: 280px;
-    padding: 12px 30px;
-    font-size: 1.3rem;
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s, color 0.5s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-top: 10px;
-    font-family: 'Alata', sans-serif;
-}
-
-/* Enhanced Hover Effect for Counter Buttons */
-.counter button:hover,
-.reset-all:hover {
-    transform: scale(1.05);
-    box-shadow:
-        0 0 15px var(--backlight-color),
-        0 6px 12px var(--backlight-color),
-        0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.counter input {
-    width: 60px;
-    text-align: center;
-    font-size: 1.8rem;
-    border: none;
-    background: transparent;
-    color: var(--section-text-color);
-    pointer-events: none;
-    font-weight: bold;
-    position: relative;
-    transition: color var(--animation-duration) var(--animation-ease);
-}
-
-.increase-animation {
-    color: var(--color-increase);
-    transition: color var(--animation-duration) var(--animation-ease);
-}
-
-.decrease-animation {
-    color: var(--color-decrease);
-    transition: color var(--animation-duration) var(--animation-ease);
-}
-
-.points {
-    font-size: 1.4rem;
-    font-weight: bold;
-    position: relative;
-    transition: color var(--animation-duration) var(--animation-ease);
-}
-
-.points.increase-animation {
-    color: var(--color-increase);
-    transition: color var(--animation-duration) var(--animation-ease);
-}
-
-.points.decrease-animation {
-    color: var(--color-decrease);
-    transition: color var(--animation-duration) var(--animation-ease);
-}
-
-footer {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 1rem;
-    color: var(--footer-text-color);
-    transition: color 0.5s;
-}
-
-/* Updated Action Buttons Styling */
-.action-buttons {
-    display: flex;
-    flex-direction: row; /* Arrange buttons horizontally */
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 10px; /* Add space above the buttons */
-}
-
-.action-buttons .action-button {
-    width: 45px;
-    height: 45px;
-    border: 2px solid var(--button-border-color);
-    border-radius: 50%;
-    background-color: var(--button-theme-switcher-bg-color);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    font-weight: bold;
-    transition:
-        transform 0.3s,
-        box-shadow 0.3s,
-        background-color 0.5s,
-        color 0.5s,
-        border-color 0.5s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: relative;
-    background-color: var(--button-theme-switcher-bg-color);
-}
-
-.action-buttons .action-button:hover {
-    transform: scale(1.05);
-    box-shadow:
-        0 0 15px var(--backlight-color),
-        0 6px 12px var(--backlight-color),
-        0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Tooltip Styles for Action Buttons */
-.action-buttons .action-button::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 100%; /* Position tooltip above the button */
-    left: 50%;
-    transform: translateX(-50%);
-    margin-bottom: 5px; /* Gap between button and tooltip */
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 4px;
-    white-space: nowrap;
-    font-size: 0.8rem;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-    z-index: 3;
-}
-
-.action-buttons .action-button:hover::after {
-    opacity: 1;
-}
-
-/* Popup Styling */
-.popup {
-    display: none;
-    padding: 15px;
-    border-radius: 6px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    font-size: 1rem;
-    z-index: 1002;
-    opacity: 0;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    border: 1px solid var(--section-border-color);
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) translateX(-20px);
-    background-color: var(--popup-bg-color);
-    color: var(--popup-text-color);
-    max-width: 400px;
-    width: 90%;
-    overflow: auto;
-    max-height: calc(100vh - 40px);
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-/* Show and hide animations for Popups */
-.popup.show {
-    display: block;
-    animation: fadeInSlideRight 0.5s forwards;
-}
-
-.popup.hide {
-    animation: fadeOutSlideLeft 0.5s forwards;
-}
-
-/* Close Button Styling */
-.popup .close-btn {
-    position: absolute;          /* Position the button absolutely within the popup */
-    top: 10px;                   /* 10px from the top */
-    right: 10px;                 /* 10px from the right */
-    width: 24px;                 /* Width of the button */
-    height: 24px;                /* Height of the button */
-    background: transparent;     /* Transparent background */
-    border: none;                /* No border */
-    font-size: 1.2rem;           /* Font size for the × symbol */
-    font-weight: bold;           /* Bold font for better visibility */
-    color: var(--popup-text-color); /* Color from CSS variables */
-    cursor: pointer;             /* Pointer cursor on hover */
-    transition: color 0.3s, transform 0.3s; /* Smooth transition for color and scale */
-    outline: none;               /* Remove default outline */
-    z-index: 1003;               /* Ensure the button stays above other elements */
-}
-
-/* Hover effect for the close button */
-.popup .close-btn:hover {
-    color: var(--button-decrease-bg-color); /* Change color on hover */
-    transform: scale(1.2);                   /* Slightly enlarge the button on hover */
-}
-
-/* Focus effect for accessibility */
-.popup .close-btn:focus {
-    outline: 2px solid var(--button-decrease-bg-color); /* Visible outline when focused */
-    border-radius: 50%;                                /* Rounded outline */
-}
-
-/* Popup Text Styling */
-.popup h3 {
-    font-size: 1.5rem; /* Adjust as needed */
-    margin-bottom: 10px;
-}
-
-.popup p {
-    font-size: 1rem;
-    line-height: 1.5;
-}
-
-/* Update Popup Specific Styles */
-#updatePopup .refresh-btn {
-    background-color: var(--button-increment-bg-color);
-    color: var(--button-text-color);
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: transform 0.3s, box-shadow 0.3s;
-    font-family: 'Alata', sans-serif;
-}
-
-#updatePopup .refresh-btn:hover {
-    transform: scale(1.05);
-    box-shadow:
-        0 0 15px var(--backlight-color),
-        0 6px 12px var(--backlight-color),
-        0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Reset Confirmation Popups */
-.reset-popup {
-    display: none;
-    padding: 20px 30px;
-    border-radius: 10px;
-    background: var(--glass-bg-color);
-    border: 3px solid var(--glass-border-color);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    font-size: 1.2rem;
-    color: black;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1003;
-    text-align: center;
-    max-width: 400px;
-    width: 90%;
-    overflow: hidden;
-}
-
-.reset-popup p {
-    margin-bottom: 20px;
-    font-size: 1.4rem;
-}
-
-.reset-popup button {
-    background-color: var(--button-reset-bg-color);
-    color: black;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 25px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin: 5px;
-    transition: transform 0.3s, box-shadow 0.3s;
-    font-family: 'Alata', sans-serif;
-}
-
-.reset-popup button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.reset-popup button:hover:enabled {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px var(--backlight-color), 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-/* Popup Animations */
-@keyframes fadeInSlideRight {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -50%) translateX(-40px);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, -50%) translateX(0);
-    }
-}
-
-@keyframes fadeOutSlideLeft {
-    from {
-        opacity: 1;
-        transform: translate(-50%, -50%) translateX(0);
-    }
-    to {
-        opacity: 0;
-        transform: translate(-50%, -50%) translateX(-40px);
-    }
-}
-
-/* Achievement Popup Styling */
-.achievement-container {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1002;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Styles for Individual Achievement Popups */
-.achievement-popup {
-    background-color: var(--popup-bg-color);
-    color: var(--popup-text-color);
-    width: 400px;
-    max-width: 90%;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    font-size: 1rem;
-    text-align: center;
-    opacity: 0;
-    animation: fadeInSlideDown 0.5s forwards;
-    position: relative;
-}
-
-.achievement-popup.achievement-achieved {
-    background-color: var(--achievement-achieved-bg-color);
-    border-style: solid;
-    border-color: #000000;
-    color: var(--achievement-achieved-text-color);
-}
-
-.achievement-popup.achievement-surpassed {
-    background-color: var(--achievement-surpassed-bg-color);
-    border-style: solid;
-    border-color: #000000;
-    color: var(--achievement-surpassed-text-color);
-}
-
-/* Achievement Popup Animations */
-@keyframes fadeInSlideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeOutSlideUp {
-    from {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    to {
-        opacity: 0;
-        transform: translateY(-40px);
-    }
-}
-
-/* Responsive Adjustments */
-
-/* Medium Screens */
-@media screen and (max-width: 768px) {
-    .counter-section h2 {
-        font-size: 1.4rem;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    .counter button {
-        font-size: 1.5rem;
-        padding: 5px 12px;
+    :root {
+      /* Theme Variables */
+      /* Default Theme Variables */
+      --bg-gradient: linear-gradient(to bottom, #003D5B, #25E2CC);
+      --text-color: #ffffff;
+      --section-bg-color: rgba(255, 255, 255, 0.85);
+      --section-border-color: #dddddd;
+      --section-text-color: #003D5B;
+      --footer-text-color: #000000;
+
+      /* Backlight Color for Light Theme */
+      --backlight-color: rgba(0, 0, 0, 0.8); /* Changed from white to black */
+
+      /* Action Button Colors */
+      --button-theme-switcher-bg-color: #ffffff;
+      --button-bookmark-bg-color: #ffffff;
+      --button-info-bg-color: #ffffff;
+      --button-save-bg-color: #ffffff;
+
+      /* Button Text Color */
+      --button-text-color: #000000;
+
+      /* Popup Styles */
+      --popup-bg-color: rgba(255, 255, 255, 0.95);
+      --popup-text-color: #003D5B;
+
+      /* Achievement Popup Styles */
+      --achievement-achieved-bg-color: #d4edda;
+      --achievement-achieved-text-color: #000000;
+      --achievement-surpassed-bg-color: #ffcc80;
+      --achievement-surpassed-text-color: #000000;
+
+      /* Button Border Color */
+      --button-border-color: black;
+
+      /* Action Buttons Icon Color */
+      --action-button-icon-color: black;
+
+      /* Button Background Colors */
+      --button-decrease-bg-color: #ff9900;
+      --button-increase-bg-color: #3dca3d;
+      --button-reset-bg-color: #ff9900;
+
+      /* Increment Button Colors */
+      --button-increment-bg-color: #3dca3d; /* Green color */
+
+      /* Glass Effect Background */
+      --glass-bg-color: rgba(255, 255, 255, 0.9); /* White background */
+      --glass-border-color: rgba(0, 0, 0, 0.8); /* Black border */
+
+      /* Animation Variables */
+      --animation-duration: 0.3s;
+      --animation-ease: ease-in-out;
+      --color-increase: #3dca3d;
+      --color-decrease: #ff9900;
     }
 
-    .counter button.increment {
-        font-size: 1rem;
-        padding: 3px 10px;
+    /* Dark Themes */
+    .theme-dark1 {
+      --bg-gradient: linear-gradient(to bottom, #1e1e2f, #9a8c98);
+      --text-color: #e0e0e0;
+      --section-bg-color: rgba(30, 30, 47, 0.9);
+      --section-border-color: #5a5a7f;
+      --section-text-color: #e0e0e0;
+      --footer-text-color: #000000;
+
+      --backlight-color: rgba(255, 255, 255, 0.8); /* Changed from black to white */
+
+      --button-increment-bg-color: #3dca3d; /* Green color */
     }
 
-    .counter input {
-        width: 55px;
-        font-size: 1.6rem;
+    .theme-dark2 {
+      --bg-gradient: linear-gradient(to bottom, #2c3e50, #34495e);
+      --text-color: #ecf0f1;
+      --section-bg-color: rgba(44, 62, 80, 0.9);
+      --section-border-color: #7f8c8d;
+      --section-text-color: #ecf0f1;
+      --footer-text-color: #ffffff;
+
+      --backlight-color: rgba(255, 255, 255, 0.8); /* Changed from black to white */
+
+      --button-increment-bg-color: #3dca3d; /* Green color */
     }
 
-    .points {
-        font-size: 1.2rem;
+    .theme-dark3 {
+      --bg-gradient: linear-gradient(to bottom, #000000, #434343);
+      --text-color: #f5f5f5;
+      --section-bg-color: rgba(0, 0, 0, 0.9);
+      --section-border-color: #555555;
+      --section-text-color: #f5f5f5;
+      --footer-text-color: #f5f5f5;
+
+      --backlight-color: rgba(255, 255, 255, 0.8); /* Already white, kept as is */
+
+      --button-increment-bg-color: #3dca3d; /* Green color */
     }
 
-    .popup {
-        font-size: 1rem; /* Ensure text isn't too small */
+    /* Soft Dark Themes */
+    .theme-dark4 {
+      --bg-gradient: linear-gradient(to bottom, #2b2b2b, #3d3d3d);
+      --text-color: #dcdcdc;
+      --section-bg-color: rgba(43, 43, 43, 0.95);
+      --section-border-color: #5a5a5a;
+      --section-text-color: #dcdcdc;
+      --footer-text-color: #dcdcdc;
+
+      --backlight-color: rgba(255, 255, 255, 0.8); /* Increased opacity for better visibility */
+
+      --button-increment-bg-color: #3dca3d; /* Light Green color */
     }
 
-    .popup h3 {
-        font-size: 1.5rem;
+    .theme-dark5 {
+      --bg-gradient: linear-gradient(to bottom, #1c1c1c, #2a2a2a);
+      --text-color: #e0e0e0;
+      --section-bg-color: rgba(28, 28, 28, 0.95);
+      --section-border-color: #444444;
+      --section-text-color: #e0e0e0;
+      --footer-text-color: #e0e0e0;
+
+      --backlight-color: rgba(255, 255, 255, 0.8); /* Increased opacity for better visibility */
+
+      --button-increment-bg-color: #3dca3d; /* Amber color */
     }
 
-    .popup p {
-        font-size: 1rem;
+    .theme-dark6 {
+      --bg-gradient: linear-gradient(to bottom, #2e2e2e, #424242);
+      --text-color: #f0f0f0;
+      --section-bg-color: rgba(46, 46, 46, 0.95);
+      --section-border-color: #666666;
+      --section-text-color: #f0f0f0;
+      --footer-text-color: #f0f0f0;
+
+      --backlight-color: rgba(255, 255, 255, 0.8); /* Increased opacity for better visibility */
+
+      --button-increment-bg-color: #3dca3d; /* Deep Orange color */
     }
 
-    #updatePopup .refresh-btn {
-        font-size: 1rem;
+    /* New Themes with Background Images and Blur Effect */
+
+    /* Apply the background image and blur effect when these themes are active */
+    body.theme-image1::before,
+    body.theme-image2::before,
+    body.theme-image3::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-size: cover;
+      background-position: center;
+      filter: blur(5px);
+      z-index: -1;
     }
 
-    .popup .close-btn {
-        font-size: 1rem;
+    /* Specific Background Images for Each Theme */
+    body.theme-image1::before {
+      background-image: url('backgroundOne.jpg');
     }
-}
 
-/* Small Screens */
-@media screen and (max-width: 480px) {
+    body.theme-image2::before {
+      background-image: url('backgroundTwo.png');
+    }
+
+    body.theme-image3::before {
+      background-image: url('background3.png');
+    }
+
+    /* Body Styling */
+    body {
+      font-family: 'Alata', sans-serif;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-size: cover;
+      margin: 0;
+      padding: 10px;
+      color: var(--text-color);
+      transition: background 0.5s, color 0.5s;
+    }
+
+    /* Counter Container Styling */
     .counter-container {
-        padding: 0 5px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 5px;
+    }
+
+    /* Individual Counter Sections */
+    .counter-section {
+      background-color: var(--section-bg-color);
+      margin: 2px;
+      padding: 10px;
+      flex: 1 1 280px;
+      max-width: 450px;
+      text-align: center;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      color: var(--section-text-color);
+      border: 1px solid var(--section-border-color);
+      transition: background-color 0.5s, border-color 0.5s, color 0.5s, box-shadow 0.3s;
+      position: relative;
+    }
+
+    /* Backlight Animation on Hover for Counter Sections */
+    .counter-section:hover {
+      box-shadow: 0 0 20px var(--backlight-color), 0 4px 15px var(--backlight-color),
+        0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Specific Style for Total Points Section */
+    .counter-section.total-points-section h1 {
+      font-size: 2rem;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .counter-section.total-points-section {
+      padding: 10px;
     }
 
     .counter-section h2 {
-        font-size: 1.2rem;
+      margin-bottom: 8px;
+      font-size: 1.6rem;
+    }
+
+    .counter {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .counter .main-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .counter .extra-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
     }
 
     .counter button {
-        font-size: 1.3rem;
-        padding: 4px 10px;
+      flex: 1 1 auto;
+      min-width: 100px;
+      padding: 5px 15px;
+      font-size: 1.6rem;
+      font-weight: bold;
+      margin: 2px;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      color: var(--button-text-color);
+      transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s, color 0.5s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      font-family: 'Alata', sans-serif;
     }
 
     .counter button.increment {
-        font-size: 0.9rem;
-        padding: 2px 8px;
+      flex: 1 1 auto;
+      min-width: 85px;
+      padding: 4px 12px;
+      font-size: 1.1rem;
+      background-color: var(--button-increment-bg-color);
     }
 
-    .counter input {
-        width: 50px;
-        font-size: 1.4rem;
+    .counter button.decrease {
+      background-color: var(--button-decrease-bg-color);
     }
 
-    .points {
-        font-size: 1rem;
-    }
-
-    .popup {
-        font-size: 1.1rem; /* Slightly larger for better readability */
-    }
-
-    .popup h3 {
-        font-size: 1.6rem;
-    }
-
-    .popup p {
-        font-size: 1.1rem;
-    }
-
-    #updatePopup .refresh-btn {
-        font-size: 1.1rem;
-    }
-
-    .popup .close-btn {
-        font-size: 1.1rem;
-    }
-
-    .popup {
-        max-width: 300px;
-        width: 90%;
-        padding: 10px;
-    }
-
-    .popup .close-btn {
-        width: 18px;
-        height: 18px;
-    }
-
-    .counter-section.total-points-section h1 {
-        font-size: 1.6rem;
+    .counter button.increase {
+      background-color: var(--button-increase-bg-color);
     }
 
     .reset-all {
-        padding: 10px 24px;
-        font-size: 1.1rem;
+      background-color: var(--button-reset-bg-color);
+      color: var(--button-text-color);
+      border: none;
+      border-radius: 8px;
+      min-width: 280px;
+      padding: 12px 30px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s, color 0.5s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      margin-top: 10px;
+      font-family: 'Alata', sans-serif;
     }
 
+    /* Enhanced Hover Effect for Counter Buttons */
+    .counter button:hover,
+    .reset-all:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px var(--backlight-color), 0 6px 12px var(--backlight-color),
+        0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .counter input {
+      width: 60px;
+      text-align: center;
+      font-size: 1.8rem;
+      border: none;
+      background: transparent;
+      color: var(--section-text-color);
+      pointer-events: none;
+      font-weight: bold;
+      position: relative;
+      transition: color var(--animation-duration) var(--animation-ease);
+    }
+
+    .increase-animation {
+      color: var(--color-increase);
+      transition: color var(--animation-duration) var(--animation-ease);
+    }
+
+    .decrease-animation {
+      color: var(--color-decrease);
+      transition: color var(--animation-duration) var(--animation-ease);
+    }
+
+    .points {
+      font-size: 1.4rem;
+      font-weight: bold;
+      position: relative;
+      transition: color var(--animation-duration) var(--animation-ease);
+    }
+
+    .points.increase-animation {
+      color: var(--color-increase);
+      transition: color var(--animation-duration) var(--animation-ease);
+    }
+
+    .points.decrease-animation {
+      color: var(--color-decrease);
+      transition: color var(--animation-duration) var(--animation-ease);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 1rem;
+      color: var(--footer-text-color);
+      transition: color 0.5s;
+    }
+
+    /* Updated Action Buttons Styling */
+    .action-buttons {
+      display: flex;
+      flex-direction: row; /* Arrange buttons horizontally */
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px; /* Add space above the buttons */
+    }
+
+    .action-buttons .action-button {
+      width: 45px;
+      height: 45px;
+      border: 2px solid var(--button-border-color);
+      border-radius: 50%;
+      background-color: var(--button-theme-switcher-bg-color);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: bold;
+      transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s, color 0.5s,
+        border-color 0.5s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      position: relative;
+      background-color: var(--button-theme-switcher-bg-color);
+    }
+
+    .action-buttons .action-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px var(--backlight-color), 0 6px 12px var(--backlight-color),
+        0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Tooltip Styles for Action Buttons */
+    .action-buttons .action-button::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%; /* Position tooltip above the button */
+      left: 50%;
+      transform: translateX(-50%);
+      margin-bottom: 5px; /* Gap between button and tooltip */
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+      font-size: 0.8rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .action-buttons .action-button:hover::after {
+      opacity: 1;
+    }
+
+    /* Popup Styling */
+    .popup {
+      display: none;
+      padding: 15px;
+      border-radius: 6px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      font-size: 1rem;
+      z-index: 1002;
+      opacity: 0;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      border: 1px solid var(--section-border-color);
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) translateX(-20px);
+      background-color: var(--popup-bg-color);
+      color: var(--popup-text-color);
+      max-width: 400px;
+      width: 90%;
+      overflow: auto;
+      max-height: calc(100vh - 40px);
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Show and hide animations for Popups */
+    .popup.show {
+      display: block;
+      animation: fadeInSlideRight 0.5s forwards;
+    }
+
+    .popup.hide {
+      animation: fadeOutSlideLeft 0.5s forwards;
+    }
+
+    /* Close Button Styling */
+    .popup .close-btn {
+      position: absolute; /* Position the button absolutely within the popup */
+      top: 10px; /* 10px from the top */
+      right: 10px; /* 10px from the right */
+      width: 24px; /* Width of the button */
+      height: 24px; /* Height of the button */
+      background: transparent; /* Transparent background */
+      border: none; /* No border */
+      font-size: 1.2rem; /* Font size for the × symbol */
+      font-weight: bold; /* Bold font for better visibility */
+      color: var(--popup-text-color); /* Color from CSS variables */
+      cursor: pointer; /* Pointer cursor on hover */
+      transition: color 0.3s, transform 0.3s; /* Smooth transition for color and scale */
+      outline: none; /* Remove default outline */
+      z-index: 1003; /* Ensure the button stays above other elements */
+    }
+
+    /* Hover effect for the close button */
+    .popup .close-btn:hover {
+      color: var(--button-decrease-bg-color); /* Change color on hover */
+      transform: scale(1.2); /* Slightly enlarge the button on hover */
+    }
+
+    /* Focus effect for accessibility */
+    .popup .close-btn:focus {
+      outline: 2px solid var(--button-decrease-bg-color); /* Visible outline when focused */
+      border-radius: 50%; /* Rounded outline */
+    }
+
+    /* Popup Text Styling */
+    .popup h3 {
+      font-size: 1.5rem; /* Adjust as needed */
+      margin-bottom: 10px;
+    }
+
+    .popup p {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    /* Update Popup Specific Styles */
+    #updatePopup .refresh-btn {
+      background-color: var(--button-increment-bg-color);
+      color: var(--button-text-color);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      font-family: 'Alata', sans-serif;
+    }
+
+    #updatePopup .refresh-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px var(--backlight-color), 0 6px 12px var(--backlight-color),
+        0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Reset Confirmation Popups */
     .reset-popup {
-        padding: 15px 25px;
+      display: none;
+      padding: 20px 30px;
+      border-radius: 10px;
+      background: var(--glass-bg-color);
+      border: 3px solid var(--glass-border-color);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      font-size: 1.2rem;
+      color: black;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1003;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      overflow: hidden;
     }
 
     .reset-popup p {
-        font-size: 1.2rem;
+      margin-bottom: 20px;
+      font-size: 1.4rem;
     }
-}
+
+    .reset-popup button {
+      background-color: var(--button-reset-bg-color);
+      color: black;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin: 5px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      font-family: 'Alata', sans-serif;
+    }
+
+    .reset-popup button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .reset-popup button:hover:enabled {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px var(--backlight-color),
+        0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Popup Animations */
+    @keyframes fadeInSlideRight {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -50%) translateX(-40px);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%) translateX(0);
+      }
+    }
+
+    @keyframes fadeOutSlideLeft {
+      from {
+        opacity: 1;
+        transform: translate(-50%, -50%) translateX(0);
+      }
+      to {
+        opacity: 0;
+        transform: translate(-50%, -50%) translateX(-40px);
+      }
+    }
+
+    /* Achievement Popup Styling */
+    .achievement-container {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1002;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Styles for Individual Achievement Popups */
+    .achievement-popup {
+      background-color: var(--popup-bg-color);
+      color: var(--popup-text-color);
+      width: 400px;
+      max-width: 90%;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      font-size: 1rem;
+      text-align: center;
+      opacity: 0;
+      animation: fadeInSlideDown 0.5s forwards;
+      position: relative;
+    }
+
+    .achievement-popup.achievement-achieved {
+      background-color: var(--achievement-achieved-bg-color);
+      border-style: solid;
+      border-color: #000000;
+      color: var(--achievement-achieved-text-color);
+    }
+
+    .achievement-popup.achievement-surpassed {
+      background-color: var(--achievement-surpassed-bg-color);
+      border-style: solid;
+      border-color: #000000;
+      color: var(--achievement-surpassed-text-color);
+    }
+
+    /* Achievement Popup Animations */
+    @keyframes fadeInSlideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeOutSlideUp {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(-40px);
+      }
+    }
+
+    /* Responsive Adjustments */
+
+    /* Medium Screens */
+    @media screen and (max-width: 768px) {
+      .counter-section h2 {
+        font-size: 1.4rem;
+      }
+
+      .counter button {
+        font-size: 1.5rem;
+        padding: 5px 12px;
+      }
+
+      .counter button.increment {
+        font-size: 1rem;
+        padding: 3px 10px;
+      }
+
+      .counter input {
+        width: 55px;
+        font-size: 1.6rem;
+      }
+
+      .points {
+        font-size: 1.2rem;
+      }
+
+      .popup {
+        font-size: 1rem; /* Ensure text isn't too small */
+      }
+
+      .popup h3 {
+        font-size: 1.5rem;
+      }
+
+      .popup p {
+        font-size: 1rem;
+      }
+
+      #updatePopup .refresh-btn {
+        font-size: 1rem;
+      }
+
+      .popup .close-btn {
+        font-size: 1rem;
+      }
+    }
+
+    /* Small Screens */
+    @media screen and (max-width: 480px) {
+      .counter-container {
+        padding: 0 5px;
+      }
+
+      .counter-section h2 {
+        font-size: 1.2rem;
+      }
+
+      .counter button {
+        font-size: 1.3rem;
+        padding: 4px 10px;
+      }
+
+      .counter button.increment {
+        font-size: 0.9rem;
+        padding: 2px 8px;
+      }
+
+      .counter input {
+        width: 50px;
+        font-size: 1.4rem;
+      }
+
+      .points {
+        font-size: 1rem;
+      }
+
+      .popup {
+        font-size: 1.1rem; /* Slightly larger for better readability */
+      }
+
+      .popup h3 {
+        font-size: 1.6rem;
+      }
+
+      .popup p {
+        font-size: 1.1rem;
+      }
+
+      #updatePopup .refresh-btn {
+        font-size: 1.1rem;
+      }
+
+      .popup .close-btn {
+        font-size: 1.1rem;
+      }
+
+      .popup {
+        max-width: 300px;
+        width: 90%;
+        padding: 10px;
+      }
+
+      .popup .close-btn {
+        width: 18px;
+        height: 18px;
+      }
+
+      .counter-section.total-points-section h1 {
+        font-size: 1.6rem;
+      }
+
+      .reset-all {
+        padding: 10px 24px;
+        font-size: 1.1rem;
+      }
+
+      .reset-popup {
+        padding: 15px 25px;
+      }
+
+      .reset-popup p {
+        font-size: 1.2rem;
+      }
+    }
   </style>
 </head>
 
@@ -807,7 +823,8 @@ footer {
           <i class="fas fa-info-circle"></i>
         </button>
         <!-- Save Button -->
-        <button class="action-button save-button" onclick="saveData()" data-tooltip="Save Data" aria-label="Save Data">
+        <button class="action-button save-button" onclick="saveData()" data-tooltip="Save Data"
+          aria-label="Save Data">
           <i class="fas fa-save"></i>
         </button>
       </div>
@@ -907,7 +924,7 @@ footer {
 
   <!-- Update Notification Popup -->
   <div class="popup" id="updatePopup" role="dialog" aria-modal="true" aria-labelledby="updatePopupTitle">
-    <h3 id="updatePopupTitle">Aggiornamento disponibile !</h3>
+    <h3 id="updatePopupTitle">Aggiornamento disponibile!</h3>
     <p>È disponibile una nuova versione dell'applicazione.</p>
     <button class="refresh-btn" onclick="refreshPage()">Aggiorna</button>
   </div>
@@ -982,7 +999,7 @@ footer {
     // =====================
 
     // Theme Management
-    const themes = ['default', 'dark1', 'dark2', 'dark3', 'dark4', 'dark5', 'dark6'];
+    const themes = ['default', 'dark1', 'dark2', 'dark3', 'dark4', 'dark5', 'dark6', 'image1', 'image2', 'image3'];
     let currentThemeIndex = 0;
 
     const themeSwitcher = document.getElementById('themeSwitcher');
@@ -1073,6 +1090,18 @@ footer {
         case 'dark6':
           themeSwitcher.innerHTML = '<i class="fas fa-circle"></i>';
           themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 6');
+          break;
+        case 'image1':
+          themeSwitcher.innerHTML = '<i class="fas fa-image"></i>';
+          themeSwitcher.setAttribute('data-tooltip', 'Image Theme 1');
+          break;
+        case 'image2':
+          themeSwitcher.innerHTML = '<i class="fas fa-image"></i>';
+          themeSwitcher.setAttribute('data-tooltip', 'Image Theme 2');
+          break;
+        case 'image3':
+          themeSwitcher.innerHTML = '<i class="fas fa-image"></i>';
+          themeSwitcher.setAttribute('data-tooltip', 'Image Theme 3');
           break;
         default:
           themeSwitcher.innerHTML = '<i class="fas fa-sun"></i>';

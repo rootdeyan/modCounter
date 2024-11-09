@@ -1,1269 +1,1401 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>modCounter</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google Fonts: Alata -->
-    <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Reset and Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            /* Theme Variables */
-            /* Default Theme Variables */
-            --bg-gradient: linear-gradient(to bottom, #003D5B, #25E2CC);
-            --text-color: #ffffff;
-            --section-bg-color: rgba(255, 255, 255, 0.85);
-            --section-border-color: #dddddd;
-            --section-text-color: #003D5B;
-            --footer-text-color: #000000;
-
-            /* Backlight Color for Light Theme */
-            --backlight-color: rgba(0, 0, 0, 0.8); /* Changed from white to black */
-
-            /* Action Button Colors */
-            --button-theme-switcher-bg-color: #ffffff;
-            --button-bookmark-bg-color: #ffffff;
-            --button-info-bg-color: #ffffff;
-            --button-save-bg-color: #ffffff;
-
-            /* Button Text Color */
-            --button-text-color: #000000;
-
-            /* Popup Styles */
-            --popup-bg-color: rgba(255, 255, 255, 0.95);
-            --popup-text-color: #003D5B;
-
-            /* Achievement Popup Styles */
-            --achievement-achieved-bg-color: #d4edda;
-            --achievement-achieved-text-color: #000000;
-            --achievement-surpassed-bg-color: #ffcc80;
-            --achievement-surpassed-text-color: #000000;
-
-            /* Button Border Color */
-            --button-border-color: black;
-
-            /* Action Buttons Icon Color */
-            --action-button-icon-color: black;
-
-            /* Button Background Colors */
-            --button-decrease-bg-color: #ff9900;
-            --button-increase-bg-color: #3dca3d;
-            --button-reset-bg-color: #ff9900;
-
-            /* Increment Button Colors */
-            --button-increment-bg-color: #3dca3d; /* Green color */
-
-            /* Glass Effect Background */
-            --glass-bg-color: rgba(255, 255, 255, 0.9); /* White background */
-            --glass-border-color: rgba(0, 0, 0, 0.8); /* Black border */
-
-            /* Animation Variables */
-            --animation-duration: 0.3s;
-            --animation-ease: ease-in-out;
-            --color-increase: #3dca3d;
-            --color-decrease: #ff9900;
-        }
-
-        /* Dark Themes */
-        .theme-dark1 {
-            --bg-gradient: linear-gradient(to bottom, #1e1e2f, #9a8c98);
-            --text-color: #e0e0e0;
-            --section-bg-color: rgba(30, 30, 47, 0.9);
-            --section-border-color: #5a5a7f;
-            --section-text-color: #e0e0e0;
-            --footer-text-color: #000000;
-
-            --backlight-color: rgba(255, 255, 255, 0.8); /* Changed from black to white */
-
-            --button-increment-bg-color: #3dca3d; /* Green color */
-        }
-
-        .theme-dark2 {
-            --bg-gradient: linear-gradient(to bottom, #2c3e50, #34495e);
-            --text-color: #ecf0f1;
-            --section-bg-color: rgba(44, 62, 80, 0.9);
-            --section-border-color: #7f8c8d;
-            --section-text-color: #ecf0f1;
-            --footer-text-color: #ffffff;
-
-            --backlight-color: rgba(255, 255, 255, 0.8); /* Changed from black to white */
-
-            --button-increment-bg-color: #3dca3d; /* Green color */
-        }
-
-        .theme-dark3 {
-            --bg-gradient: linear-gradient(to bottom, #000000, #434343);
-            --text-color: #f5f5f5;
-            --section-bg-color: rgba(0, 0, 0, 0.9);
-            --section-border-color: #555555;
-            --section-text-color: #f5f5f5;
-            --footer-text-color: #f5f5f5;
-
-            --backlight-color: rgba(255, 255, 255, 0.8); /* Already white, kept as is */
-
-            --button-increment-bg-color: #3dca3d; /* Green color */
-        }
-
-        /* Soft Dark Themes */
-        .theme-dark4 {
-            --bg-gradient: linear-gradient(to bottom, #2b2b2b, #3d3d3d);
-            --text-color: #dcdcdc;
-            --section-bg-color: rgba(43, 43, 43, 0.95);
-            --section-border-color: #5a5a5a;
-            --section-text-color: #dcdcdc;
-            --footer-text-color: #dcdcdc;
-
-            --backlight-color: rgba(255, 255, 255, 0.8); /* Increased opacity for better visibility */
-
-            --button-increment-bg-color: #3dca3d; /* Light Green color */
-        }
-
-        .theme-dark5 {
-            --bg-gradient: linear-gradient(to bottom, #1c1c1c, #2a2a2a);
-            --text-color: #e0e0e0;
-            --section-bg-color: rgba(28, 28, 28, 0.95);
-            --section-border-color: #444444;
-            --section-text-color: #e0e0e0;
-            --footer-text-color: #e0e0e0;
-
-            --backlight-color: rgba(255, 255, 255, 0.8); /* Increased opacity for better visibility */
-
-            --button-increment-bg-color: #3dca3d; /* Amber color */
-        }
-
-        .theme-dark6 {
-            --bg-gradient: linear-gradient(to bottom, #2e2e2e, #424242);
-            --text-color: #f0f0f0;
-            --section-bg-color: rgba(46, 46, 46, 0.95);
-            --section-border-color: #666666;
-            --section-text-color: #f0f0f0;
-            --footer-text-color: #f0f0f0;
-
-            --backlight-color: rgba(255, 255, 255, 0.8); /* Increased opacity for better visibility */
-
-            --button-increment-bg-color: #3dca3d; /* Deep Orange color */
-        }
-
-        /* Body Styling */
-        body {
-            font-family: 'Alata', sans-serif;
-            background: var(--bg-gradient);
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            background-size: cover;
-            margin: 0;
-            padding: 10px;
-            color: var(--text-color);
-            transition: background 0.5s, color 0.5s;
-        }
-
-        /* Counter Container Styling */
-        .counter-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            gap: 5px;
-        }
-
-        /* Individual Counter Sections */
-        .counter-section {
-            background-color: var(--section-bg-color);
-            margin: 2px;
-            padding: 10px;
-            flex: 1 1 280px;
-            max-width: 450px;
-            text-align: center;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            color: var(--section-text-color);
-            border: 1px solid var(--section-border-color);
-            transition: background-color 0.5s, border-color 0.5s, color 0.5s, box-shadow 0.3s;
-            position: relative;
-        }
-
-        /* Backlight Animation on Hover for Counter Sections */
-        .counter-section:hover {
-            box-shadow:
-                0 0 20px var(--backlight-color),
-                0 4px 15px var(--backlight-color),
-                0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Specific Style for Total Points Section */
-        .counter-section.total-points-section h1 {
-            font-size: 2rem;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .counter-section.total-points-section {
-            padding: 10px;
-        }
-
-        .counter-section h2 {
-            margin-bottom: 8px;
-            font-size: 1.6rem;
-        }
-
-        .counter {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 8px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .counter .main-buttons {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .counter .extra-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        .counter button {
-            flex: 1 1 auto;
-            min-width: 100px;
-            padding: 5px 15px;
-            font-size: 1.6rem;
-            font-weight: bold;
-            margin: 2px;
-            cursor: pointer;
-            border: none;
-            border-radius: 8px;
-            color: var(--button-text-color);
-            transition:
-                transform 0.3s,
-                box-shadow 0.3s,
-                background-color 0.5s,
-                color 0.5s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            font-family: 'Alata', sans-serif;
-        }
-
-        .counter button.increment {
-            flex: 1 1 auto;
-            min-width: 85px;
-            padding: 4px 12px;
-            font-size: 1.1rem;
-            background-color: var(--button-increment-bg-color);
-        }
-
-        .counter button.decrease {
-            background-color: var(--button-decrease-bg-color);
-        }
-
-        .counter button.increase {
-            background-color: var(--button-increase-bg-color);
-        }
-
-        .reset-all {
-            background-color: var(--button-reset-bg-color);
-            color: var(--button-text-color);
-            border: none;
-            border-radius: 8px;
-            min-width: 280px;
-            padding: 12px 30px;
-            font-size: 1.3rem;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s, color 0.5s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            margin-top: 10px;
-            font-family: 'Alata', sans-serif;
-        }
-
-        /* Enhanced Hover Effect for Counter Buttons */
-        .counter button:hover,
-        .reset-all:hover {
-            transform: scale(1.05);
-            box-shadow:
-                0 0 15px var(--backlight-color),
-                0 6px 12px var(--backlight-color),
-                0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .counter input {
-            width: 60px;
-            text-align: center;
-            font-size: 1.8rem;
-            border: none;
-            background: transparent;
-            color: var(--section-text-color);
-            pointer-events: none;
-            font-weight: bold;
-            position: relative;
-            transition: color var(--animation-duration) var(--animation-ease);
-        }
-
-        .increase-animation {
-            color: var(--color-increase);
-            transition: color var(--animation-duration) var(--animation-ease);
-        }
-
-        .decrease-animation {
-            color: var(--color-decrease);
-            transition: color var(--animation-duration) var(--animation-ease);
-        }
-
-        .points {
-            font-size: 1.4rem;
-            font-weight: bold;
-            position: relative;
-            transition: color var(--animation-duration) var(--animation-ease);
-        }
-
-        .points.increase-animation {
-            color: var(--color-increase);
-            transition: color var(--animation-duration) var(--animation-ease);
-        }
-
-        .points.decrease-animation {
-            color: var(--color-decrease);
-            transition: color var(--animation-duration) var(--animation-ease);
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 1rem;
-            color: var(--footer-text-color);
-            transition: color 0.5s;
-        }
-
-        /* Updated Action Buttons Styling */
-        .action-buttons {
-            display: flex;
-            flex-direction: row; /* Arrange buttons horizontally */
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px; /* Add space above the buttons */
-        }
-
-        .action-buttons .action-button {
-            width: 45px;
-            height: 45px;
-            border: 2px solid var(--button-border-color);
-            border-radius: 50%;
-            background-color: var(--button-theme-switcher-bg-color);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            font-weight: bold;
-            transition:
-                transform 0.3s,
-                box-shadow 0.3s,
-                background-color 0.5s,
-                color 0.5s,
-                border-color 0.5s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            position: relative;
-            background-color: var(--button-theme-switcher-bg-color);
-        }
-
-        .action-buttons .action-button:hover {
-            transform: scale(1.05);
-            box-shadow:
-                0 0 15px var(--backlight-color),
-                0 6px 12px var(--backlight-color),
-                0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Tooltip Styles for Action Buttons */
-        .action-buttons .action-button::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 100%; /* Position tooltip above the button */
-            left: 50%;
-            transform: translateX(-50%);
-            margin-bottom: 5px; /* Gap between button and tooltip */
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 4px;
-            white-space: nowrap;
-            font-size: 0.8rem;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-            z-index: 3;
-        }
-
-        .action-buttons .action-button:hover::after {
-            opacity: 1;
-        }
-
-        /* Popup Styling */
-        .popup {
-            display: none;
-            padding: 15px;
-            border-radius: 6px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            font-size: 0.95rem;
-            z-index: 1002;
-            opacity: 0;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            border: 1px solid var(--section-border-color);
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) translateX(-20px);
-            background-color: var(--popup-bg-color);
-            color: var(--popup-text-color);
-            max-width: 400px;
-            width: 90%;
-            overflow: auto;
-            max-height: calc(100vh - 40px); /* Adjust as necessary */
-        }
-
-        /* Show and hide animations for Info Popup */
-        .popup.show {
-            display: block;
-            animation: fadeInSlideRight 0.5s forwards;
-        }
-
-        .popup.hide {
-            animation: fadeOutSlideLeft 0.5s forwards;
-        }
-
-        .popup .close-btn {
-            background-color: var(--button-reset-bg-color);
-            color: var(--button-text-color);
-            border: none;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition:
-                transform 0.3s,
-                box-shadow 0.3s,
-                background-color 0.5s,
-                color 0.5s;
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            z-index: 1003;
-        }
-
-        .popup .close-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Reset Confirmation Popups */
-        .reset-popup {
-            display: none;
-            padding: 20px 30px;
-            border-radius: 10px;
-            background: var(--glass-bg-color);
-            border: 3px solid var(--glass-border-color);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            font-size: 1.2rem;
-            color: black;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1003;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            overflow: hidden;
-        }
-
-        .reset-popup p {
-            margin-bottom: 20px;
-            font-size: 1.4rem;
-        }
-
-        .reset-popup button {
-            background-color: var(--button-reset-bg-color);
-            color: black;
-            border: none;
-            border-radius: 8px;
-            padding: 8px 25px;
-            font-size: 1rem;
-            cursor: pointer;
-            margin: 5px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            font-family: 'Alata', sans-serif;
-        }
-
-        .reset-popup button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .reset-popup button:hover:enabled {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px var(--backlight-color), 0 6px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Popup Animations */
-        @keyframes fadeInSlideRight {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -50%) translateX(-40px);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%) translateX(0);
-            }
-        }
-
-        @keyframes fadeOutSlideLeft {
-            from {
-                opacity: 1;
-                transform: translate(-50%, -50%) translateX(0);
-            }
-            to {
-                opacity: 0;
-                transform: translate(-50%, -50%) translateX(-40px);
-            }
-        }
-
-        /* Achievement Popup Styling */
-        .achievement-container {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1002;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* Styles for Individual Achievement Popups */
-        .achievement-popup {
-            background-color: var(--popup-bg-color);
-            color: var(--popup-text-color);
-            width: 400px;
-            max-width: 90%;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            font-size: 1rem;
-            text-align: center;
-            opacity: 0;
-            animation: fadeInSlideDown 0.5s forwards;
-            position: relative;
-        }
-
-        .achievement-popup.achievement-achieved {
-            background-color: var(--achievement-achieved-bg-color);
-            border-style: solid;
-            border-color: #000000;
-            color: var(--achievement-achieved-text-color);
-        }
-
-        .achievement-popup.achievement-surpassed {
-            background-color: var(--achievement-surpassed-bg-color);
-            border-style: solid;
-            border-color: #000000;
-            color: var(--achievement-surpassed-text-color);
-        }
-
-        /* Achievement Popup Animations */
-        @keyframes fadeInSlideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeOutSlideUp {
-            from {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateY(-40px);
-            }
-        }
-
-        /* Responsive Adjustments */
-        @media screen and (max-width: 768px) {
-            .counter-section h2 {
-                font-size: 1.4rem;
-            }
-
-            .counter button {
-                font-size: 1.5rem;
-                padding: 5px 12px;
-            }
-
-            .counter button.increment {
-                font-size: 1rem;
-                padding: 3px 10px;
-            }
-
-            .counter input {
-                width: 55px;
-                font-size: 1.6rem;
-            }
-
-            .points {
-                font-size: 1.2rem;
-            }
-
-            .popup {
-                left: 50%;
-                max-width: 350px;
-                width: 85%;
-                padding: 15px;
-            }
-
-            .popup .close-btn {
-                width: 20px;
-                height: 20px;
-                font-size: 0.9rem;
-            }
-
-            .counter-section.total-points-section h1 {
-                font-size: 1.8rem;
-            }
-
-            .reset-all {
-                padding: 12px 28px;
-                font-size: 1.2rem;
-            }
-        }
-
-        @media screen and (max-width: 480px) {
-            .counter-container {
-                padding: 0 5px;
-            }
-
-            .counter-section h2 {
-                font-size: 1.2rem;
-            }
-
-            .counter button {
-                font-size: 1.3rem;
-                padding: 4px 10px;
-            }
-
-            .counter button.increment {
-                font-size: 0.9rem;
-                padding: 2px 8px;
-            }
-
-            .counter input {
-                width: 50px;
-                font-size: 1.4rem;
-            }
-
-            .points {
-                font-size: 1rem;
-            }
-
-            .popup {
-                left: 50%;
-                max-width: 300px;
-                width: 90%;
-                padding: 10px;
-            }
-
-            .popup .close-btn {
-                width: 18px;
-                height: 18px;
-                font-size: 0.8rem;
-            }
-
-            .counter-section.total-points-section h1 {
-                font-size: 1.6rem;
-            }
-
-            .reset-all {
-                padding: 10px 24px;
-                font-size: 1.1rem;
-            }
-
-            .reset-popup {
-                padding: 15px 25px;
-            }
-
-            .reset-popup p {
-                font-size: 1.2rem;
-            }
-        }
-
-    </style>
+  <meta charset="UTF-8">
+  <title>modCounter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts: Alata -->
+  <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Theme Variables */
+    /* Default Theme Variables */
+    --bg-gradient: linear-gradient(to bottom, #003D5B, #25E2CC);
+    --text-color: #ffffff;
+    --section-bg-color: rgba(255, 255, 255, 0.85);
+    --section-border-color: #dddddd;
+    --section-text-color: #003D5B;
+    --footer-text-color: #000000;
+
+    /* Backlight Color for Light Theme */
+    --backlight-color: rgba(0, 0, 0, 0.8); /* Changed from white to black */
+
+    /* Action Button Colors */
+    --button-theme-switcher-bg-color: #ffffff;
+    --button-bookmark-bg-color: #ffffff;
+    --button-info-bg-color: #ffffff;
+    --button-save-bg-color: #ffffff;
+
+    /* Button Text Color */
+    --button-text-color: #000000;
+
+    /* Popup Styles */
+    --popup-bg-color: rgba(255, 255, 255, 0.95);
+    --popup-text-color: #003D5B;
+
+    /* Achievement Popup Styles */
+    --achievement-achieved-bg-color: #d4edda;
+    --achievement-achieved-text-color: #000000;
+    --achievement-surpassed-bg-color: #ffcc80;
+    --achievement-surpassed-text-color: #000000;
+
+    /* Button Border Color */
+    --button-border-color: black;
+
+    /* Action Buttons Icon Color */
+    --action-button-icon-color: black;
+
+    /* Button Background Colors */
+    --button-decrease-bg-color: #ff9900;
+    --button-increase-bg-color: #3dca3d;
+    --button-reset-bg-color: #ff9900;
+
+    /* Increment Button Colors */
+    --button-increment-bg-color: #3dca3d; /* Green color */
+
+    /* Glass Effect Background */
+    --glass-bg-color: rgba(255, 255, 255, 0.9); /* White background */
+    --glass-border-color: rgba(0, 0, 0, 0.8); /* Black border */
+
+    /* Animation Variables */
+    --animation-duration: 0.3s;
+    --animation-ease: ease-in-out;
+    --color-increase: #3dca3d;
+    --color-decrease: #ff9900;
+}
+
+/* Dark Themes */
+.theme-dark1 {
+    --bg-gradient: linear-gradient(to bottom, #1e1e2f, #9a8c98);
+    --text-color: #e0e0e0;
+    --section-bg-color: rgba(30, 30, 47, 0.9);
+    --section-border-color: #5a5a7f;
+    --section-text-color: #e0e0e0;
+    --footer-text-color: #000000;
+
+    --backlight-color: rgba(255, 255, 255, 0.8); /* Changed from black to white */
+
+    --button-increment-bg-color: #3dca3d; /* Green color */
+}
+
+.theme-dark2 {
+    --bg-gradient: linear-gradient(to bottom, #2c3e50, #34495e);
+    --text-color: #ecf0f1;
+    --section-bg-color: rgba(44, 62, 80, 0.9);
+    --section-border-color: #7f8c8d;
+    --section-text-color: #ecf0f1;
+    --footer-text-color: #ffffff;
+
+    --backlight-color: rgba(255, 255, 255, 0.8); /* Changed from black to white */
+
+    --button-increment-bg-color: #3dca3d; /* Green color */
+}
+
+.theme-dark3 {
+    --bg-gradient: linear-gradient(to bottom, #000000, #434343);
+    --text-color: #f5f5f5;
+    --section-bg-color: rgba(0, 0, 0, 0.9);
+    --section-border-color: #555555;
+    --section-text-color: #f5f5f5;
+    --footer-text-color: #f5f5f5;
+
+    --backlight-color: rgba(255, 255, 255, 0.8); /* Already white, kept as is */
+
+    --button-increment-bg-color: #3dca3d; /* Green color */
+}
+
+/* Soft Dark Themes */
+.theme-dark4 {
+    --bg-gradient: linear-gradient(to bottom, #2b2b2b, #3d3d3d);
+    --text-color: #dcdcdc;
+    --section-bg-color: rgba(43, 43, 43, 0.95);
+    --section-border-color: #5a5a5a;
+    --section-text-color: #dcdcdc;
+    --footer-text-color: #dcdcdc;
+
+    --backlight-color: rgba(255, 255, 255, 0.8); /* Increased opacity for better visibility */
+
+    --button-increment-bg-color: #3dca3d; /* Light Green color */
+}
+
+.theme-dark5 {
+    --bg-gradient: linear-gradient(to bottom, #1c1c1c, #2a2a2a);
+    --text-color: #e0e0e0;
+    --section-bg-color: rgba(28, 28, 28, 0.95);
+    --section-border-color: #444444;
+    --section-text-color: #e0e0e0;
+    --footer-text-color: #e0e0e0;
+
+    --backlight-color: rgba(255, 255, 255, 0.8); /* Increased opacity for better visibility */
+
+    --button-increment-bg-color: #3dca3d; /* Amber color */
+}
+
+.theme-dark6 {
+    --bg-gradient: linear-gradient(to bottom, #2e2e2e, #424242);
+    --text-color: #f0f0f0;
+    --section-bg-color: rgba(46, 46, 46, 0.95);
+    --section-border-color: #666666;
+    --section-text-color: #f0f0f0;
+    --footer-text-color: #f0f0f0;
+
+    --backlight-color: rgba(255, 255, 255, 0.8); /* Increased opacity for better visibility */
+
+    --button-increment-bg-color: #3dca3d; /* Deep Orange color */
+}
+
+/* Body Styling */
+body {
+    font-family: 'Alata', sans-serif;
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+    padding: 10px;
+    color: var(--text-color);
+    transition: background 0.5s, color 0.5s;
+}
+
+/* Counter Container Styling */
+.counter-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 5px;
+}
+
+/* Individual Counter Sections */
+.counter-section {
+    background-color: var(--section-bg-color);
+    margin: 2px;
+    padding: 10px;
+    flex: 1 1 280px;
+    max-width: 450px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    color: var(--section-text-color);
+    border: 1px solid var(--section-border-color);
+    transition: background-color 0.5s, border-color 0.5s, color 0.5s, box-shadow 0.3s;
+    position: relative;
+}
+
+/* Backlight Animation on Hover for Counter Sections */
+.counter-section:hover {
+    box-shadow:
+        0 0 20px var(--backlight-color),
+        0 4px 15px var(--backlight-color),
+        0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Specific Style for Total Points Section */
+.counter-section.total-points-section h1 {
+    font-size: 2rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.counter-section.total-points-section {
+    padding: 10px;
+}
+
+.counter-section h2 {
+    margin-bottom: 8px;
+    font-size: 1.6rem;
+}
+
+.counter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.counter .main-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.counter .extra-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.counter button {
+    flex: 1 1 auto;
+    min-width: 100px;
+    padding: 5px 15px;
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin: 2px;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    color: var(--button-text-color);
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s,
+        background-color 0.5s,
+        color 0.5s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    font-family: 'Alata', sans-serif;
+}
+
+.counter button.increment {
+    flex: 1 1 auto;
+    min-width: 85px;
+    padding: 4px 12px;
+    font-size: 1.1rem;
+    background-color: var(--button-increment-bg-color);
+}
+
+.counter button.decrease {
+    background-color: var(--button-decrease-bg-color);
+}
+
+.counter button.increase {
+    background-color: var(--button-increase-bg-color);
+}
+
+.reset-all {
+    background-color: var(--button-reset-bg-color);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 8px;
+    min-width: 280px;
+    padding: 12px 30px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s, color 0.5s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+    font-family: 'Alata', sans-serif;
+}
+
+/* Enhanced Hover Effect for Counter Buttons */
+.counter button:hover,
+.reset-all:hover {
+    transform: scale(1.05);
+    box-shadow:
+        0 0 15px var(--backlight-color),
+        0 6px 12px var(--backlight-color),
+        0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.counter input {
+    width: 60px;
+    text-align: center;
+    font-size: 1.8rem;
+    border: none;
+    background: transparent;
+    color: var(--section-text-color);
+    pointer-events: none;
+    font-weight: bold;
+    position: relative;
+    transition: color var(--animation-duration) var(--animation-ease);
+}
+
+.increase-animation {
+    color: var(--color-increase);
+    transition: color var(--animation-duration) var(--animation-ease);
+}
+
+.decrease-animation {
+    color: var(--color-decrease);
+    transition: color var(--animation-duration) var(--animation-ease);
+}
+
+.points {
+    font-size: 1.4rem;
+    font-weight: bold;
+    position: relative;
+    transition: color var(--animation-duration) var(--animation-ease);
+}
+
+.points.increase-animation {
+    color: var(--color-increase);
+    transition: color var(--animation-duration) var(--animation-ease);
+}
+
+.points.decrease-animation {
+    color: var(--color-decrease);
+    transition: color var(--animation-duration) var(--animation-ease);
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1rem;
+    color: var(--footer-text-color);
+    transition: color 0.5s;
+}
+
+/* Updated Action Buttons Styling */
+.action-buttons {
+    display: flex;
+    flex-direction: row; /* Arrange buttons horizontally */
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px; /* Add space above the buttons */
+}
+
+.action-buttons .action-button {
+    width: 45px;
+    height: 45px;
+    border: 2px solid var(--button-border-color);
+    border-radius: 50%;
+    background-color: var(--button-theme-switcher-bg-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s,
+        background-color 0.5s,
+        color 0.5s,
+        border-color 0.5s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    background-color: var(--button-theme-switcher-bg-color);
+}
+
+.action-buttons .action-button:hover {
+    transform: scale(1.05);
+    box-shadow:
+        0 0 15px var(--backlight-color),
+        0 6px 12px var(--backlight-color),
+        0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Tooltip Styles for Action Buttons */
+.action-buttons .action-button::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%; /* Position tooltip above the button */
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 5px; /* Gap between button and tooltip */
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.action-buttons .action-button:hover::after {
+    opacity: 1;
+}
+
+/* Popup Styling */
+.popup {
+    display: none;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    font-size: 1rem;
+    z-index: 1002;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    border: 1px solid var(--section-border-color);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateX(-20px);
+    background-color: var(--popup-bg-color);
+    color: var(--popup-text-color);
+    max-width: 400px;
+    width: 90%;
+    overflow: auto;
+    max-height: calc(100vh - 40px);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Show and hide animations for Popups */
+.popup.show {
+    display: block;
+    animation: fadeInSlideRight 0.5s forwards;
+}
+
+.popup.hide {
+    animation: fadeOutSlideLeft 0.5s forwards;
+}
+
+/* Close Button Styling */
+.popup .close-btn {
+    position: absolute;          /* Position the button absolutely within the popup */
+    top: 10px;                   /* 10px from the top */
+    right: 10px;                 /* 10px from the right */
+    width: 24px;                 /* Width of the button */
+    height: 24px;                /* Height of the button */
+    background: transparent;     /* Transparent background */
+    border: none;                /* No border */
+    font-size: 1.2rem;           /* Font size for the × symbol */
+    font-weight: bold;           /* Bold font for better visibility */
+    color: var(--popup-text-color); /* Color from CSS variables */
+    cursor: pointer;             /* Pointer cursor on hover */
+    transition: color 0.3s, transform 0.3s; /* Smooth transition for color and scale */
+    outline: none;               /* Remove default outline */
+    z-index: 1003;               /* Ensure the button stays above other elements */
+}
+
+/* Hover effect for the close button */
+.popup .close-btn:hover {
+    color: var(--button-decrease-bg-color); /* Change color on hover */
+    transform: scale(1.2);                   /* Slightly enlarge the button on hover */
+}
+
+/* Focus effect for accessibility */
+.popup .close-btn:focus {
+    outline: 2px solid var(--button-decrease-bg-color); /* Visible outline when focused */
+    border-radius: 50%;                                /* Rounded outline */
+}
+
+/* Popup Text Styling */
+.popup h3 {
+    font-size: 1.5rem; /* Adjust as needed */
+    margin-bottom: 10px;
+}
+
+.popup p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Update Popup Specific Styles */
+#updatePopup .refresh-btn {
+    background-color: var(--button-increment-bg-color);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-family: 'Alata', sans-serif;
+}
+
+#updatePopup .refresh-btn:hover {
+    transform: scale(1.05);
+    box-shadow:
+        0 0 15px var(--backlight-color),
+        0 6px 12px var(--backlight-color),
+        0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Reset Confirmation Popups */
+.reset-popup {
+    display: none;
+    padding: 20px 30px;
+    border-radius: 10px;
+    background: var(--glass-bg-color);
+    border: 3px solid var(--glass-border-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    font-size: 1.2rem;
+    color: black;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1003;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    overflow: hidden;
+}
+
+.reset-popup p {
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+}
+
+.reset-popup button {
+    background-color: var(--button-reset-bg-color);
+    color: black;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 5px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-family: 'Alata', sans-serif;
+}
+
+.reset-popup button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.reset-popup button:hover:enabled {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px var(--backlight-color), 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Popup Animations */
+@keyframes fadeInSlideRight {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) translateX(0);
+    }
+}
+
+@keyframes fadeOutSlideLeft {
+    from {
+        opacity: 1;
+        transform: translate(-50%, -50%) translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) translateX(-40px);
+    }
+}
+
+/* Achievement Popup Styling */
+.achievement-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1002;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Styles for Individual Achievement Popups */
+.achievement-popup {
+    background-color: var(--popup-bg-color);
+    color: var(--popup-text-color);
+    width: 400px;
+    max-width: 90%;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    text-align: center;
+    opacity: 0;
+    animation: fadeInSlideDown 0.5s forwards;
+    position: relative;
+}
+
+.achievement-popup.achievement-achieved {
+    background-color: var(--achievement-achieved-bg-color);
+    border-style: solid;
+    border-color: #000000;
+    color: var(--achievement-achieved-text-color);
+}
+
+.achievement-popup.achievement-surpassed {
+    background-color: var(--achievement-surpassed-bg-color);
+    border-style: solid;
+    border-color: #000000;
+    color: var(--achievement-surpassed-text-color);
+}
+
+/* Achievement Popup Animations */
+@keyframes fadeInSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOutSlideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+}
+
+/* Responsive Adjustments */
+
+/* Medium Screens */
+@media screen and (max-width: 768px) {
+    .counter-section h2 {
+        font-size: 1.4rem;
+    }
+
+    .counter button {
+        font-size: 1.5rem;
+        padding: 5px 12px;
+    }
+
+    .counter button.increment {
+        font-size: 1rem;
+        padding: 3px 10px;
+    }
+
+    .counter input {
+        width: 55px;
+        font-size: 1.6rem;
+    }
+
+    .points {
+        font-size: 1.2rem;
+    }
+
+    .popup {
+        font-size: 1rem; /* Ensure text isn't too small */
+    }
+
+    .popup h3 {
+        font-size: 1.5rem;
+    }
+
+    .popup p {
+        font-size: 1rem;
+    }
+
+    #updatePopup .refresh-btn {
+        font-size: 1rem;
+    }
+
+    .popup .close-btn {
+        font-size: 1rem;
+    }
+}
+
+/* Small Screens */
+@media screen and (max-width: 480px) {
+    .counter-container {
+        padding: 0 5px;
+    }
+
+    .counter-section h2 {
+        font-size: 1.2rem;
+    }
+
+    .counter button {
+        font-size: 1.3rem;
+        padding: 4px 10px;
+    }
+
+    .counter button.increment {
+        font-size: 0.9rem;
+        padding: 2px 8px;
+    }
+
+    .counter input {
+        width: 50px;
+        font-size: 1.4rem;
+    }
+
+    .points {
+        font-size: 1rem;
+    }
+
+    .popup {
+        font-size: 1.1rem; /* Slightly larger for better readability */
+    }
+
+    .popup h3 {
+        font-size: 1.6rem;
+    }
+
+    .popup p {
+        font-size: 1.1rem;
+    }
+
+    #updatePopup .refresh-btn {
+        font-size: 1.1rem;
+    }
+
+    .popup .close-btn {
+        font-size: 1.1rem;
+    }
+
+    .popup {
+        max-width: 300px;
+        width: 90%;
+        padding: 10px;
+    }
+
+    .popup .close-btn {
+        width: 18px;
+        height: 18px;
+    }
+
+    .counter-section.total-points-section h1 {
+        font-size: 1.6rem;
+    }
+
+    .reset-all {
+        padding: 10px 24px;
+        font-size: 1.1rem;
+    }
+
+    .reset-popup {
+        padding: 15px 25px;
+    }
+
+    .reset-popup p {
+        font-size: 1.2rem;
+    }
+}
+  </style>
 </head>
+
 <body>
 
-    <!-- Total Points Section -->
-    <div class="counter-container">
-        <div class="counter-section total-points-section">
-            <h1>Totale: <span id="total-points">0.0</span></h1>
-            <button class="reset-all" onclick="initiateReset()">Azzera tutto</button>
-            <!-- Action Buttons: Theme Switcher, Bookmark, Info, and Save -->
-            <div class="action-buttons" id="actionButtons">
-                <!-- Theme Switcher Button -->
-                <button class="action-button theme-switcher" id="themeSwitcher" data-tooltip="Switch Theme" aria-label="Switch Theme">
-                    <i class="fas fa-sun"></i>
-                </button>
-                <!-- Bookmark Button -->
-                <button class="action-button bookmark-button" onclick="addBookmark()" data-tooltip="Add to Bookmarks" aria-label="Add to Bookmarks">
-                    <i class="fas fa-bookmark"></i>
-                </button>
-                <!-- Info Button -->
-                <button class="action-button info-button" onclick="togglePopup()" data-tooltip="Information" aria-label="Information">
-                    <i class="fas fa-info-circle"></i>
-                </button>
-                <!-- Save Button -->
-                <button class="action-button save-button" onclick="saveData()" data-tooltip="Save Data" aria-label="Save Data">
-                    <i class="fas fa-save"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Individual Counter Sections -->
-        <div class="counter-section" data-id="chats">
-            <h2>Text Abuse / Text Chat</h2>
-            <div class="counter">
-                <div class="main-buttons">
-                    <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
-                    <input type="text" id="chats" value="0" readonly>
-                    <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
-                </div>
-            </div>
-            <div class="points">Punti: <span id="chats-points">0.0</span></div>
-        </div>
-
-        <div class="counter-section" data-id="voicechats">
-            <h2>Voice Chat</h2>
-            <div class="counter">
-                <div class="main-buttons">
-                    <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
-                    <input type="text" id="voicechats" value="0" readonly>
-                    <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
-                </div>
-            </div>
-            <div class="points">Punti: <span id="voicechats-points">0.0</span></div>
-        </div>
-
-        <div class="counter-section" data-id="images">
-            <h2>Image</h2>
-            <div class="counter">
-                <div class="main-buttons">
-                    <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
-                    <input type="text" id="images" value="0" readonly>
-                    <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
-                </div>
-                <div class="extra-buttons">
-                    <button class="increment" onclick="handleCounter(this, 'increment', 3)">+ 3</button>
-                    <button class="increment" onclick="handleCounter(this, 'increment', 5)">+ 5</button>
-                    <button class="increment" onclick="handleCounter(this, 'increment', 10)">+ 10</button>
-                </div>
-            </div>
-            <div class="points">Punti: <span id="images-points">0.0</span></div>
-        </div>
-
-        <div class="counter-section" data-id="audios">
-            <h2>Audio</h2>
-            <div class="counter">
-                <div class="main-buttons">
-                    <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
-                    <input type="text" id="audios" value="0" readonly>
-                    <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
-                </div>
-            </div>
-            <div class="points">Punti: <span id="audios-points">0.0</span></div>
-        </div>
-
-        <div class="counter-section" data-id="mesh">
-            <h2>Mesh 2D / 3D</h2>
-            <div class="counter">
-                <div class="main-buttons">
-                    <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
-                    <input type="text" id="mesh" value="0" readonly>
-                    <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
-                </div>
-            </div>
-            <div class="points">Punti: <span id="mesh-points">0.0</span></div>
-        </div>
+  <!-- Total Points Section -->
+  <div class="counter-container">
+    <div class="counter-section total-points-section">
+      <h1>Totale: <span id="total-points">0.0</span></h1>
+      <button class="reset-all" onclick="initiateReset()">Azzera tutto</button>
+      <!-- Action Buttons: Theme Switcher, Bookmark, Info, and Save -->
+      <div class="action-buttons" id="actionButtons">
+        <!-- Theme Switcher Button -->
+        <button class="action-button theme-switcher" id="themeSwitcher" data-tooltip="Switch Theme"
+          aria-label="Switch Theme">
+          <i class="fas fa-sun"></i>
+        </button>
+        <!-- Bookmark Button -->
+        <button class="action-button bookmark-button" onclick="addBookmark()" data-tooltip="Add to Bookmarks"
+          aria-label="Add to Bookmarks">
+          <i class="fas fa-bookmark"></i>
+        </button>
+        <!-- Info Button -->
+        <button class="action-button info-button" onclick="togglePopup()" data-tooltip="Information"
+          aria-label="Information">
+          <i class="fas fa-info-circle"></i>
+        </button>
+        <!-- Save Button -->
+        <button class="action-button save-button" onclick="saveData()" data-tooltip="Save Data" aria-label="Save Data">
+          <i class="fas fa-save"></i>
+        </button>
+      </div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p><small>Counter by - Deyan Simeonov</small></p>
-    </footer>
-
-    <!-- Popup Information -->
-    <div class="popup" id="infoPopup" role="dialog" aria-modal="true" aria-labelledby="infoPopupTitle">
-        <button class="close-btn" onclick="closePopup()" aria-label="Close Popup">&times;</button>
-        <h3 id="infoPopupTitle">Bonus Target</h3>
-        <p>Average Points per day (280);</p>
-        <p>Quality at 95% and over;</p>
-        <p>Utilization at 80%;</p><br>
-        <p><b>Bonus Level 1:</b><br>300 points (target points);<br>25 BGN (points bonus);<br>95% Quality Target;<br>25 BGN (quality bonus);</p><br>
-        <p><b>Bonus Level 2:</b><br>350 points (target points);<br>50 BGN (points bonus);<br>96% Quality Target;<br>50 BGN (quality bonus);</p><br>
-        <p><b>Bonus Level 3:</b><br>400 points (target points);<br>100 BGN (points bonus);<br>97% Quality Target;<br>100 BGN (quality bonus);</p><br>
-        <p><b>Auto Fail Bonus:</b><br>Attendance: more than 2 days absence;<br>6 delays during the month;<br>Escalation: DPA or GDPR breach;<br>No Ethical behavior in Chat, Calls, or Emails;<br>Valid escalation received by the Client;</p><br>
-        <p><b>Note:</b> Vacation is not considered absenteeism.<br>Sick Leave, no Show, etc.<br>If the Utilization is under 80%, the bonus is reduced to 50%.</p>
+    <!-- Individual Counter Sections -->
+    <div class="counter-section" data-id="chats">
+      <h2>Text Abuse / Text Chat</h2>
+      <div class="counter">
+        <div class="main-buttons">
+          <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
+          <input type="text" id="chats" value="0" readonly>
+          <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
+        </div>
+      </div>
+      <div class="points">Punti: <span id="chats-points">0.0</span></div>
     </div>
 
-    <!-- Container for Achievement Popups -->
-    <div class="achievement-container" id="achievementContainer"></div>
-
-    <!-- Reset Confirmation Popups -->
-    <div class="reset-popup" id="resetPopup">
-        <p id="resetMessage">Are you sure you want to reset all data?</p>
-        <button id="yesButton" onclick="handleResetConfirmation()">Si</button>
-        <button onclick="cancelReset()">No</button>
+    <div class="counter-section" data-id="voicechats">
+      <h2>Voice Chat</h2>
+      <div class="counter">
+        <div class="main-buttons">
+          <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
+          <input type="text" id="voicechats" value="0" readonly>
+          <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
+        </div>
+      </div>
+      <div class="points">Punti: <span id="voicechats-points">0.0</span></div>
     </div>
 
-    <script>
-        // Theme Management
-        const themes = ['default', 'dark1', 'dark2', 'dark3', 'dark4', 'dark5', 'dark6'];
-        let currentThemeIndex = 0;
+    <div class="counter-section" data-id="images">
+      <h2>Image</h2>
+      <div class="counter">
+        <div class="main-buttons">
+          <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
+          <input type="text" id="images" value="0" readonly>
+          <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
+        </div>
+        <div class="extra-buttons">
+          <button class="increment" onclick="handleCounter(this, 'increment', 3)">+ 3</button>
+          <button class="increment" onclick="handleCounter(this, 'increment', 5)">+ 5</button>
+          <button class="increment" onclick="handleCounter(this, 'increment', 10)">+ 10</button>
+        </div>
+      </div>
+      <div class="points">Punti: <span id="images-points">0.0</span></div>
+    </div>
 
-        const themeSwitcher = document.getElementById('themeSwitcher');
+    <div class="counter-section" data-id="audios">
+      <h2>Audio</h2>
+      <div class="counter">
+        <div class="main-buttons">
+          <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
+          <input type="text" id="audios" value="0" readonly>
+          <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
+        </div>
+      </div>
+      <div class="points">Punti: <span id="audios-points">0.0</span></div>
+    </div>
 
-        // Flag to track data changes
-        let dataChanged = false;
+    <div class="counter-section" data-id="mesh">
+      <h2>Mesh 2D / 3D</h2>
+      <div class="counter">
+        <div class="main-buttons">
+          <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
+          <input type="text" id="mesh" value="0" readonly>
+          <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
+        </div>
+      </div>
+      <div class="points">Punti: <span id="mesh-points">0.0</span></div>
+    </div>
+  </div>
 
-        // Points per count
-        const pointsPerCount = {
-            chats: 2,
-            voicechats: 4,
-            images: 0.2,
-            audios: 2,
-            mesh: 0.2
-        };
+  <!-- Footer -->
+  <footer>
+    <p><small>Counter by - Deyan Simeonov</small></p>
+  </footer>
 
-        // Achievement thresholds
-        const achievementThresholds = [300, 350, 400];
+  <!-- Popup Information -->
+  <div class="popup" id="infoPopup" role="dialog" aria-modal="true" aria-labelledby="infoPopupTitle">
+    <button class="close-btn" onclick="closePopup()" aria-label="Close Popup">&times;</button>
+    <h3 id="infoPopupTitle">Bonus Target</h3>
+    <p>Average Points per day (280);</p>
+    <p>Quality at 95% and over;</p>
+    <p>Utilization at 80%;</p><br>
+    <p><b>Bonus Level 1:</b><br>300 points (target points);<br>25 BGN (points bonus);<br>95% Quality Target;<br>25 BGN
+      (quality bonus);</p><br>
+    <p><b>Bonus Level 2:</b><br>350 points (target points);<br>50 BGN (points bonus);<br>96% Quality Target;<br>50 BGN
+      (quality bonus);</p><br>
+    <p><b>Bonus Level 3:</b><br>400 points (target points);<br>100 BGN (points bonus);<br>97% Quality Target;<br>100 BGN
+      (quality bonus);</p><br>
+    <p><b>Auto Fail Bonus:</b><br>Attendance: more than 2 days absence;<br>6 delays during the month;<br>Escalation: DPA
+      or GDPR breach;<br>No Ethical behavior in Chat, Calls, or Emails;<br>Valid escalation received by the Client;</p>
+    <br>
+    <p><b>Note:</b> Vacation is not considered absenteeism.<br>Sick Leave, no Show, etc.<br>If the Utilization is under
+      80%, the bonus is reduced to 50%.</p>
+  </div>
 
-        // Previous total points to track threshold crossing
-        let previousTotal = 0;
+  <!-- Update Notification Popup -->
+  <div class="popup" id="updatePopup" role="dialog" aria-modal="true" aria-labelledby="updatePopupTitle">
+    <button class="close-btn" onclick="closeUpdatePopup()" aria-label="Close Popup">&times;</button>
+    <h3 id="updatePopupTitle">Update Available</h3>
+    <p>A new version of the application is available. Please refresh the page to update.</p>
+    <button class="refresh-btn" onclick="refreshPage()">Refresh Now</button>
+  </div>
 
-        // Reset Confirmation Variables
-        let resetConfirmations = 0;
-        const resetMessages = [
-            "Sei assolutamente sicuro di voler reimpostare tutti i dati?<br>",
-            "Vuoi comunque procedere?",
-            "<u>Avvertimento finale</u>: <br><i>Tutti i dati andranno persi.</i><br>Procedere?"
-        ];
+  <!-- Container for Achievement Popups -->
+  <div class="achievement-container" id="achievementContainer"></div>
 
-        // Load saved theme and data on page load
-        window.onload = () => {
-            const savedTheme = localStorage.getItem('selectedTheme');
-            if (savedTheme) {
-                currentThemeIndex = themes.indexOf(savedTheme);
-                if (currentThemeIndex === -1) currentThemeIndex = 0;
-                applyTheme(themes[currentThemeIndex]);
-            } else {
-                applyTheme('default');
-            }
+  <!-- Reset Confirmation Popups -->
+  <div class="reset-popup" id="resetPopup">
+    <p id="resetMessage">Are you sure you want to reset all data?</p>
+    <button id="yesButton" onclick="handleResetConfirmation()">Si</button>
+    <button onclick="cancelReset()">No</button>
+  </div>
 
-            // Initialize counters and points
-            Object.keys(pointsPerCount).forEach(id => {
-                const count = parseInt(localStorage.getItem(id)) || 0;
-                document.getElementById(id).value = count;
-                updatePoints(id, count, false);
-            });
-            const storedTotal = parseFloat(localStorage.getItem('total-points')) || 0;
-            document.getElementById('total-points').innerText = storedTotal.toFixed(1);
-            previousTotal = storedTotal;
-            checkAchievements(storedTotal);
-        };
+  <script>
+    // =====================
+    // JavaScript Code for Update Notification
+    // =====================
 
-        function applyTheme(theme) {
-            // Remove all theme classes except default
-            document.body.classList.remove(...themes.filter(t => t !== 'default').map(t => `theme-${t}`));
+    // Function to fetch the current version from version.json
+    async function checkForUpdates() {
+      try {
+        const response = await fetch('version.json', { cache: 'no-cache' });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        const latestVersion = data.version;
 
-            if (theme !== 'default') {
-                document.body.classList.add(`theme-${theme}`);
-            }
+        // Get the stored version from localStorage
+        const storedVersion = localStorage.getItem('appVersion');
 
-            // Update theme switcher tooltip and icon
-            switch (theme) {
-                case 'default':
-                    themeSwitcher.innerHTML = '<i class="fas fa-sun"></i>';
-                    themeSwitcher.setAttribute('data-tooltip', 'Default Theme');
-                    break;
-                case 'dark1':
-                    themeSwitcher.innerHTML = '<i class="fas fa-moon"></i>';
-                    themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 1');
-                    break;
-                case 'dark2':
-                    themeSwitcher.innerHTML = '<i class="fas fa-cloud-moon"></i>';
-                    themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 2');
-                    break;
-                case 'dark3':
-                    themeSwitcher.innerHTML = '<i class="fas fa-meteor"></i>';
-                    themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 3');
-                    break;
-                case 'dark4':
-                    themeSwitcher.innerHTML = '<i class="fas fa-cloud"></i>';
-                    themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 4');
-                    break;
-                case 'dark5':
-                    themeSwitcher.innerHTML = '<i class="fas fa-adjust"></i>';
-                    themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 5');
-                    break;
-                case 'dark6':
-                    themeSwitcher.innerHTML = '<i class="fas fa-circle"></i>';
-                    themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 6');
-                    break;
-                default:
-                    themeSwitcher.innerHTML = '<i class="fas fa-sun"></i>';
-                    themeSwitcher.setAttribute('data-tooltip', 'Default Theme');
-            }
-
-            // Save the selected theme
-            localStorage.setItem('selectedTheme', theme);
+        if (storedVersion && storedVersion !== latestVersion) {
+          // New version detected, show the update popup
+          showUpdatePopup();
         }
 
-        // Theme switcher button click event
-        themeSwitcher.addEventListener('click', () => {
-            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-            applyTheme(themes[currentThemeIndex]);
-        });
+        // Update the stored version
+        localStorage.setItem('appVersion', latestVersion);
+      } catch (error) {
+        console.error('Error checking for updates:', error);
+        // Optionally handle errors (e.g., show a notification)
+      }
+    }
 
-        // Handle counter button actions
-        function handleCounter(button, action, amount = 1) {
-            const section = button.closest('.counter-section');
-            const id = section.getAttribute('data-id');
-            let count = parseInt(document.getElementById(id).value) || 0;
+    // Function to show the update popup
+    function showUpdatePopup() {
+      const updatePopup = document.getElementById('updatePopup');
+      updatePopup.classList.remove('hide');
+      updatePopup.classList.add('show');
+    }
 
-            let direction = ''; // To determine animation
+    // Function to close the update popup
+    function closeUpdatePopup() {
+      const updatePopup = document.getElementById('updatePopup');
+      updatePopup.classList.remove('show');
+      updatePopup.classList.add('hide');
+    }
 
-            if (action === 'increase' || action === 'increment') {
-                count += amount;
-                direction = 'increase';
-            } else if (action === 'decrease') {
-                count -= amount;
-                if (count < 0) count = 0;
-                direction = 'decrease';
-            }
+    // Function to refresh the page
+    function refreshPage() {
+      window.location.reload(true); // Force reload from the server
+    }
 
-            // Update the count value
-            document.getElementById(id).value = count;
-            localStorage.setItem(id, count);
+    // Call checkForUpdates on page load
+    window.addEventListener('load', () => {
+      checkForUpdates();
+    });
 
-            // Update points
-            updatePoints(id, count, direction);
+    // =====================
+    // Existing JavaScript Code
+    // =====================
 
-            // Update total points
-            updateTotalPoints();
+    // Theme Management
+    const themes = ['default', 'dark1', 'dark2', 'dark3', 'dark4', 'dark5', 'dark6'];
+    let currentThemeIndex = 0;
 
-            // Set dataChanged flag to true since data has been modified
-            dataChanged = true;
+    const themeSwitcher = document.getElementById('themeSwitcher');
+
+    // Flag to track data changes
+    let dataChanged = false;
+
+    // Points per count
+    const pointsPerCount = {
+      chats: 2,
+      voicechats: 4,
+      images: 0.2,
+      audios: 2,
+      mesh: 0.2
+    };
+
+    // Achievement thresholds
+    const achievementThresholds = [300, 350, 400];
+
+    // Previous total points to track threshold crossing
+    let previousTotal = 0;
+
+    // Reset Confirmation Variables
+    let resetConfirmations = 0;
+    const resetMessages = [
+      "Sei assolutamente sicuro di voler reimpostare tutti i dati?<br>",
+      "Vuoi comunque procedere?",
+      "<u>Avvertimento finale</u>: <br><i>Tutti i dati andranno persi.</i><br>Procedere?"
+    ];
+
+    // Load saved theme and data on page load
+    window.onload = () => {
+      const savedTheme = localStorage.getItem('selectedTheme');
+      if (savedTheme) {
+        currentThemeIndex = themes.indexOf(savedTheme);
+        if (currentThemeIndex === -1) currentThemeIndex = 0;
+        applyTheme(themes[currentThemeIndex]);
+      } else {
+        applyTheme('default');
+      }
+
+      // Initialize counters and points
+      Object.keys(pointsPerCount).forEach(id => {
+        const count = parseInt(localStorage.getItem(id)) || 0;
+        document.getElementById(id).value = count;
+        updatePoints(id, count, false);
+      });
+      const storedTotal = parseFloat(localStorage.getItem('total-points')) || 0;
+      document.getElementById('total-points').innerText = storedTotal.toFixed(1);
+      previousTotal = storedTotal;
+      checkAchievements(storedTotal);
+    };
+
+    function applyTheme(theme) {
+      // Remove all theme classes except default
+      document.body.classList.remove(...themes.filter(t => t !== 'default').map(t => `theme-${t}`));
+
+      if (theme !== 'default') {
+        document.body.classList.add(`theme-${theme}`);
+      }
+
+      // Update theme switcher tooltip and icon
+      switch (theme) {
+        case 'default':
+          themeSwitcher.innerHTML = '<i class="fas fa-sun"></i>';
+          themeSwitcher.setAttribute('data-tooltip', 'Default Theme');
+          break;
+        case 'dark1':
+          themeSwitcher.innerHTML = '<i class="fas fa-moon"></i>';
+          themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 1');
+          break;
+        case 'dark2':
+          themeSwitcher.innerHTML = '<i class="fas fa-cloud-moon"></i>';
+          themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 2');
+          break;
+        case 'dark3':
+          themeSwitcher.innerHTML = '<i class="fas fa-meteor"></i>';
+          themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 3');
+          break;
+        case 'dark4':
+          themeSwitcher.innerHTML = '<i class="fas fa-cloud"></i>';
+          themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 4');
+          break;
+        case 'dark5':
+          themeSwitcher.innerHTML = '<i class="fas fa-adjust"></i>';
+          themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 5');
+          break;
+        case 'dark6':
+          themeSwitcher.innerHTML = '<i class="fas fa-circle"></i>';
+          themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 6');
+          break;
+        default:
+          themeSwitcher.innerHTML = '<i class="fas fa-sun"></i>';
+          themeSwitcher.setAttribute('data-tooltip', 'Default Theme');
+      }
+
+      // Save the selected theme
+      localStorage.setItem('selectedTheme', theme);
+    }
+
+    // Theme switcher button click event
+    themeSwitcher.addEventListener('click', () => {
+      currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+      applyTheme(themes[currentThemeIndex]);
+    });
+
+    // Handle counter button actions
+    function handleCounter(button, action, amount = 1) {
+      const section = button.closest('.counter-section');
+      const id = section.getAttribute('data-id');
+      let count = parseInt(document.getElementById(id).value) || 0;
+
+      let direction = ''; // To determine animation
+
+      if (action === 'increase' || action === 'increment') {
+        count += amount;
+        direction = 'increase';
+      } else if (action === 'decrease') {
+        count -= amount;
+        if (count < 0) count = 0;
+        direction = 'decrease';
+      }
+
+      // Update the count value
+      document.getElementById(id).value = count;
+      localStorage.setItem(id, count);
+
+      // Update points
+      updatePoints(id, count, direction);
+
+      // Update total points
+      updateTotalPoints();
+
+      // Set dataChanged flag to true since data has been modified
+      dataChanged = true;
+    }
+
+    // Update points for a specific counter
+    function updatePoints(id, count, direction) {
+      const pointsElement = document.getElementById(`${id}-points`);
+      const points = count * pointsPerCount[id];
+
+      // Update the points value
+      pointsElement.innerText = points.toFixed(1);
+      localStorage.setItem(`${id}-points`, points.toFixed(1));
+
+      // Apply animation based on direction
+      if (direction === 'increase') {
+        applyNumberAnimation(pointsElement, 'increase');
+      } else if (direction === 'decrease') {
+        applyNumberAnimation(pointsElement, 'decrease');
+      }
+    }
+
+    // Calculate and update total points
+    function updateTotalPoints() {
+      let total = 0;
+      Object.keys(pointsPerCount).forEach(id => {
+        const points = parseFloat(document.getElementById(`${id}-points`).innerText) || 0;
+        total += points;
+      });
+      const totalPointsElement = document.getElementById('total-points');
+      totalPointsElement.innerText = total.toFixed(1);
+      localStorage.setItem('total-points', total.toFixed(1));
+
+      // Apply animation based on whether total increased or decreased
+      const direction = total > previousTotal ? 'increase' : (total < previousTotal ? 'decrease' : '');
+      if (direction) {
+        applyNumberAnimation(totalPointsElement, direction);
+      }
+
+      checkAchievements(total);
+      previousTotal = total;
+    }
+
+    // Apply number animation for color transition
+    function applyNumberAnimation(element, direction) {
+      if (direction === 'increase') {
+        element.classList.add('increase-animation');
+        setTimeout(() => {
+          element.classList.remove('increase-animation');
+        }, 300);
+      } else if (direction === 'decrease') {
+        element.classList.add('decrease-animation');
+        setTimeout(() => {
+          element.classList.remove('decrease-animation');
+        }, 300);
+      }
+    }
+
+    // Check and display achievements
+    function checkAchievements(total) {
+      achievementThresholds.forEach(threshold => {
+        if (previousTotal < threshold && total >= threshold) {
+          if (total === threshold) {
+            displayAchievement(threshold, 'achieved');
+          } else if (total > threshold) {
+            displayAchievement(threshold, 'surpassed');
+          }
         }
+      });
+    }
 
-        // Update points for a specific counter
-        function updatePoints(id, count, direction) {
-            const pointsElement = document.getElementById(`${id}-points`);
-            const points = count * pointsPerCount[id];
+    // Display achievement popup
+    function displayAchievement(threshold, type) {
+      const achievementContainer = document.getElementById('achievementContainer');
 
-            // Update the points value
-            pointsElement.innerText = points.toFixed(1);
-            localStorage.setItem(`${id}-points`, points.toFixed(1));
+      // Create a new popup element
+      const popup = document.createElement('div');
+      popup.classList.add('achievement-popup');
+      if (type === 'achieved') {
+        popup.classList.add('achievement-achieved');
+        popup.innerHTML = `🎉 <strong>Obiettivo di ${threshold} punti raggiunti!</strong>`;
+      } else if (type === 'surpassed') {
+        popup.classList.add('achievement-surpassed');
+        popup.innerHTML = `🏆 <strong>Congratulazioni!<br>Hai superato ${threshold} punti!</strong>`;
+      }
 
-            // Apply animation based on direction
-            if (direction === 'increase') {
-                applyNumberAnimation(pointsElement, 'increase');
-            } else if (direction === 'decrease') {
-                applyNumberAnimation(pointsElement, 'decrease');
-            }
+      // Append the popup to the container
+      achievementContainer.appendChild(popup);
+
+      // After 15 seconds, start the fadeOutSlideUp animation
+      setTimeout(() => {
+        popup.style.animation = 'fadeOutSlideUp 0.5s forwards';
+      }, 15000);
+
+      // Remove the popup from the DOM after the fade-out animation completes
+      popup.addEventListener('animationend', (event) => {
+        if (event.animationName === 'fadeOutSlideUp') {
+          achievementContainer.removeChild(popup);
         }
+      });
+    }
 
-        // Calculate and update total points
-        function updateTotalPoints() {
-            let total = 0;
-            Object.keys(pointsPerCount).forEach(id => {
-                const points = parseFloat(document.getElementById(`${id}-points`).innerText) || 0;
-                total += points;
-            });
-            const totalPointsElement = document.getElementById('total-points');
-            totalPointsElement.innerText = total.toFixed(1);
-            localStorage.setItem('total-points', total.toFixed(1));
+    // Toggle info popup
+    function togglePopup() {
+      const popup = document.getElementById('infoPopup');
+      if (popup.classList.contains('show')) {
+        popup.classList.remove('show');
+        popup.classList.add('hide');
+      } else {
+        popup.classList.remove('hide');
+        popup.style.display = 'block'; // Ensure it's displayed
+        // Trigger reflow to restart animation
+        void popup.offsetWidth;
+        popup.classList.add('show');
+      }
+    }
 
-            // Apply animation based on whether total increased or decreased
-            const direction = total > previousTotal ? 'increase' : (total < previousTotal ? 'decrease' : '');
-            if (direction) {
-                applyNumberAnimation(totalPointsElement, direction);
-            }
+    // Close popup when clicking the close button
+    function closePopup() {
+      const popup = document.getElementById('infoPopup');
+      popup.classList.remove('show');
+      popup.classList.add('hide');
+    }
 
-            checkAchievements(total);
-            previousTotal = total;
-        }
+    // Add to bookmarks functionality
+    function addBookmark() {
+      const bookmarkURL = window.location.href;
+      const bookmarkTitle = document.title;
 
-        // Apply number animation for color transition
-        function applyNumberAnimation(element, direction) {
-            if (direction === 'increase') {
-                element.classList.add('increase-animation');
-                setTimeout(() => {
-                    element.classList.remove('increase-animation');
-                }, 300);
-            } else if (direction === 'decrease') {
-                element.classList.add('decrease-animation');
-                setTimeout(() => {
-                    element.classList.remove('decrease-animation');
-                }, 300);
-            }
-        }
+      if (window.sidebar && window.sidebar.addPanel) { // Firefox <23
+        window.sidebar.addPanel(bookmarkTitle, bookmarkURL, '');
+      } else if (window.external && ('AddFavorite' in window.external)) { // IE
+        window.external.AddFavorite(bookmarkURL, bookmarkTitle);
+      } else { // Other browsers
+        alert('Press ' + (navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? 'Cmd' : 'Ctrl') + '+D to bookmark this page.');
+      }
+    }
 
-        // Check and display achievements
-        function checkAchievements(total) {
-            achievementThresholds.forEach(threshold => {
-                if (previousTotal < threshold && total >= threshold) {
-                    if (total === threshold) {
-                        displayAchievement(threshold, 'achieved');
-                    } else if (total > threshold) {
-                        displayAchievement(threshold, 'surpassed');
-                    }
-                }
-            });
-        }
+    // Save data to modCounter.txt with the specified format
+    function saveData() {
+      // Check if there's any data to save
+      if (!dataChanged) {
+        alert('No changes to save.');
+        return;
+      }
 
-        // Display achievement popup
-        function displayAchievement(threshold, type) {
-            const achievementContainer = document.getElementById('achievementContainer');
+      const timestamp = getFormattedTimestamp();
+      const totalPoints = document.getElementById('total-points').innerText;
 
-            // Create a new popup element
-            const popup = document.createElement('div');
-            popup.classList.add('achievement-popup');
-            if (type === 'achieved') {
-                popup.classList.add('achievement-achieved');
-                popup.innerHTML = `🎉 <strong>Obiettivo di ${threshold} punti raggiunti!</strong>`;
-            } else if (type === 'surpassed') {
-                popup.classList.add('achievement-surpassed');
-                popup.innerHTML = `🏆 <strong>Congratulazioni!<br>Hai superato ${threshold} punti!</strong>`;
-            }
+      // Collect data from all counters
+      const counters = Object.keys(pointsPerCount).map(id => {
+        const count = document.getElementById(id).value;
+        const points = document.getElementById(`${id}-points`).innerText;
+        // Capitalize and format as "Item: count || Points: points"
+        return `${capitalizeFirstLetter(getDisplayName(id))}: ${count} || Points: ${points}`;
+      }).join('\n');
 
-            // Append the popup to the container
-            achievementContainer.appendChild(popup);
+      // Format the data to be saved
+      const dataToSave = `--- Save at ${timestamp} ---\nTotal Points: ${totalPoints}\n${counters}\n\n`;
 
-            // After 15 seconds, start the fadeOutSlideUp animation
-            setTimeout(() => {
-                popup.style.animation = 'fadeOutSlideUp 0.5s forwards';
-            }, 15000);
+      // Retrieve existing data from localStorage
+      let existingData = localStorage.getItem('modCounterData') || '';
 
-            // Remove the popup from the DOM after the fade-out animation completes
-            popup.addEventListener('animationend', (event) => {
-                if (event.animationName === 'fadeOutSlideUp') {
-                    achievementContainer.removeChild(popup);
-                }
-            });
-        }
+      // Prepend the new data
+      const updatedData = dataToSave + existingData;
 
-        // Toggle info popup
-        function togglePopup() {
-            const popup = document.getElementById('infoPopup');
-            if (popup.classList.contains('show')) {
-                popup.classList.remove('show');
-                popup.classList.add('hide');
-            } else {
-                popup.classList.remove('hide');
-                popup.style.display = 'block'; // Ensure it's displayed
-                // Trigger reflow to restart animation
-                void popup.offsetWidth;
-                popup.classList.add('show');
-            }
-        }
+      // Save the updated data back to localStorage
+      localStorage.setItem('modCounterData', updatedData);
 
-        // Close popup when clicking the close button
-        function closePopup() {
-            const popup = document.getElementById('infoPopup');
-            popup.classList.remove('show');
-            popup.classList.add('hide');
-        }
+      // Create a Blob from the updated data
+      const blob = new Blob([updatedData], { type: 'text/plain' });
 
-        // Add to bookmarks functionality
-        function addBookmark() {
-            const bookmarkURL = window.location.href;
-            const bookmarkTitle = document.title;
+      // Create a download link and trigger the download
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'modCounter.txt';
+      document.body.appendChild(a);
+      a.click();
 
-            if (window.sidebar && window.sidebar.addPanel) { // Firefox <23
-                window.sidebar.addPanel(bookmarkTitle, bookmarkURL, '');
-            } else if (window.external && ('AddFavorite' in window.external)) { // IE
-                window.external.AddFavorite(bookmarkURL, bookmarkTitle);
-            } else { // Other browsers
-                alert('Press ' + (navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? 'Cmd' : 'Ctrl') + '+D to bookmark this page.');
-            }
-        }
+      // Clean up
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
 
-        // Save data to modCounter.txt with the specified format
-        function saveData() {
-            // Check if there's any data to save
-            if (!dataChanged) {
-                alert('No changes to save.');
-                return;
-            }
+      // Reset the dataChanged flag
+      dataChanged = false;
 
-            const timestamp = getFormattedTimestamp();
-            const totalPoints = document.getElementById('total-points').innerText;
+      // Notify the user
+      alert('Data has been saved to modCounter.txt');
+    }
 
-            // Collect data from all counters
-            const counters = Object.keys(pointsPerCount).map(id => {
-                const count = document.getElementById(id).value;
-                const points = document.getElementById(`${id}-points`).innerText;
-                // Capitalize and format as "Item: count || Points: points"
-                return `${capitalizeFirstLetter(getDisplayName(id))}: ${count} || Points: ${points}`;
-            }).join('\n');
+    // Helper function to get formatted timestamp as dd/mm/yyyy and hh:mm
+    function getFormattedTimestamp() {
+      const now = new Date();
+      const day = String(now.getDate()).padStart(2, '0');
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const year = now.getFullYear();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      return `${day}/${month}/${year} and ${hours}:${minutes}`;
+    }
 
-            // Format the data to be saved
-            const dataToSave = `--- Save at ${timestamp} ---\nTotal Points: ${totalPoints}\n${counters}\n\n`;
+    // Helper function to capitalize the first letter
+    function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
-            // Retrieve existing data from localStorage
-            let existingData = localStorage.getItem('modCounterData') || '';
+    // Helper function to get display name for each counter
+    function getDisplayName(id) {
+      const displayNames = {
+        chats: 'Chats',
+        voicechats: 'Voice Chats',
+        images: 'Images',
+        audios: 'Audios',
+        mesh: 'Mesh 2D/3D'
+      };
+      return displayNames[id] || id;
+    }
 
-            // Prepend the new data
-            const updatedData = dataToSave + existingData;
+    // Handle popup animations on animation end
+    const infoPopup = document.getElementById('infoPopup');
+    infoPopup.addEventListener('animationend', (event) => {
+      if (event.animationName === 'fadeOutSlideLeft') {
+        infoPopup.classList.remove('hide');
+        infoPopup.style.display = 'none';
+      }
+    });
 
-            // Save the updated data back to localStorage
-            localStorage.setItem('modCounterData', updatedData);
+    // Initiate Reset All Counters with Confirmation Popups
+    function initiateReset() {
+      resetConfirmations = 0;
+      showResetPopup();
+    }
 
-            // Create a Blob from the updated data
-            const blob = new Blob([updatedData], { type: 'text/plain' });
+    function showResetPopup() {
+      const resetPopup = document.getElementById('resetPopup');
+      const resetMessage = document.getElementById('resetMessage');
+      const yesButton = document.getElementById('yesButton');
+      resetMessage.innerHTML = resetMessages[resetConfirmations];
+      yesButton.disabled = false; // Ensure the button is enabled
+      resetPopup.style.display = 'block';
+    }
 
-            // Create a download link and trigger the download
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'modCounter.txt';
-            document.body.appendChild(a);
-            a.click();
+    function handleResetConfirmation() {
+      const yesButton = document.getElementById('yesButton');
+      yesButton.disabled = true; // Disable the button to prevent spam clicks
+      resetConfirmations++;
+      if (resetConfirmations < resetMessages.length) {
+        // Wait a bit before showing the next confirmation
+        setTimeout(() => {
+          showResetPopup();
+        }, 1000); // 1000ms delay
+      } else {
+        // Perform the reset
+        resetAllCounters();
+        // Hide the popup
+        const resetPopup = document.getElementById('resetPopup');
+        resetPopup.style.display = 'none';
+        resetConfirmations = 0;
+      }
+    }
 
-            // Clean up
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+    function cancelReset() {
+      const resetPopup = document.getElementById('resetPopup');
+      resetPopup.style.display = 'none';
+      resetConfirmations = 0;
+    }
 
-            // Reset the dataChanged flag
-            dataChanged = false;
-
-            // Notify the user
-            alert('Data has been saved to modCounter.txt');
-        }
-
-        // Helper function to get formatted timestamp as dd/mm/yyyy and hh:mm
-        function getFormattedTimestamp() {
-            const now = new Date();
-            const day = String(now.getDate()).padStart(2, '0');
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const year = now.getFullYear();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            return `${day}/${month}/${year} and ${hours}:${minutes}`;
-        }
-
-        // Helper function to capitalize the first letter
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-
-        // Helper function to get display name for each counter
-        function getDisplayName(id) {
-            const displayNames = {
-                chats: 'Chats',
-                voicechats: 'Voice Chats',
-                images: 'Images',
-                audios: 'Audios',
-                mesh: 'Mesh 2D/3D'
-            };
-            return displayNames[id] || id;
-        }
-
-        // Handle popup animations on animation end
-        const infoPopup = document.getElementById('infoPopup');
-        infoPopup.addEventListener('animationend', (event) => {
-            if (event.animationName === 'fadeOutSlideLeft') {
-                infoPopup.classList.remove('hide');
-                infoPopup.style.display = 'none';
-            }
-        });
-
-        // Initiate Reset All Counters with Confirmation Popups
-        function initiateReset() {
-            resetConfirmations = 0;
-            showResetPopup();
-        }
-
-        function showResetPopup() {
-            const resetPopup = document.getElementById('resetPopup');
-            const resetMessage = document.getElementById('resetMessage');
-            const yesButton = document.getElementById('yesButton');
-            resetMessage.innerHTML = resetMessages[resetConfirmations];
-            yesButton.disabled = false; // Ensure the button is enabled
-            resetPopup.style.display = 'block';
-        }
-
-        function handleResetConfirmation() {
-            const yesButton = document.getElementById('yesButton');
-            yesButton.disabled = true; // Disable the button to prevent spam clicks
-            resetConfirmations++;
-            if (resetConfirmations < resetMessages.length) {
-                // Wait a bit before showing the next confirmation
-                setTimeout(() => {
-                    showResetPopup();
-                }, 1000); // 500ms delay
-            } else {
-                // Perform the reset
-                resetAllCounters();
-                // Hide the popup
-                const resetPopup = document.getElementById('resetPopup');
-                resetPopup.style.display = 'none';
-                resetConfirmations = 0;
-            }
-        }
-
-        function cancelReset() {
-            const resetPopup = document.getElementById('resetPopup');
-            resetPopup.style.display = 'none';
-            resetConfirmations = 0;
-        }
-
-        // Reset all counters
-        function resetAllCounters() {
-            Object.keys(pointsPerCount).forEach(id => {
-                document.getElementById(id).value = 0;
-                localStorage.setItem(id, 0);
-                updatePoints(id, 0, 'decrease');
-            });
-            updateTotalPoints();
-            // Set dataChanged flag to true
-            dataChanged = true;
-        }
-
-    </script>
+    // Reset all counters
+    function resetAllCounters() {
+      Object.keys(pointsPerCount).forEach(id => {
+        document.getElementById(id).value = 0;
+        localStorage.setItem(id, 0);
+        updatePoints(id, 0, 'decrease');
+      });
+      updateTotalPoints();
+      // Set dataChanged flag to true
+      dataChanged = true;
+    }
+  </script>
 </body>
+
 </html>

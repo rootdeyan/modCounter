@@ -158,7 +158,9 @@
     /* Apply the background image when these themes are active */
     body.theme-image1::before,
     body.theme-image2::before,
-    body.theme-image3::before {
+    body.theme-image3::before,
+    body.theme-image4::before,
+    body.theme-image5::before {
       content: '';
       position: fixed;
       top: 0;
@@ -182,6 +184,15 @@
 
     body.theme-image3::before {
       background-image: url('BlackOps.webp');
+    }
+
+    /* New Themes for Personal Images */
+    body.theme-image4::before {
+      background-image: url('HELLDIVERS2.webp'); /* Replace with your image */
+    }
+
+    body.theme-image5::before {
+      background-image: url('BlackMarble.webp'); /* Replace with your image */
     }
 
     /* Body Styling */
@@ -988,7 +999,7 @@
     // =====================
 
     // Theme Management
-    const themes = ['default', 'dark1', 'dark2', 'dark3', 'dark4', 'dark5', 'dark6', 'image1', 'image2', 'image3'];
+    const themes = ['default', 'dark1', 'dark2', 'dark3', 'dark4', 'dark5', 'dark6', 'image1', 'image2', 'image3', 'image4', 'image5'];
     let currentThemeIndex = 0;
 
     const themeSwitcher = document.getElementById('themeSwitcher');
@@ -1058,39 +1069,47 @@
           break;
         case 'dark1':
           themeSwitcher.innerHTML = '<i class="fas fa-moon"></i>';
-          themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 1');
+          themeSwitcher.setAttribute('data-tooltip', 'Dark Purple');
           break;
         case 'dark2':
           themeSwitcher.innerHTML = '<i class="fas fa-cloud-moon"></i>';
-          themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 2');
+          themeSwitcher.setAttribute('data-tooltip', 'Dark Navi Blue');
           break;
         case 'dark3':
           themeSwitcher.innerHTML = '<i class="fas fa-meteor"></i>';
-          themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 3');
+          themeSwitcher.setAttribute('data-tooltip', 'Dark Black');
           break;
         case 'dark4':
           themeSwitcher.innerHTML = '<i class="fas fa-cloud"></i>';
-          themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 4');
+          themeSwitcher.setAttribute('data-tooltip', 'Dark Grey');
           break;
         case 'dark5':
           themeSwitcher.innerHTML = '<i class="fas fa-adjust"></i>';
-          themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 5');
+          themeSwitcher.setAttribute('data-tooltip', 'Dark Black & Grey');
           break;
         case 'dark6':
           themeSwitcher.innerHTML = '<i class="fas fa-circle"></i>';
-          themeSwitcher.setAttribute('data-tooltip', 'Dark Theme 6');
+          themeSwitcher.setAttribute('data-tooltip', 'Dark White Grey');
           break;
         case 'image1':
           themeSwitcher.innerHTML = '<i class="fas fa-image"></i>';
-          themeSwitcher.setAttribute('data-tooltip', 'Image Theme 1');
+          themeSwitcher.setAttribute('data-tooltip', 'Black Myth: Wukong');
           break;
         case 'image2':
           themeSwitcher.innerHTML = '<i class="fas fa-image"></i>';
-          themeSwitcher.setAttribute('data-tooltip', 'Image Theme 2');
+          themeSwitcher.setAttribute('data-tooltip', 'Data Breacher');
           break;
         case 'image3':
           themeSwitcher.innerHTML = '<i class="fas fa-image"></i>';
-          themeSwitcher.setAttribute('data-tooltip', 'Image Theme 3');
+          themeSwitcher.setAttribute('data-tooltip', 'Call of Duty: Black Ops 6');
+          break;
+        case 'image4':
+          themeSwitcher.innerHTML = '<i class="fas fa-image"></i>';
+          themeSwitcher.setAttribute('data-tooltip', 'HELLDIVERS 2');
+          break;
+        case 'image5':
+          themeSwitcher.innerHTML = '<i class="fas fa-image"></i>';
+          themeSwitcher.setAttribute('data-tooltip', 'Black Morble');
           break;
         default:
           themeSwitcher.innerHTML = '<i class="fas fa-sun"></i>';

@@ -57,11 +57,11 @@
 
       /* Button Background Colors */
       --button-decrease-bg-color: #ff9900;
-      --button-increase-bg-color: #3dca3d;
+      --button-increase-bg-color: rgba(0, 250, 0, 0.507);
       --button-reset-bg-color: #ff9900;
 
       /* Increment Button Colors */
-      --button-increment-bg-color: #3dca3d;
+      --button-increment-bg-color: rgba(0, 250, 0, 0.507);
 
       /* Glass Effect Background */
       --glass-bg-color: rgba(255, 255, 255, 0.9);
@@ -70,7 +70,7 @@
       /* Animation Variables */
       --animation-duration: 0.3s;
       --animation-ease: ease-in-out;
-      --color-increase: #3dca3d;
+      --color-increase: rgba(0, 250, 0, 0.507);
       --color-decrease: #ff9900;
     }
 
@@ -85,7 +85,7 @@
 
       --backlight-color: rgba(255, 255, 255, 0.8);
 
-      --button-increment-bg-color: #3dca3d;
+      --button-increment-bg-color: rgba(0, 250, 0, 0.507);
     }
 
     .theme-dark2 {
@@ -98,7 +98,7 @@
 
       --backlight-color: rgba(255, 255, 255, 0.8);
 
-      --button-increment-bg-color: #3dca3d;
+      --button-increment-bg-color: rgba(0, 250, 0, 0.507);
     }
 
     .theme-dark3 {
@@ -111,7 +111,7 @@
 
       --backlight-color: rgba(255, 255, 255, 0.8);
 
-      --button-increment-bg-color: #3dca3d;
+      --button-increment-bg-color: rgba(0, 250, 0, 0.507);
     }
 
     /* Soft Dark Themes */
@@ -125,7 +125,7 @@
 
       --backlight-color: rgba(255, 255, 255, 0.8);
 
-      --button-increment-bg-color: #3dca3d;
+      --button-increment-bg-color: rgba(0, 250, 0, 0.507);
     }
 
     .theme-dark5 {
@@ -138,7 +138,7 @@
 
       --backlight-color: rgba(255, 255, 255, 0.8);
 
-      --button-increment-bg-color: #3dca3d;
+      --button-increment-bg-color: rgba(0, 250, 0, 0.507);
     }
 
     .theme-dark6 {
@@ -151,7 +151,7 @@
 
       --backlight-color: rgba(255, 255, 255, 0.8);
 
-      --button-increment-bg-color: #3dca3d;
+      --button-increment-bg-color: rgba(0, 250, 0, 0.507);
     }
 
     /* New Themes with Background Images */
@@ -837,7 +837,7 @@
 
     <!-- Individual Counter Sections -->
     <div class="counter-section" data-id="chats">
-      <h2>Text Abuse / Text Chat</h2>
+      <h2>Chat Text Abuse</h2>
       <div class="counter">
         <div class="main-buttons">
           <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
@@ -1026,7 +1026,6 @@
     let resetConfirmations = 0;
     const resetMessages = [
       "Sei assolutamente sicuro di voler reimpostare tutti i dati?<br>",
-      "Vuoi comunque procedere?",
       "<u>Avvertimento finale</u>: <br><i>Tutti i dati andranno persi.</i><br>Procedere?"
     ];
 

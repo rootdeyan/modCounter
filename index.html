@@ -18,6 +18,27 @@
       box-sizing: border-box;
     }
 
+    .snowflake {
+            position: fixed;
+            top: -10px;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(110vh) translateX(var(--wind, 0px));
+                opacity: 0.3;
+            }
+        }
+
     :root {
       /* Theme Variables */
       /* Default Theme Variables */
@@ -1432,6 +1453,75 @@
       // Set dataChanged flag to true
       dataChanged = true;
     }
+    
+    const snowflakeCount = 150;
+        let windDirection = 0;
+
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+
+            const size = Math.random() * 5 + 2; // Between 2px and 7px
+            snowflake.style.width = `${size}px`;
+            snowflake.style.height = `${size}px`;
+
+            const posX = Math.random() * document.documentElement.clientWidth;
+            snowflake.style.left = `${posX}px`;
+
+            const duration = Math.random() * 5 + 3; // Between 3s and 8s
+            snowflake.style.animationDuration = `${duration}s`;
+            snowflake.style.setProperty('--wind', `${windDirection}px`);
+
+            snowflake.addEventListener('animationend', () => {
+                snowflake.remove();
+                createSnowflake(); // Replace the snowflake after it ends
+            });
+
+            document.body.appendChild(snowflake);
+        }
+
+        function updateWind() {
+            windDirection = Math.random() * 20 - 10; // Random wind direction between -10px and 10px
+        }
+
+        function adjustSnowfall() {
+            const currentSnowflakes = document.querySelectorAll('.snowflake');
+            const targetCount = Math.floor(Math.random() * 50 + 100); // Between 100 and 150
+
+            if (currentSnowflakes.length > targetCount) {
+                const excess = currentSnowflakes.length - targetCount;
+                for (let i = 0; i < excess; i++) {
+                    currentSnowflakes[i].remove();
+                }
+            } else if (currentSnowflakes.length < targetCount) {
+                const deficit = targetCount - currentSnowflakes.length;
+                for (let i = 0; i < deficit; i++) {
+                    createSnowflake();
+                }
+            }
+        }
+
+        function handleResize() {
+            const currentSnowflakes = document.querySelectorAll('.snowflake');
+            currentSnowflakes.forEach(snowflake => {
+                const newPosX = Math.random() * document.documentElement.clientWidth;
+                snowflake.style.left = `${newPosX}px`;
+            });
+        }
+
+        // Create initial snowflakes
+        for (let i = 0; i < snowflakeCount; i++) {
+            createSnowflake();
+        }
+
+        // Periodically change wind direction
+        setInterval(updateWind, 5000); // Change wind every 5 seconds
+
+        // Adjust snow quantity periodically
+        setInterval(adjustSnowfall, 10000); // Adjust snowfall every 10 seconds
+
+        // Adjust positions on window resize
+        window.addEventListener('resize', handleResize);
   </script>
 </body>
 

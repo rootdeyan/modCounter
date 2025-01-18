@@ -33,6 +33,11 @@
                 opacity: 1;
             }
 
+            50% {
+                transform: translateY(50vh) translateX(calc(var(--wind, 0px) * -1));
+                opacity: 0.9;
+            }
+
             100% {
                 transform: translateY(110vh) translateX(var(--wind, 0px));
                 opacity: 0.3;
@@ -961,7 +966,6 @@
     <button id="yesButton" onclick="handleResetConfirmation()">Si</button>
     <button onclick="cancelReset()">No</button>
   </div>
-
   <script>
     // =====================
     // JavaScript Code for Update Notification
@@ -1456,49 +1460,54 @@
     
     const snowflakeCount = 150;
         let windDirection = 0;
+        let snowPaused = false;
 
         function createSnowflake() {
+            if (snowPaused) return;
+
             const snowflake = document.createElement('div');
             snowflake.classList.add('snowflake');
 
-            const size = Math.random() * 5 + 2; // Between 2px and 7px
+            const size = Math.random() * 5 + 2; // Between 2px-7px
             snowflake.style.width = `${size}px`;
             snowflake.style.height = `${size}px`;
 
             const posX = Math.random() * document.documentElement.clientWidth;
             snowflake.style.left = `${posX}px`;
 
-            const duration = Math.random() * 5 + 3; // Between 3s and 8s
+            const duration = Math.random() * 15 + 10; // 10s-25s for slower falling
             snowflake.style.animationDuration = `${duration}s`;
             snowflake.style.setProperty('--wind', `${windDirection}px`);
 
             snowflake.addEventListener('animationend', () => {
                 snowflake.remove();
-                createSnowflake(); // Replace the snowflake after it ends
+                createSnowflake(); // Continuously recreate snowflakes
             });
 
             document.body.appendChild(snowflake);
         }
 
         function updateWind() {
-            windDirection = Math.random() * 20 - 10; // Random wind direction between -10px and 10px
+            windDirection = Math.random() * 20 - 10; // -10px to 10px
         }
 
-        function adjustSnowfall() {
-            const currentSnowflakes = document.querySelectorAll('.snowflake');
-            const targetCount = Math.floor(Math.random() * 50 + 100); // Between 100 and 150
-
-            if (currentSnowflakes.length > targetCount) {
-                const excess = currentSnowflakes.length - targetCount;
-                for (let i = 0; i < excess; i++) {
-                    currentSnowflakes[i].remove();
-                }
-            } else if (currentSnowflakes.length < targetCount) {
-                const deficit = targetCount - currentSnowflakes.length;
-                for (let i = 0; i < deficit; i++) {
-                    createSnowflake();
-                }
+        function startSnowfall() {
+            let delay = 0;
+            for (let i = 0; i < snowflakeCount; i++) {
+                setTimeout(createSnowflake, delay);
+                delay += 200; // Slight delay between each snowflake
             }
+        }
+
+        function toggleEffects() {
+            const stopDurations = [5, 10, 15, 20, 25, 30, 35, 60, 90, 120];
+            const stopDuration = stopDurations[Math.floor(Math.random() * stopDurations.length)];
+
+            snowPaused = true;
+            setTimeout(() => {
+                snowPaused = false;
+                startSnowfall();
+            }, stopDuration * 60000); // Stop for X minutes
         }
 
         function handleResize() {
@@ -1509,16 +1518,14 @@
             });
         }
 
-        // Create initial snowflakes
-        for (let i = 0; i < snowflakeCount; i++) {
-            createSnowflake();
-        }
+        // Start snowfall with staggered effect
+        startSnowfall();
 
         // Periodically change wind direction
-        setInterval(updateWind, 5000); // Change wind every 5 seconds
+        setInterval(updateWind, 5000);
 
-        // Adjust snow quantity periodically
-        setInterval(adjustSnowfall, 10000); // Adjust snowfall every 10 seconds
+        // Randomly stop snow effects for a while
+        setInterval(toggleEffects, Math.random() * 1800000 + 600000); // Random interval between 10-30 mins
 
         // Adjust positions on window resize
         window.addEventListener('resize', handleResize);

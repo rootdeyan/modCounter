@@ -814,32 +814,36 @@
   <!-- Total Points Section -->
   <div class="counter-container">
     <div class="counter-section total-points-section">
-      <h1>Totale: <span id="total-points">0.0</span></h1>
+      <h1><i>Totale: <span id="total-points">0.0</span></i></h1>
       <button class="reset-all" onclick="initiateReset()">Azzera tutto <i class="fa-solid fa-delete-left"></i></button>
       <!-- Action Buttons: Theme Switcher, Bookmark, Info, and Save -->
       <div class="action-buttons" id="actionButtons">
-        <!-- Theme Switcher Button -->
-        <button class="action-button theme-switcher" id="themeSwitcher" data-tooltip="Switch Theme" aria-label="Switch Theme">
+
+         <!-- Theme Switcher Button -->
+         <button class="action-button theme-switcher" id="themeSwitcher" data-tooltip="Switch Theme" aria-label="Switch Theme">
           <i class="fa-regular fa-sun"></i>
         </button>
-        <!-- Bookmark Button -->
-        <button class="action-button bookmark-button" onclick="addBookmark()" data-tooltip="Add to Bookmarks" aria-label="Add to Bookmarks">
-          <i class="fa-regular fa-bookmark"></i>
-        </button>
+
         <!-- Info Button -->
         <button class="action-button info-button" onclick="togglePopup()" data-tooltip="Information" aria-label="Information">
-          <i class="fa-regular fa-lightbulb"></i>
+          <i class="fa-solid fa-info"></i>
         </button>
+
+        <!-- Bookmark Button -->
+        <!-- <button class="action-button bookmark-button" onclick="addBookmark()" data-tooltip="Add to Bookmarks" aria-label="Add to Bookmarks">
+          <i class="fa-regular fa-bookmark"></i>
+        </button> -->
+
         <!-- Save Button -->
-        <button class="action-button save-button" onclick="saveData()" data-tooltip="Save Data" aria-label="Save Data">
+        <!-- <button class="action-button save-button" onclick="saveData()" data-tooltip="Save Data" aria-label="Save Data">
           <i class="fa-regular fa-floppy-disk"></i>
-        </button>
+        </button> -->
       </div>
     </div>
 
     <!-- Individual Counter Sections -->
     <div class="counter-section" data-id="chats">
-      <h2>Chat Text Abuse <i class="fa-solid fa-comments"></i></h2>
+      <h2><u>Chat Text Abuse</u> <i class="fa-regular fa-comments"></i></h2>
       <div class="counter">
         <div class="main-buttons">
           <button class="decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-minus"></i></button>
@@ -847,11 +851,11 @@
           <button class="increase" onclick="handleCounter(this, 'increase')"><i class="fa-solid fa-plus"></i></button>
         </div>
       </div>
-      <div class="points">Punti: <span id="chats-points">0.0</span></div>
+      <div class="points"><i>Punti: <span id="chats-points">0.0</span></i></div>
     </div>
 
     <div class="counter-section" data-id="voicechats">
-      <h2>Voice Chat <i class="fa-solid fa-headset"></i></h2>
+      <h2><u>Voice Chat</u> <i class="fa-solid fa-headset"></i></h2>
       <div class="counter">
         <div class="main-buttons">
           <button class="decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-minus"></i></button>
@@ -859,11 +863,11 @@
           <button class="increase" onclick="handleCounter(this, 'increase')"><i class="fa-solid fa-plus"></i></button>
         </div>
       </div>
-      <div class="points">Punti: <span id="voicechats-points">0.0</span></div>
+      <div class="points"><i>Punti: <span id="voicechats-points">0.0</span></i></div>
     </div>
 
     <div class="counter-section" data-id="images">
-      <h2>Image <i class="fa-solid fa-image"></i></h2>
+      <h2><u>Image</u> <i class="fa-regular fa-image"></i></h2>
       <div class="counter">
         <div class="main-buttons">
           <button class="decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-minus"></i></button>
@@ -876,11 +880,11 @@
           <button class="increment" onclick="handleCounter(this, 'increment', 10)">+ 10</button>
         </div>
       </div>
-      <div class="points">Punti: <span id="images-points">0.0</span></div>
+      <div class="points"><i>Punti: <span id="images-points">0.0</span></i></div>
     </div>
 
     <div class="counter-section" data-id="audios">
-      <h2>Audio <i class="fa-solid fa-volume-high"></i></h2>
+      <h2><u>Audio</u> <i class="fa-solid fa-headphones-simple"></i></h2>
       <div class="counter">
         <div class="main-buttons">
           <button class="decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-minus"></i></button>
@@ -888,11 +892,11 @@
           <button class="increase" onclick="handleCounter(this, 'increase')"><i class="fa-solid fa-plus"></i></button>
         </div>
       </div>
-      <div class="points">Punti: <span id="audios-points">0.0</span></div>
+      <div class="points"><i>Punti: <span id="audios-points">0.0</span></i></div>
     </div>
 
     <div class="counter-section" data-id="mesh">
-      <h2>Mesh 2D / 3D <i class="fa-brands fa-unity"></i></h2>
+      <h2><u>Mesh 2D / 3D</u> <i class="fa-brands fa-unity"></i></h2>
       <div class="counter">
         <div class="main-buttons">
           <button class="decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-minus"></i></button>
@@ -900,7 +904,7 @@
           <button class="increase" onclick="handleCounter(this, 'increase')"><i class="fa-solid fa-plus"></i></button>
         </div>
       </div>
-      <div class="points">Punti: <span id="mesh-points">0.0</span></div>
+      <div class="points"><i>Punti: <span id="mesh-points">0.0</span></i></div>
     </div>
   </div>
 
@@ -1232,10 +1236,10 @@
       popup.classList.add('achievement-popup');
       if (type === 'achieved') {
         popup.classList.add('achievement-achieved');
-        popup.innerHTML = `🎉 <strong>Obiettivo di ${threshold} punti raggiunti!</strong>`;
+        popup.innerHTML = `<i class="fa-solid fa-trophy"></i> <strong>Obiettivo di ${threshold} punti raggiunti!</strong>`;
       } else if (type === 'surpassed') {
         popup.classList.add('achievement-surpassed');
-        popup.innerHTML = `🏆 <strong>Congratulazioni!<br>Hai superato ${threshold} punti!</strong>`;
+        popup.innerHTML = `<i class="fa-solid fa-trophy"></i> <strong>Congratulazioni!<br>Hai superato ${threshold} punti!</strong>`;
       }
 
       // Append the popup to the container

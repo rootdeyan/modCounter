@@ -946,11 +946,9 @@
     <button id="yesButton" style="background-color: #81C784; color: #000000;" onclick="handleResetConfirmation()">Si</button>
     <button style="background-color: #FFB74D; color: #000000;" onclick="cancelReset()">No</button>
   </div>
-
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
-
   <script>
 
     // =====================
@@ -1479,13 +1477,8 @@
     // Initial check on page load
     checkForUpdates();
 
-    // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
+    window.onload = function() {
+      const firebaseConfig = {
     apiKey: "AIzaSyAytHnGA54s06aEqyWr4WM9AYtB5wMmWz8",
     authDomain: "cx-mod.firebaseapp.com",
     databaseURL: "https://cx-mod-default-rtdb.europe-west1.firebasedatabase.app",
@@ -1495,36 +1488,33 @@
     appId: "1:510967303169:web:0231eb9f701d36f13e0400"
   };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-  document.addEventListener("DOMContentLoaded", function() {
-        let fullName = localStorage.getItem('employeeFullName');
-        if (!fullName) {
-            fullName = prompt("Please enter your Full Name:");
-            localStorage.setItem('employeeFullName', fullName);
-        }
+        async function fetchScores() {
+            const querySnapshot = await db.collection("employees").orderBy("totalPoints", "desc").get();
+            const tbody = document.querySelector('#scoreTable tbody');
+            tbody.innerHTML = '';
 
-        function saveEmployeeScore(points) {
-            db.collection("employees").doc(fullName).set({
-                name: fullName,
-                totalPoints: points
+            querySnapshot.forEach(doc => {
+                const data = doc.data();
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${data.fullName}</td><td>${data.totalPoints}</td>`;
+                tbody.appendChild(row);
             });
         }
 
-        function increasePoints() {
-            let totalPoints = parseInt(localStorage.getItem('total-points')) || 0;
-            totalPoints += 10;
-            localStorage.setItem('total-points', totalPoints);
-            document.getElementById('total-points').innerText = totalPoints;
-            saveEmployeeScore(totalPoints);
+        function randomUpdateInterval() {
+            const time = Math.random() > 0.5 ? 30000 : 60000;
+            setTimeout(() => {
+                fetchScores();
+                randomUpdateInterval();
+            }, time);
         }
 
-        document.getElementById('increase-btn').addEventListener('click', increasePoints);
-
-        let storedPoints = localStorage.getItem('total-points') || 0;
-        document.getElementById('total-points').innerText = storedPoints;
-    });
+        fetchScores();
+        randomUpdateInterval();
+    };
 
   </script>
 </body>

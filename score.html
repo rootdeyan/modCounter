@@ -37,7 +37,7 @@
     <table id="scoreTable">
         <thead>
             <tr>
-                <th>Name / Surname</th>
+                <th>Full Name</th>
                 <th>Total Points</th>
             </tr>
         </thead>
@@ -45,30 +45,48 @@
             <!-- Data will be populated dynamically -->
         </tbody>
     </table>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
+
     <script>
+        const firebaseConfig = {
+    apiKey: "AIzaSyAytHnGA54s06aEqyWr4WM9AYtB5wMmWz8",
+    authDomain: "cx-mod.firebaseapp.com",
+    databaseURL: "https://cx-mod-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "cx-mod",
+    storageBucket: "cx-mod.firebasestorage.app",
+    messagingSenderId: "510967303169",
+    appId: "1:510967303169:web:0231eb9f701d36f13e0400"
+  };
+
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
         async function fetchScores() {
-        const querySnapshot = await db.collection("employees").orderBy("totalPoints", "desc").get();
-        const tbody = document.querySelector('#scoreTable tbody');
-        tbody.innerHTML = '';
+            const querySnapshot = await db.collection("employees").orderBy("totalPoints", "desc").get();
+            const tbody = document.querySelector('#scoreTable tbody');
+            tbody.innerHTML = '';
 
-        querySnapshot.forEach(doc => {
-            const data = doc.data();
-            const row = document.createElement('tr');
-            row.innerHTML = `<td>${data.name}</td><td>${data.totalPoints}</td>`;
-            tbody.appendChild(row);
-        });
-    }
+            querySnapshot.forEach(doc => {
+                const data = doc.data();
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${data.fullName}</td><td>${data.totalPoints}</td>`;
+                tbody.appendChild(row);
+            });
+        }
 
-    function randomUpdateInterval() {
-        const time = Math.random() > 0.5 ? 30000 : 60000;
-        setTimeout(() => {
-            fetchScores();
-            randomUpdateInterval();
-        }, time);
-    }
+        function randomUpdateInterval() {
+            const time = Math.random() > 0.5 ? 30000 : 60000;
+            setTimeout(() => {
+                fetchScores();
+                randomUpdateInterval();
+            }, time);
+        }
 
-    fetchScores();
-    randomUpdateInterval();
+        fetchScores();
+        randomUpdateInterval();
     </script>
 </body>
 </html>

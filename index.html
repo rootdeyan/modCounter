@@ -1474,35 +1474,59 @@
     checkForUpdates();
 
     // Employee Score Management
+    async function saveEmployeeScore(name, totalPoints) {
+        const rawData = await fetch('https://raw.githubusercontent.com/rootdeyan/modCounter/cx-mod/data.json');
+        const data = await rawData.json();
+
+        // Update existing record or add a new one
+        let employee = data.employees.find(emp => emp.name === name);
+        if (employee) {
+            employee.totalPoints = totalPoints;
+        } else {
+            data.employees.push({ name: name, totalPoints: totalPoints });
+        }
+
+        // Convert updated data to JSON
+        const updatedData = JSON.stringify(data, null, 2);
+
+        // Commit changes to GitHub
+        fetch('https://api.github.com/repos/rootdeyan/modCounter/cx-mod/data.json', {
+            method: 'PUT',
+            headers: {
+                "Authorization": "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",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                message: "Updated employee scores",
+                content: btoa(updatedData),
+                sha: await getSHA()
+            })
+        });
+    }
+
+    async function getSHA() {
+        const response = await fetch('https://api.github.com/repos/rootdeyan/modCounter/cx-mod/data.json');
+        const json = await response.json();
+        return json.sha;
+    }
+
     document.addEventListener("DOMContentLoaded", function() {
         let fullName = localStorage.getItem('employeeFullName');
-
         if (!fullName) {
             fullName = prompt("Please enter your Name and Surname:");
             localStorage.setItem('employeeFullName', fullName);
         }
 
-        function updateTotalPoints(points) {
-            localStorage.setItem('total-points', points);
-            saveEmployeeScore();
+        function updatePoints(points) {
             document.getElementById('total-points').innerText = points;
+            saveEmployeeScore(fullName, points);
         }
 
-        function saveEmployeeScore() {
-            const totalPoints = parseFloat(localStorage.getItem('total-points')) || 0;
-            let employees = JSON.parse(localStorage.getItem('employees')) || [];
-
-            const index = employees.findIndex(emp => emp.fullName === fullName);
-            if (index !== -1) {
-                employees[index].totalPoints = totalPoints;
-            } else {
-                employees.push({ fullName: fullName, totalPoints: totalPoints });
-            }
-
-            localStorage.setItem('employees', JSON.stringify(employees));
-        }
-
-        setInterval(saveEmployeeScore, 10000);
+        document.getElementById('increase-btn').addEventListener('click', () => {
+            let points = parseInt(document.getElementById('total-points').innerText) || 0;
+            points += 10;
+            updatePoints(points);
+        });
     });
   </script>
 </body>

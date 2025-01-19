@@ -37,8 +37,7 @@
     <table id="scoreTable">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Surname</th>
+                <th>Name / Surname</th>
                 <th>Total Points</th>
             </tr>
         </thead>
@@ -47,30 +46,32 @@
         </tbody>
     </table>
     <script>
-        function fetchScores() {
-            const employees = JSON.parse(localStorage.getItem('employees')) || [];
-            const tbody = document.querySelector('#scoreTable tbody');
-            tbody.innerHTML = '';
+        async function fetchScores() {
+        const response = await fetch('https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPOSITORY/main/data.json');
+        const data = await response.json();
+        
+        const tbody = document.querySelector('#scoreTable tbody');
+        tbody.innerHTML = '';
 
-            employees.sort((a, b) => b.totalPoints - a.totalPoints);
+        data.employees.sort((a, b) => b.totalPoints - a.totalPoints);
 
-            employees.forEach(emp => {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td>${emp.name}</td><td>${emp.surname}</td><td>${emp.totalPoints}</td>`;
-                tbody.appendChild(row);
-            });
-        }
+        data.employees.forEach(emp => {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${emp.name}</td><td>${emp.totalPoints}</td>`;
+            tbody.appendChild(row);
+        });
+    }
 
-        function randomUpdateInterval() {
-            const time = Math.random() > 0.5 ? 30000 : 60000;
-            setTimeout(() => {
-                fetchScores();
-                randomUpdateInterval();
-            }, time);
-        }
+    function randomUpdateInterval() {
+        const time = Math.random() > 0.5 ? 30000 : 60000;
+        setTimeout(() => {
+            fetchScores();
+            randomUpdateInterval();
+        }, time);
+    }
 
-        fetchScores();
-        randomUpdateInterval();
+    fetchScores();
+    randomUpdateInterval();
     </script>
 </body>
 </html>

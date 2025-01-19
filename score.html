@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>(mC) modCounter Scoreboard</title>
+    <link rel="icon" type="image/x-icon" href="modCounterFav1.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Alata', sans-serif;
+            background: var(--bg-gradient, linear-gradient(to bottom, #003D5B, #25E2CC));
+            color: var(--text-color, #ffffff);
+            padding: 20px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: var(--section-bg-color, rgba(255, 255, 255, 0.5));
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid var(--section-border-color, #dddddd);
+            color: var(--section-text-color, #000000);
+        }
+        th {
+            background-color: var(--button-increment-bg-color, #ffffff);
+        }
+    </style>
+</head>
+<body>
+    <h1>Employee Scoreboard</h1>
+    <table id="scoreTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Total Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be populated dynamically -->
+        </tbody>
+    </table>
+    <script>
+        function fetchScores() {
+            const employees = JSON.parse(localStorage.getItem('employees')) || [];
+            const tbody = document.querySelector('#scoreTable tbody');
+            tbody.innerHTML = '';
+
+            employees.sort((a, b) => b.totalPoints - a.totalPoints);
+
+            employees.forEach(emp => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${emp.name}</td><td>${emp.surname}</td><td>${emp.totalPoints}</td>`;
+                tbody.appendChild(row);
+            });
+        }
+
+        function randomUpdateInterval() {
+            const time = Math.random() > 0.5 ? 30000 : 60000;
+            setTimeout(() => {
+                fetchScores();
+                randomUpdateInterval();
+            }, time);
+        }
+
+        fetchScores();
+        randomUpdateInterval();
+    </script>
+</body>
+</html>

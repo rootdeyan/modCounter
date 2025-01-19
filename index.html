@@ -814,8 +814,8 @@
   <!-- Total Points Section -->
   <div class="counter-container">
     <div class="counter-section total-points-section">
-      <h1><i>Totale: <span id="total-points">0.0</span></i></h1>
-      <button class="reset-all" onclick="initiateReset()">Azzera tutto <i class="fa-solid fa-delete-left"></i></button>
+      <h1><i>Totale: <span id="total-points">0.0</span></i> <i class="fa-solid fa-arrow-trend-up"></i></h1>
+      <button class="reset-all" onclick="initiateReset()">Azzera tutto <i class="fa-solid fa-rotate-left"></i></button>
       <!-- Action Buttons: Theme Switcher, Bookmark, Info, and Save -->
       <div class="action-buttons" id="actionButtons">
 
@@ -1435,7 +1435,7 @@
       // Set dataChanged flag to true
       dataChanged = true;
     }
-    
+
     //GitHub API to Check for Updates
     const repoOwner = "rootdeyan";  // Replace with your GitHub username
     const repoName = "modCounter";  // Replace with your repository name

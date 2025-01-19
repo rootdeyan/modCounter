@@ -1488,35 +1488,64 @@
     appId: "1:510967303169:web:0231eb9f701d36f13e0400"
   };
 
+        // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        async function fetchScores() {
-            const querySnapshot = await db.collection("employees").orderBy("totalPoints", "desc").get();
-            const tbody = document.querySelector('#scoreTable tbody');
-            tbody.innerHTML = '';
+        let fullName = localStorage.getItem('employeeFullName');
 
-            querySnapshot.forEach(doc => {
-                const data = doc.data();
-                const row = document.createElement('tr');
-                row.innerHTML = `<td>${data.fullName}</td><td>${data.totalPoints}</td>`;
-                tbody.appendChild(row);
-            });
+        if (!fullName) {
+            document.getElementById('namePopup').style.display = 'block';
         }
 
-        function randomUpdateInterval() {
-            const time = Math.random() > 0.5 ? 30000 : 60000;
-            setTimeout(() => {
-                fetchScores();
-                randomUpdateInterval();
-            }, time);
+        function saveFullName() {
+            const inputName = document.getElementById('fullName').value.trim();
+            if (inputName && inputName.split(' ').length === 2) {
+                localStorage.setItem('employeeFullName', inputName);
+                document.getElementById('namePopup').style.display = 'none';
+            } else {
+                alert('Please enter your full name in the format: Name Surname');
+            }
         }
 
-        fetchScores();
-        randomUpdateInterval();
+        function saveEmployeeScore(points) {
+            fullName = localStorage.getItem('employeeFullName');
+            db.collection("employees").doc(fullName).set({
+                fullName: fullName,
+                totalPoints: points
+            }).catch(error => console.error("Error saving data: ", error));
+        }
+
+        function updatePoints(amount) {
+            let totalPoints = parseInt(localStorage.getItem('total-points')) || 0;
+            totalPoints += amount;
+            localStorage.setItem('total-points', totalPoints);
+            document.getElementById('total-points').innerText = totalPoints;
+            saveEmployeeScore(totalPoints);
+        }
+
+        document.getElementById('total-points').innerText = localStorage.getItem('total-points') || 0;
     };
+</script>
 
-  </script>
+<!-- Styled Popup for Full Name -->
+<div class="popup" id="namePopup" style="
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    text-align: center;
+    display: none;">
+    <h2>Enter Your Full Name</h2>
+    <input type="text" id="fullName" placeholder="Name Surname" style="width: 90%; padding: 12px; font-size: 1rem; margin-top: 10px; border: 1px solid #ccc; border-radius: 5px;">
+    <br>
+    <button onclick="saveFullName()" style="margin-top: 15px; padding: 12px 25px; font-size: 1.2rem; background-color: #25E2CC; color: #003D5B; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Submit</button>
+</div>
 </body>
 
 </html>

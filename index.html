@@ -1435,6 +1435,41 @@
       // Set dataChanged flag to true
       dataChanged = true;
     }
+    
+    //GitHub API to Check for Updates
+    const repoOwner = "rootdeyan";  // Replace with your GitHub username
+    const repoName = "modCounter";  // Replace with your repository name
+    const branch = "cx-main";       // Replace with your branch name (e.g., "main", "master")
+    let lastCommitHash = localStorage.getItem('lastCommitHash') || null;
+
+    async function checkForUpdates() {
+        try {
+            const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/commits/${branch}`);
+            if (!response.ok) throw new Error('Failed to fetch latest commit');
+
+            const data = await response.json();
+            const latestCommit = data.sha;
+
+            if (lastCommitHash && lastCommitHash !== latestCommit) {
+                // New update found, notify the user
+                if (confirm("A new update is available. Do you want to reload the page?")) {
+                    localStorage.setItem('lastCommitHash', latestCommit);
+                    location.reload();
+                }
+            } else if (!lastCommitHash) {
+                // First time storing the commit hash
+                localStorage.setItem('lastCommitHash', latestCommit);
+            }
+        } catch (error) {
+            console.error("Error checking for updates:", error);
+        }
+    }
+
+    // Check for updates every 30 minutes (1800000 milliseconds)
+    setInterval(checkForUpdates, 1800000);
+
+    // Initial check on page load
+    checkForUpdates();
   </script>
 </body>
 

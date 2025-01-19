@@ -843,7 +843,7 @@
 
     <!-- Individual Counter Sections -->
     <div class="counter-section" data-id="chats">
-      <h2><u>Chat Text Abuse</u> <i class="fa-regular fa-comments"></i></h2>
+      <h2>Chat Text Abuse <i class="fa-regular fa-comments"></i></h2>
       <div class="counter">
         <div class="main-buttons">
           <button class="decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-minus"></i></button>
@@ -855,7 +855,7 @@
     </div>
 
     <div class="counter-section" data-id="voicechats">
-      <h2><u>Voice Chat</u> <i class="fa-solid fa-headset"></i></h2>
+      <h2>Voice Chat <i class="fa-solid fa-headset"></i></h2>
       <div class="counter">
         <div class="main-buttons">
           <button class="decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-minus"></i></button>
@@ -867,7 +867,7 @@
     </div>
 
     <div class="counter-section" data-id="images">
-      <h2><u>Image</u> <i class="fa-regular fa-image"></i></h2>
+      <h2>Image <i class="fa-regular fa-image"></i></h2>
       <div class="counter">
         <div class="main-buttons">
           <button class="decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-minus"></i></button>
@@ -884,7 +884,7 @@
     </div>
 
     <div class="counter-section" data-id="audios">
-      <h2><u>Audio</u> <i class="fa-solid fa-headphones-simple"></i></h2>
+      <h2>Audio <i class="fa-solid fa-headphones-simple"></i></h2>
       <div class="counter">
         <div class="main-buttons">
           <button class="decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-minus"></i></button>
@@ -896,7 +896,7 @@
     </div>
 
     <div class="counter-section" data-id="mesh">
-      <h2><u>Mesh 2D / 3D</u> <i class="fa-brands fa-unity"></i></h2>
+      <h2>Mesh 2D / 3D <i class="fa-brands fa-unity"></i></h2>
       <div class="counter">
         <div class="main-buttons">
           <button class="decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-minus"></i></button>
@@ -929,20 +929,22 @@
   </div>
 
   <!-- Update Notification Popup -->
-  <div class="popup" id="updatePopup" role="dialog" aria-modal="true" aria-labelledby="updatePopupTitle">
+  <!-- <div class="popup" id="updatePopup" role="dialog" aria-modal="true" aria-labelledby="updatePopupTitle">
     <h3 id="updatePopupTitle">Aggiornamento disponibile!</h3>
     <p>È disponibile una nuova versione dell'applicazione.</p>
     <button class="refresh-btn" onclick="refreshPage()">Aggiorna</button>
-  </div>
+  </div> -->
 
   <!-- Container for Achievement Popups -->
   <div class="achievement-container" id="achievementContainer"></div>
 
   <!-- Reset Confirmation Popups -->
   <div class="reset-popup" id="resetPopup">
-    <p id="resetMessage">Are you sure you want to reset all data?</p>
-    <button id="yesButton" onclick="handleResetConfirmation()">Si</button>
-    <button onclick="cancelReset()">No</button>
+    <p id="resetMessage">
+      <!-- Are you sure you want to reset all data? -->
+    </p>
+    <button id="yesButton" style="background-color: #81C784; color: #000000;" onclick="handleResetConfirmation()">Si</button>
+    <button style="background-color: #FFB74D; color: #000000;" onclick="cancelReset()">No</button>
   </div>
   <script>
     // =====================
@@ -950,54 +952,54 @@
     // =====================
 
     // Function to fetch the current version from version.json
-    async function checkForUpdates() {
-      try {
-        const response = await fetch('version.json', { cache: 'no-cache' });
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        const latestVersion = data.version;
+    // async function checkForUpdates() {
+    //   try {
+    //     const response = await fetch('version.json', { cache: 'no-cache' });
+    //     if (!response.ok) {
+    //       throw new Error('Network response was not ok');
+    //     }
+    //     const data = await response.json();
+    //     const latestVersion = data.version;
 
-        // Get the stored version from localStorage
-        const storedVersion = localStorage.getItem('appVersion');
+    //     // Get the stored version from localStorage
+    //     const storedVersion = localStorage.getItem('appVersion');
 
-        if (storedVersion && storedVersion !== latestVersion) {
-          // New version detected, show the update popup
-          showUpdatePopup();
-        }
+    //     if (storedVersion && storedVersion !== latestVersion) {
+    //       // New version detected, show the update popup
+    //       showUpdatePopup();
+    //     }
 
-        // Update the stored version
-        localStorage.setItem('appVersion', latestVersion);
-      } catch (error) {
-        console.error('Error checking for updates:', error);
-        // Optionally handle errors (e.g., show a notification)
-      }
-    }
+    //     // Update the stored version
+    //     localStorage.setItem('appVersion', latestVersion);
+    //   } catch (error) {
+    //     console.error('Error checking for updates:', error);
+    //     // Optionally handle errors (e.g., show a notification)
+    //   }
+    // }
 
-    // Function to show the update popup
-    function showUpdatePopup() {
-      const updatePopup = document.getElementById('updatePopup');
-      updatePopup.classList.remove('hide');
-      updatePopup.classList.add('show');
-    }
+    // // Function to show the update popup
+    // function showUpdatePopup() {
+    //   const updatePopup = document.getElementById('updatePopup');
+    //   updatePopup.classList.remove('hide');
+    //   updatePopup.classList.add('show');
+    // }
 
-    // Function to close the update popup
-    function closeUpdatePopup() {
-      const updatePopup = document.getElementById('updatePopup');
-      updatePopup.classList.remove('show');
-      updatePopup.classList.add('hide');
-    }
+    // // Function to close the update popup
+    // function closeUpdatePopup() {
+    //   const updatePopup = document.getElementById('updatePopup');
+    //   updatePopup.classList.remove('show');
+    //   updatePopup.classList.add('hide');
+    // }
 
-    // Function to refresh the page
-    function refreshPage() {
-      window.location.reload(true); // Force reload from the server
-    }
+    // // Function to refresh the page
+    // function refreshPage() {
+    //   window.location.reload(true); // Force reload from the server
+    // }
 
-    // Call checkForUpdates on page load
-    window.addEventListener('load', () => {
-      checkForUpdates();
-    });
+    // // Call checkForUpdates on page load
+    // window.addEventListener('load', () => {
+    //   checkForUpdates();
+    // });
 
     // =====================
     // Existing JavaScript Code
@@ -1439,7 +1441,7 @@
     //GitHub API to Check for Updates
     const repoOwner = "rootdeyan";  // Replace with your GitHub username
     const repoName = "modCounter";  // Replace with your repository name
-    const branch = "cx-main";       // Replace with your branch name (e.g., "main", "master")
+    const branch = "cx-mod";       // Replace with your branch name (e.g., "main", "master")
     let lastCommitHash = localStorage.getItem('lastCommitHash') || null;
 
     async function checkForUpdates() {
@@ -1465,8 +1467,8 @@
         }
     }
 
-    // Check for updates every 30 minutes (1800000 milliseconds)
-    setInterval(checkForUpdates, 1800000);
+    // Check for updates every 5 minutes (300000 milliseconds)
+    setInterval(checkForUpdates, 300000);
 
     // Initial check on page load
     checkForUpdates();

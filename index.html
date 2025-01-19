@@ -952,53 +952,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
 
   <script>
-    
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyAytHnGA54s06aEqyWr4WM9AYtB5wMmWz8",
-    authDomain: "cx-mod.firebaseapp.com",
-    databaseURL: "https://cx-mod-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "cx-mod",
-    storageBucket: "cx-mod.firebasestorage.app",
-    messagingSenderId: "510967303169",
-    appId: "1:510967303169:web:0231eb9f701d36f13e0400"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-
-  document.addEventListener("DOMContentLoaded", function() {
-        let fullName = localStorage.getItem('employeeFullName');
-        if (!fullName) {
-            fullName = prompt("Please enter your Full Name:");
-            localStorage.setItem('employeeFullName', fullName);
-        }
-
-        function saveEmployeeScore(points) {
-            db.collection("employees").doc(fullName).set({
-                name: fullName,
-                totalPoints: points
-            });
-        }
-
-        function increasePoints() {
-            let totalPoints = parseInt(localStorage.getItem('total-points')) || 0;
-            totalPoints += 10;
-            localStorage.setItem('total-points', totalPoints);
-            document.getElementById('total-points').innerText = totalPoints;
-            saveEmployeeScore(totalPoints);
-        }
-
-        document.getElementById('increase-btn').addEventListener('click', increasePoints);
-
-        let storedPoints = localStorage.getItem('total-points') || 0;
-        document.getElementById('total-points').innerText = storedPoints;
-    });
 
     // =====================
     // JavaScript Code for Update Notification
@@ -1525,6 +1478,53 @@
 
     // Initial check on page load
     checkForUpdates();
+
+    // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAytHnGA54s06aEqyWr4WM9AYtB5wMmWz8",
+    authDomain: "cx-mod.firebaseapp.com",
+    databaseURL: "https://cx-mod-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "cx-mod",
+    storageBucket: "cx-mod.firebasestorage.app",
+    messagingSenderId: "510967303169",
+    appId: "1:510967303169:web:0231eb9f701d36f13e0400"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+
+  document.addEventListener("DOMContentLoaded", function() {
+        let fullName = localStorage.getItem('employeeFullName');
+        if (!fullName) {
+            fullName = prompt("Please enter your Full Name:");
+            localStorage.setItem('employeeFullName', fullName);
+        }
+
+        function saveEmployeeScore(points) {
+            db.collection("employees").doc(fullName).set({
+                name: fullName,
+                totalPoints: points
+            });
+        }
+
+        function increasePoints() {
+            let totalPoints = parseInt(localStorage.getItem('total-points')) || 0;
+            totalPoints += 10;
+            localStorage.setItem('total-points', totalPoints);
+            document.getElementById('total-points').innerText = totalPoints;
+            saveEmployeeScore(totalPoints);
+        }
+
+        document.getElementById('increase-btn').addEventListener('click', increasePoints);
+
+        let storedPoints = localStorage.getItem('total-points') || 0;
+        document.getElementById('total-points').innerText = storedPoints;
+    });
 
   </script>
 </body>

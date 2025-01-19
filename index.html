@@ -18,32 +18,6 @@
       box-sizing: border-box;
     }
 
-    .snowflake {
-            position: fixed;
-            top: -10px;
-            background-color: white;
-            border-radius: 50%;
-            opacity: 0.8;
-            animation: fall linear infinite;
-        }
-
-        @keyframes fall {
-            0% {
-                transform: translateY(0) translateX(0);
-                opacity: 1;
-            }
-
-            50% {
-                transform: translateY(50vh) translateX(calc(var(--wind, 0px) * -1));
-                opacity: 0.9;
-            }
-
-            100% {
-                transform: translateY(110vh) translateX(var(--wind, 0px));
-                opacity: 0.3;
-            }
-        }
-
     :root {
       /* Theme Variables */
       /* Default Theme Variables */
@@ -841,7 +815,7 @@
   <div class="counter-container">
     <div class="counter-section total-points-section">
       <h1>Totale: <span id="total-points">0.0</span></h1>
-      <button class="reset-all" onclick="initiateReset()"><i class="fa-solid fa-eraser"></i> Azzera tutto <i class="fa-solid fa-delete-left"></i></button>
+      <button class="reset-all" onclick="initiateReset()">Azzera tutto <i class="fa-solid fa-delete-left"></i></button>
       <!-- Action Buttons: Theme Switcher, Bookmark, Info, and Save -->
       <div class="action-buttons" id="actionButtons">
         <!-- Theme Switcher Button -->
@@ -1457,78 +1431,6 @@
       // Set dataChanged flag to true
       dataChanged = true;
     }
-    
-    const snowflakeCount = 150;
-        let windDirection = 0;
-        let snowPaused = false;
-
-        function createSnowflake() {
-            if (snowPaused) return;
-
-            const snowflake = document.createElement('div');
-            snowflake.classList.add('snowflake');
-
-            const size = Math.random() * 5 + 2; // Between 2px-7px
-            snowflake.style.width = `${size}px`;
-            snowflake.style.height = `${size}px`;
-
-            const posX = Math.random() * document.documentElement.clientWidth;
-            snowflake.style.left = `${posX}px`;
-
-            const duration = Math.random() * 15 + 10; // 10s-25s for slower falling
-            snowflake.style.animationDuration = `${duration}s`;
-            snowflake.style.setProperty('--wind', `${windDirection}px`);
-
-            snowflake.addEventListener('animationend', () => {
-                snowflake.remove();
-                createSnowflake(); // Continuously recreate snowflakes
-            });
-
-            document.body.appendChild(snowflake);
-        }
-
-        function updateWind() {
-            windDirection = Math.random() * 20 - 10; // -10px to 10px
-        }
-
-        function startSnowfall() {
-            let delay = 0;
-            for (let i = 0; i < snowflakeCount; i++) {
-                setTimeout(createSnowflake, delay);
-                delay += 200; // Slight delay between each snowflake
-            }
-        }
-
-        function toggleEffects() {
-            const stopDurations = [5, 10, 15, 20, 25, 30, 35, 60, 90, 120];
-            const stopDuration = stopDurations[Math.floor(Math.random() * stopDurations.length)];
-
-            snowPaused = true;
-            setTimeout(() => {
-                snowPaused = false;
-                startSnowfall();
-            }, stopDuration * 60000); // Stop for X minutes
-        }
-
-        function handleResize() {
-            const currentSnowflakes = document.querySelectorAll('.snowflake');
-            currentSnowflakes.forEach(snowflake => {
-                const newPosX = Math.random() * document.documentElement.clientWidth;
-                snowflake.style.left = `${newPosX}px`;
-            });
-        }
-
-        // Start snowfall with staggered effect
-        startSnowfall();
-
-        // Periodically change wind direction
-        setInterval(updateWind, 5000);
-
-        // Randomly stop snow effects for a while
-        setInterval(toggleEffects, Math.random() * 1800000 + 600000); // Random interval between 10-30 mins
-
-        // Adjust positions on window resize
-        window.addEventListener('resize', handleResize);
   </script>
 </body>
 

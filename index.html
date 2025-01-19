@@ -841,7 +841,7 @@
   <div class="counter-container">
     <div class="counter-section total-points-section">
       <h1>Totale: <span id="total-points">0.0</span></h1>
-      <button class="reset-all" onclick="initiateReset()">Azzera tutto</button>
+      <button class="reset-all" onclick="initiateReset()"><i class="fa-solid fa-eraser"></i> Azzera tutto <i class="fa-solid fa-delete-left"></i></button>
       <!-- Action Buttons: Theme Switcher, Bookmark, Info, and Save -->
       <div class="action-buttons" id="actionButtons">
         <!-- Theme Switcher Button -->
@@ -865,36 +865,36 @@
 
     <!-- Individual Counter Sections -->
     <div class="counter-section" data-id="chats">
-      <h2>Chat Text Abuse</h2>
+      <h2>Chat Text Abuse <i class="fa-solid fa-comments"></i></h2>
       <div class="counter">
         <div class="main-buttons">
-          <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
+          <button class="decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-circle-minus"></i></button>
           <input type="text" id="chats" value="0" readonly>
-          <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
+          <button class="increase" onclick="handleCounter(this, 'increase')"><i class="fa-solid fa-circle-plus"></i></button>
         </div>
       </div>
       <div class="points">Punti: <span id="chats-points">0.0</span></div>
     </div>
 
     <div class="counter-section" data-id="voicechats">
-      <h2>Voice Chat</h2>
+      <h2>Voice Chat <i class="fa-solid fa-headset"></i></h2>
       <div class="counter">
         <div class="main-buttons">
-          <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
+          <button class="decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-circle-minus"></i></button>
           <input type="text" id="voicechats" value="0" readonly>
-          <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
+          <button class="increase" onclick="handleCounter(this, 'increase')"><i class="fa-solid fa-circle-plus"></i></button>
         </div>
       </div>
       <div class="points">Punti: <span id="voicechats-points">0.0</span></div>
     </div>
 
     <div class="counter-section" data-id="images">
-      <h2>Image</h2>
+      <h2>Image <i class="fa-solid fa-image"></i></h2>
       <div class="counter">
         <div class="main-buttons">
-          <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
+          <button class="decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-circle-minus"></i></button>
           <input type="text" id="images" value="0" readonly>
-          <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
+          <button class="increase" onclick="handleCounter(this, 'increase')"><i class="fa-solid fa-circle-plus"></i></button>
         </div>
         <div class="extra-buttons">
           <button class="increment" onclick="handleCounter(this, 'increment', 3)">+ 3</button>
@@ -906,24 +906,24 @@
     </div>
 
     <div class="counter-section" data-id="audios">
-      <h2>Audio</h2>
+      <h2>Audio <i class="fa-solid fa-volume-high"></i></h2>
       <div class="counter">
         <div class="main-buttons">
-          <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
+          <button class="decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-circle-minus"></i></button>
           <input type="text" id="audios" value="0" readonly>
-          <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
+          <button class="increase" onclick="handleCounter(this, 'increase')"><i class="fa-solid fa-circle-plus"></i></button>
         </div>
       </div>
       <div class="points">Punti: <span id="audios-points">0.0</span></div>
     </div>
 
     <div class="counter-section" data-id="mesh">
-      <h2>Mesh 2D / 3D</h2>
+      <h2>Mesh 2D / 3D <i class="fa-brands fa-unity"></i></h2>
       <div class="counter">
         <div class="main-buttons">
-          <button class="decrease" onclick="handleCounter(this, 'decrease')">-</button>
+          <button class="decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-circle-minus"></i></button>
           <input type="text" id="mesh" value="0" readonly>
-          <button class="increase" onclick="handleCounter(this, 'increase')">+</button>
+          <button class="increase" onclick="handleCounter(this, 'increase')"><i class="fa-solid fa-circle-plus"></i></button>
         </div>
       </div>
       <div class="points">Punti: <span id="mesh-points">0.0</span></div>
@@ -933,20 +933,20 @@
   <!-- Popup Information -->
   <div class="popup" id="infoPopup" role="dialog" aria-modal="true" aria-labelledby="infoPopupTitle">
     <button class="close-btn" onclick="closePopup()" aria-label="Close Popup">&times;</button>
-    <h3 id="infoPopupTitle">Bonus Target</h3>
+    <h3 id="infoPopupTitle"><i class="fa-solid fa-ranking-star"></i> Bonus Target</h3>
     <p>Average Points per day (280);</p>
     <p>Quality at 95% and over;</p>
     <p>Utilization at 80%;</p><br>
-    <p><b>Bonus Level 1:</b><br>300 points (target points);<br>25 BGN (points bonus);<br>95% Quality Target;<br>25 BGN
+    <p><b><i class="fa-solid fa-medal"></i> Bonus Level 1:</b><br>300 points (target points);<br>25 BGN (points bonus);<br>95% Quality Target;<br>25 BGN
       (quality bonus);</p><br>
-    <p><b>Bonus Level 2:</b><br>350 points (target points);<br>50 BGN (points bonus);<br>96% Quality Target;<br>50 BGN
+    <p><b><i class="fa-solid fa-medal"></i> Bonus Level 2:</b><br>350 points (target points);<br>50 BGN (points bonus);<br>96% Quality Target;<br>50 BGN
       (quality bonus);</p><br>
-    <p><b>Bonus Level 3:</b><br>400 points (target points);<br>100 BGN (points bonus);<br>97% Quality Target;<br>100 BGN
+    <p><b><i class="fa-solid fa-medal"></i> Bonus Level 3:</b><br>400 points (target points);<br>100 BGN (points bonus);<br>97% Quality Target;<br>100 BGN
       (quality bonus);</p><br>
-    <p><b>Auto Fail Bonus:</b><br>Attendance: more than 2 days absence;<br>6 delays during the month;<br>Escalation: DPA
+    <p><b><i class="fa-solid fa-circle-xmark"></i> Auto Fail Bonus:</b><br>Attendance: more than 2 days absence;<br>6 delays during the month;<br>Escalation: DPA
       or GDPR breach;<br>No Ethical behavior in Chat, Calls, or Emails;<br>Valid escalation received by the Client;</p>
     <br>
-    <p><b>Note:</b> Vacation is not considered absenteeism.<br>Sick Leave, no Show, etc.<br>If the Utilization is under
+    <p><b><i class="fa-solid fa-triangle-exclamation"></i> Note:</b> Vacation is not considered absenteeism.<br>Sick Leave, no Show, etc.<br>If the Utilization is under
       80%, the bonus is reduced to 50%.</p>
   </div>
 

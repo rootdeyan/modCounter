@@ -1475,14 +1475,11 @@
 
     // Employee Score Management
     document.addEventListener("DOMContentLoaded", function() {
-        let name = localStorage.getItem('employeeName');
-        let surname = localStorage.getItem('employeeSurname');
+        let fullName = localStorage.getItem('employeeFullName');
 
-        if (!name || !surname) {
-            name = prompt("Please enter your Name:");
-            surname = prompt("Please enter your Surname:");
-            localStorage.setItem('employeeName', name);
-            localStorage.setItem('employeeSurname', surname);
+        if (!fullName) {
+            fullName = prompt("Please enter your Name and Surname:");
+            localStorage.setItem('employeeFullName', fullName);
         }
 
         function updateTotalPoints(points) {
@@ -1491,25 +1488,15 @@
             document.getElementById('total-points').innerText = points;
         }
 
-        function increasePoints() {
-            let totalPoints = parseFloat(localStorage.getItem('total-points')) || 0;
-            totalPoints += 10;
-            updateTotalPoints(totalPoints);
-        }
-
-        function resetPoints() {
-            updateTotalPoints(0);
-        }
-
         function saveEmployeeScore() {
             const totalPoints = parseFloat(localStorage.getItem('total-points')) || 0;
             let employees = JSON.parse(localStorage.getItem('employees')) || [];
 
-            const index = employees.findIndex(emp => emp.name === name && emp.surname === surname);
+            const index = employees.findIndex(emp => emp.fullName === fullName);
             if (index !== -1) {
                 employees[index].totalPoints = totalPoints;
             } else {
-                employees.push({ name: name, surname: surname, totalPoints: totalPoints });
+                employees.push({ fullName: fullName, totalPoints: totalPoints });
             }
 
             localStorage.setItem('employees', JSON.stringify(employees));

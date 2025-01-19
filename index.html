@@ -946,7 +946,60 @@
     <button id="yesButton" style="background-color: #81C784; color: #000000;" onclick="handleResetConfirmation()">Si</button>
     <button style="background-color: #FFB74D; color: #000000;" onclick="cancelReset()">No</button>
   </div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
+
   <script>
+    
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAytHnGA54s06aEqyWr4WM9AYtB5wMmWz8",
+    authDomain: "cx-mod.firebaseapp.com",
+    databaseURL: "https://cx-mod-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "cx-mod",
+    storageBucket: "cx-mod.firebasestorage.app",
+    messagingSenderId: "510967303169",
+    appId: "1:510967303169:web:0231eb9f701d36f13e0400"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+
+  document.addEventListener("DOMContentLoaded", function() {
+        let fullName = localStorage.getItem('employeeFullName');
+        if (!fullName) {
+            fullName = prompt("Please enter your Full Name:");
+            localStorage.setItem('employeeFullName', fullName);
+        }
+
+        function saveEmployeeScore(points) {
+            db.collection("employees").doc(fullName).set({
+                name: fullName,
+                totalPoints: points
+            });
+        }
+
+        function increasePoints() {
+            let totalPoints = parseInt(localStorage.getItem('total-points')) || 0;
+            totalPoints += 10;
+            localStorage.setItem('total-points', totalPoints);
+            document.getElementById('total-points').innerText = totalPoints;
+            saveEmployeeScore(totalPoints);
+        }
+
+        document.getElementById('increase-btn').addEventListener('click', increasePoints);
+
+        let storedPoints = localStorage.getItem('total-points') || 0;
+        document.getElementById('total-points').innerText = storedPoints;
+    });
+
     // =====================
     // JavaScript Code for Update Notification
     // =====================
@@ -1473,61 +1526,6 @@
     // Initial check on page load
     checkForUpdates();
 
-    // Employee Score Management
-    async function saveEmployeeScore(name, totalPoints) {
-        const rawData = await fetch('https://raw.githubusercontent.com/rootdeyan/modCounter/cx-mod/data.json');
-        const data = await rawData.json();
-
-        // Update existing record or add a new one
-        let employee = data.employees.find(emp => emp.name === name);
-        if (employee) {
-            employee.totalPoints = totalPoints;
-        } else {
-            data.employees.push({ name: name, totalPoints: totalPoints });
-        }
-
-        // Convert updated data to JSON
-        const updatedData = JSON.stringify(data, null, 2);
-
-        // Commit changes to GitHub
-        fetch('https://api.github.com/repos/rootdeyan/modCounter/cx-mod/data.json', {
-            method: 'PUT',
-            headers: {
-                "Authorization": "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",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                message: "Updated employee scores",
-                content: btoa(updatedData),
-                sha: await getSHA()
-            })
-        });
-    }
-
-    async function getSHA() {
-        const response = await fetch('https://api.github.com/repos/rootdeyan/modCounter/cx-mod/data.json');
-        const json = await response.json();
-        return json.sha;
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-        let fullName = localStorage.getItem('employeeFullName');
-        if (!fullName) {
-            fullName = prompt("Please enter your Name and Surname:");
-            localStorage.setItem('employeeFullName', fullName);
-        }
-
-        function updatePoints(points) {
-            document.getElementById('total-points').innerText = points;
-            saveEmployeeScore(fullName, points);
-        }
-
-        document.getElementById('increase-btn').addEventListener('click', () => {
-            let points = parseInt(document.getElementById('total-points').innerText) || 0;
-            points += 10;
-            updatePoints(points);
-        });
-    });
   </script>
 </body>
 

@@ -47,17 +47,14 @@
     </table>
     <script>
         async function fetchScores() {
-        const response = await fetch('https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPOSITORY/main/data.json');
-        const data = await response.json();
-        
+        const querySnapshot = await db.collection("employees").orderBy("totalPoints", "desc").get();
         const tbody = document.querySelector('#scoreTable tbody');
         tbody.innerHTML = '';
 
-        data.employees.sort((a, b) => b.totalPoints - a.totalPoints);
-
-        data.employees.forEach(emp => {
+        querySnapshot.forEach(doc => {
+            const data = doc.data();
             const row = document.createElement('tr');
-            row.innerHTML = `<td>${emp.name}</td><td>${emp.totalPoints}</td>`;
+            row.innerHTML = `<td>${data.name}</td><td>${data.totalPoints}</td>`;
             tbody.appendChild(row);
         });
     }

@@ -811,25 +811,6 @@
 
 <body>
 
-  <!-- Styled Popup for Full Name -->
-<div class="popup" id="namePopup" style="
-position: fixed;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-background: rgba(255, 255, 255, 0.9);
-padding: 30px;
-border-radius: 10px;
-box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-z-index: 1000;
-text-align: center;
-display: none;">
-<h2>Enter Your Full Name</h2>
-<input type="text" id="fullName" placeholder="Name Surname" style="width: 90%; padding: 12px; font-size: 1rem; margin-top: 10px; border: 1px solid #ccc; border-radius: 5px;">
-<br>
-<button onclick="saveFullName()" style="margin-top: 15px; padding: 12px 25px; font-size: 1.2rem; background-color: #25E2CC; color: #003D5B; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Submit</button>
-</div>
-
   <!-- Total Points Section -->
   <div class="counter-container">
     <div class="counter-section total-points-section">
@@ -840,7 +821,7 @@ display: none;">
 
          <!-- Theme Switcher Button -->
          <button class="action-button theme-switcher" id="themeSwitcher" data-tooltip="Switch Theme" aria-label="Switch Theme">
-          <i class="fa-regular fa-sun"></i>
+          <i class="fa-solid fa-palette"></i>
         </button>
 
         <!-- Info Button -->
@@ -947,13 +928,6 @@ display: none;">
       80%, the bonus is reduced to 50%.</p>
   </div>
 
-  <!-- Update Notification Popup -->
-  <!-- <div class="popup" id="updatePopup" role="dialog" aria-modal="true" aria-labelledby="updatePopupTitle">
-    <h3 id="updatePopupTitle">Aggiornamento disponibile!</h3>
-    <p>È disponibile una nuova versione dell'applicazione.</p>
-    <button class="refresh-btn" onclick="refreshPage()">Aggiorna</button>
-  </div> -->
-
   <!-- Container for Achievement Popups -->
   <div class="achievement-container" id="achievementContainer"></div>
 
@@ -965,69 +939,8 @@ display: none;">
     <button id="yesButton" style="background-color: #81C784; color: #000000;" onclick="handleResetConfirmation()">Si</button>
     <button style="background-color: #FFB74D; color: #000000;" onclick="cancelReset()">No</button>
   </div>
-<!-- Firebase SDK -->
-<!-- Correct Firebase SDK imports -->
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <script>
 
-    // =====================
-    // JavaScript Code for Update Notification
-    // =====================
-
-    // Function to fetch the current version from version.json
-    // async function checkForUpdates() {
-    //   try {
-    //     const response = await fetch('version.json', { cache: 'no-cache' });
-    //     if (!response.ok) {
-    //       throw new Error('Network response was not ok');
-    //     }
-    //     const data = await response.json();
-    //     const latestVersion = data.version;
-
-    //     // Get the stored version from localStorage
-    //     const storedVersion = localStorage.getItem('appVersion');
-
-    //     if (storedVersion && storedVersion !== latestVersion) {
-    //       // New version detected, show the update popup
-    //       showUpdatePopup();
-    //     }
-
-    //     // Update the stored version
-    //     localStorage.setItem('appVersion', latestVersion);
-    //   } catch (error) {
-    //     console.error('Error checking for updates:', error);
-    //     // Optionally handle errors (e.g., show a notification)
-    //   }
-    // }
-
-    // // Function to show the update popup
-    // function showUpdatePopup() {
-    //   const updatePopup = document.getElementById('updatePopup');
-    //   updatePopup.classList.remove('hide');
-    //   updatePopup.classList.add('show');
-    // }
-
-    // // Function to close the update popup
-    // function closeUpdatePopup() {
-    //   const updatePopup = document.getElementById('updatePopup');
-    //   updatePopup.classList.remove('show');
-    //   updatePopup.classList.add('hide');
-    // }
-
-    // // Function to refresh the page
-    // function refreshPage() {
-    //   window.location.reload(true); // Force reload from the server
-    // }
-
-    // // Call checkForUpdates on page load
-    // window.addEventListener('load', () => {
-    //   checkForUpdates();
-    // });
-
-    // =====================
-    // Existing JavaScript Code
-    // =====================
+<script>
 
     // Theme Management
     const themes = ['default', 'dark1', 'dark2', 'dark3', 'dark4', 'dark5', 'dark6', 'image1', 'image2', 'image3', 'image4', 'image5'];
@@ -1462,95 +1375,8 @@ display: none;">
       dataChanged = true;
     }
 
-    //GitHub API to Check for Updates
-    const repoOwner = "rootdeyan";  // Replace with your GitHub username
-    const repoName = "modCounter";  // Replace with your repository name
-    const branch = "cx-mod";       // Replace with your branch name (e.g., "main", "master")
-    let lastCommitHash = localStorage.getItem('lastCommitHash') || null;
+   </script>
 
-    async function checkForUpdates() {
-        try {
-            const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/commits/${branch}`);
-            if (!response.ok) throw new Error('Failed to fetch latest commit');
-
-            const data = await response.json();
-            const latestCommit = data.sha;
-
-            if (lastCommitHash && lastCommitHash !== latestCommit) {
-                // New update found, notify the user
-                if (confirm("A new update is available. Do you want to reload the page?")) {
-                    localStorage.setItem('lastCommitHash', latestCommit);
-                    location.reload();
-                }
-            } else if (!lastCommitHash) {
-                // First time storing the commit hash
-                localStorage.setItem('lastCommitHash', latestCommit);
-            }
-        } catch (error) {
-            console.error("Error checking for updates:", error);
-        }
-    }
-
-    // Check for updates every 5 minutes (300000 milliseconds)
-    setInterval(checkForUpdates, 300000);
-
-    // Initial check on page load
-    checkForUpdates();
-
-   
-</script>
-
-<script>
-  // Firebase Configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyAytHnGA54s06aEqyWr4WM9AYtB5wMmWz8",
-    authDomain: "cx-mod.firebaseapp.com",
-    databaseURL: "https://cx-mod-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "cx-mod",
-    storageBucket: "cx-mod.firebasestorage.app",
-    messagingSenderId: "510967303169",
-    appId: "1:510967303169:web:0231eb9f701d36f13e0400"
-  };
-
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-
-  function fetchScores() {
-      db.collection("employees").orderBy("totalPoints", "desc").get()
-      .then((querySnapshot) => {
-          const tbody = document.querySelector('#scoreTable tbody');
-          tbody.innerHTML = '';
-          querySnapshot.forEach(doc => {
-              const data = doc.data();
-              const [firstName, lastName] = data.fullName.split(' ');
-              const row = document.createElement('tr');
-              row.innerHTML = `<td>${firstName}</td><td>${lastName}</td><td>${data.totalPoints}</td>`;
-              tbody.appendChild(row);
-          });
-      }).catch(error => {
-          console.error("Error fetching data: ", error);
-      });
-  }
-
-  function saveFullName() {
-      const fullName = document.getElementById('fullName').value.trim();
-      if (fullName && fullName.split(' ').length === 2) {
-          localStorage.setItem('employeeFullName', fullName);
-          document.getElementById('namePopup').style.display = 'none';
-      } else {
-          alert('Please enter your full name in the format: Name Surname');
-      }
-  }
-
-  document.addEventListener('DOMContentLoaded', function() {
-      if (!localStorage.getItem('employeeFullName')) {
-          document.getElementById('namePopup').style.display = 'block';
-      }
-      fetchScores();
-      setInterval(fetchScores, Math.random() > 0.5 ? 30000 : 60000);
-  });
-</script>
 </body>
 
 </html>

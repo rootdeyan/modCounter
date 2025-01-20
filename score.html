@@ -62,21 +62,26 @@
     appId: "1:510967303169:web:0231eb9f701d36f13e0400"
   };
 
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-        async function fetchScores() {
-        const querySnapshot = await db.collection("employees").orderBy("totalPoints", "desc").get();
-        const tbody = document.querySelector('#scoreTable tbody');
-        tbody.innerHTML = '';
+    async function fetchScores() {
+        try {
+            const querySnapshot = await db.collection("employees").orderBy("totalPoints", "desc").get();
+            const tbody = document.querySelector('#scoreTable tbody');
+            tbody.innerHTML = '';
 
-        querySnapshot.forEach(doc => {
-            const data = doc.data();
-            const [firstName, lastName] = data.fullName.split(' ');
-            const row = document.createElement('tr');
-            row.innerHTML = `<td>${firstName}</td><td>${lastName}</td><td>${data.totalPoints}</td>`;
-            tbody.appendChild(row);
-        });
+            querySnapshot.forEach(doc => {
+                const data = doc.data();
+                const [firstName, lastName] = data.fullName.split(' ');
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${firstName}</td><td>${lastName}</td><td>${data.totalPoints}</td>`;
+                tbody.appendChild(row);
+            });
+        } catch (error) {
+            console.error("Error fetching scores:", error);
+        }
     }
 
     function randomUpdateInterval() {

@@ -13,6 +13,38 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="reload.js" defer></script>
   <style>
+    /* =========================================
+   Personalized Scrollbar (theme-based)
+   ========================================= */
+
+    /* For Chrome, Edge, and Safari */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background-color: var(--section-bg-color);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: var(--backlight-color);
+      border-radius: 4px;
+      border: 2px solid var(--section-bg-color);
+      /* so the thumb looks 'separated' from the track */
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: var(--button-increment-bg-color);
+    }
+
+    /* For Firefox */
+    * {
+      scrollbar-width: thin;
+      /* “auto” or “thin” */
+      scrollbar-color: var(--backlight-color) var(--section-bg-color);
+    }
+
     /* Reset and Base Styles */
     * {
       margin: 0;
@@ -25,7 +57,8 @@
       /* Default Theme Variables */
       --bg-gradient: linear-gradient(to bottom, #003D5B, #25E2CC);
       --text-color: #ffffff;
-      --section-bg-color: rgba(255, 255, 255, 0.377); /* Adjusted opacity to 0.5 for glassmorphism */
+      --section-bg-color: rgba(255, 255, 255, 0.377);
+      /* Adjusted opacity to 0.5 for glassmorphism */
       --section-border-color: #dddddd;
       --section-text-color: #000000;
       --footer-text-color: #000000;
@@ -81,7 +114,8 @@
     .theme-dark1 {
       --bg-gradient: linear-gradient(to bottom, #1e1e2f, #9a8c98);
       --text-color: #e0e0e0;
-      --section-bg-color: rgba(30, 30, 47, 0.5); /* Adjusted opacity */
+      --section-bg-color: rgba(30, 30, 47, 0.5);
+      /* Adjusted opacity */
       --section-border-color: #5a5a7f;
       --section-text-color: #e0e0e0;
       --footer-text-color: #000000;
@@ -94,7 +128,8 @@
     .theme-dark2 {
       --bg-gradient: linear-gradient(to bottom, #2c3e50, #34495e);
       --text-color: #ecf0f1;
-      --section-bg-color: rgba(44, 62, 80, 0.5); /* Adjusted opacity */
+      --section-bg-color: rgba(44, 62, 80, 0.5);
+      /* Adjusted opacity */
       --section-border-color: #7f8c8d;
       --section-text-color: #ecf0f1;
       --footer-text-color: #ffffff;
@@ -107,7 +142,8 @@
     .theme-dark3 {
       --bg-gradient: linear-gradient(to bottom, #000000, #434343);
       --text-color: #f5f5f5;
-      --section-bg-color: rgba(0, 0, 0, 0.5); /* Adjusted opacity */
+      --section-bg-color: rgba(0, 0, 0, 0.5);
+      /* Adjusted opacity */
       --section-border-color: #555555;
       --section-text-color: #f5f5f5;
       --footer-text-color: #f5f5f5;
@@ -121,7 +157,8 @@
     .theme-dark4 {
       --bg-gradient: linear-gradient(to bottom, #2b2b2b, #3d3d3d);
       --text-color: #dcdcdc;
-      --section-bg-color: rgba(43, 43, 43, 0.5); /* Adjusted opacity */
+      --section-bg-color: rgba(43, 43, 43, 0.5);
+      /* Adjusted opacity */
       --section-border-color: #5a5a5a;
       --section-text-color: #dcdcdc;
       --footer-text-color: #dcdcdc;
@@ -134,7 +171,8 @@
     .theme-dark5 {
       --bg-gradient: linear-gradient(to bottom, #1c1c1c, #2a2a2a);
       --text-color: #e0e0e0;
-      --section-bg-color: rgba(28, 28, 28, 0.5); /* Adjusted opacity */
+      --section-bg-color: rgba(28, 28, 28, 0.5);
+      /* Adjusted opacity */
       --section-border-color: #444444;
       --section-text-color: #e0e0e0;
       --footer-text-color: #e0e0e0;
@@ -147,7 +185,8 @@
     .theme-dark6 {
       --bg-gradient: linear-gradient(to bottom, #2e2e2e, #424242);
       --text-color: #f0f0f0;
-      --section-bg-color: rgba(46, 46, 46, 0.5); /* Adjusted opacity */
+      --section-bg-color: rgba(46, 46, 46, 0.5);
+      /* Adjusted opacity */
       --section-border-color: #666666;
       --section-text-color: #f0f0f0;
       --footer-text-color: #f0f0f0;
@@ -172,7 +211,8 @@
       bottom: 0;
       background-size: cover;
       background-position: center;
-      /* filter: blur(5px); */ /* Removed blur effect */
+      /* filter: blur(5px); */
+      /* Removed blur effect */
       z-index: -1;
     }
 
@@ -191,11 +231,13 @@
 
     /* New Themes for Personal Images */
     body.theme-image4::before {
-      background-image: url('HELLDIVERS2.webp'); /* Replace with your image */
+      background-image: url('HELLDIVERS2.webp');
+      /* Replace with your image */
     }
 
     body.theme-image5::before {
-      background-image: url('BlackMarble.webp'); /* Replace with your image */
+      background-image: url('BlackMarble.webp');
+      /* Replace with your image */
     }
 
     /* Body Styling */
@@ -224,8 +266,10 @@
     /* Individual Counter Sections */
     .counter-section {
       background-color: var(--section-bg-color);
-      backdrop-filter: blur(5px); /* Added blur effect */
-      -webkit-backdrop-filter: blur(5px); /* For Safari support */
+      backdrop-filter: blur(5px);
+      /* Added blur effect */
+      -webkit-backdrop-filter: blur(5px);
+      /* For Safari support */
       margin: 2px;
       padding: 10px;
       flex: 1 1 280px;
@@ -600,6 +644,7 @@
         opacity: 0;
         transform: translate(-50%, -50%) translateX(-40px);
       }
+
       to {
         opacity: 1;
         transform: translate(-50%, -50%) translateX(0);
@@ -611,6 +656,7 @@
         opacity: 1;
         transform: translate(-50%, -50%) translateX(0);
       }
+
       to {
         opacity: 0;
         transform: translate(-50%, -50%) translateX(-40px);
@@ -666,6 +712,7 @@
         opacity: 0;
         transform: translateY(-40px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -677,6 +724,7 @@
         opacity: 1;
         transform: translateY(0);
       }
+
       to {
         opacity: 0;
         transform: translateY(-40px);
@@ -821,13 +869,15 @@
       <!-- Action Buttons: Theme Switcher, Bookmark, Info, and Save -->
       <div class="action-buttons" id="actionButtons">
 
-         <!-- Theme Switcher Button -->
-         <button class="action-button theme-switcher" id="themeSwitcher" data-tooltip="Switch Theme" aria-label="Switch Theme">
+        <!-- Theme Switcher Button -->
+        <button class="action-button theme-switcher" id="themeSwitcher" data-tooltip="Switch Theme"
+          aria-label="Switch Theme">
           <i class="fa-solid fa-palette"></i>
         </button>
 
         <!-- Info Button -->
-        <button class="action-button info-button" onclick="togglePopup()" data-tooltip="Information" aria-label="Information">
+        <button class="action-button info-button" onclick="togglePopup()" data-tooltip="Information"
+          aria-label="Information">
           <i class="fa-solid fa-info"></i>
         </button>
 
@@ -841,7 +891,7 @@
           <i class="fa-regular fa-floppy-disk"></i>
         </button> -->
       </div>
-      
+
       <!-- <b><i>AVVISO</i></b>
       <div align="left">
         <small>
@@ -929,16 +979,21 @@
     <p>Average Points per day (280);</p>
     <p>Quality at 95% and over;</p>
     <p>Utilization at 80%;</p><br>
-    <p><b><i class="fa-solid fa-medal"></i> Bonus Level 1:</b><br>300 points (target points);<br>25 BGN (points bonus);<br>95% Quality Target;<br>25 BGN
+    <p><b><i class="fa-solid fa-medal"></i> Bonus Level 1:</b><br>300 points (target points);<br>25 BGN (points
+      bonus);<br>95% Quality Target;<br>25 BGN
       (quality bonus);</p><br>
-    <p><b><i class="fa-solid fa-medal"></i> Bonus Level 2:</b><br>350 points (target points);<br>50 BGN (points bonus);<br>96% Quality Target;<br>50 BGN
+    <p><b><i class="fa-solid fa-medal"></i> Bonus Level 2:</b><br>350 points (target points);<br>50 BGN (points
+      bonus);<br>96% Quality Target;<br>50 BGN
       (quality bonus);</p><br>
-    <p><b><i class="fa-solid fa-medal"></i> Bonus Level 3:</b><br>400 points (target points);<br>100 BGN (points bonus);<br>97% Quality Target;<br>100 BGN
+    <p><b><i class="fa-solid fa-medal"></i> Bonus Level 3:</b><br>400 points (target points);<br>100 BGN (points
+      bonus);<br>97% Quality Target;<br>100 BGN
       (quality bonus);</p><br>
-    <p><b><i class="fa-solid fa-circle-xmark"></i> Auto Fail Bonus:</b><br>Attendance: more than 2 days absence;<br>6 delays during the month;<br>Escalation: DPA
+    <p><b><i class="fa-solid fa-circle-xmark"></i> Auto Fail Bonus:</b><br>Attendance: more than 2 days absence;<br>6
+      delays during the month;<br>Escalation: DPA
       or GDPR breach;<br>No Ethical behavior in Chat, Calls, or Emails;<br>Valid escalation received by the Client;</p>
     <br>
-    <p><b><i class="fa-solid fa-triangle-exclamation"></i> Note:</b> Vacation is not considered absenteeism.<br>Sick Leave, no Show, etc.<br>If the Utilization is under
+    <p><b><i class="fa-solid fa-triangle-exclamation"></i> Note:</b> Vacation is not considered absenteeism.<br>Sick
+      Leave, no Show, etc.<br>If the Utilization is under
       80%, the bonus is reduced to 50%.</p>
   </div>
 
@@ -950,11 +1005,12 @@
     <p id="resetMessage">
       <!-- Are you sure you want to reset all data? -->
     </p>
-    <button id="yesButton" style="background-color: #81C784; color: #000000;" onclick="handleResetConfirmation()">Si</button>
+    <button id="yesButton" style="background-color: #81C784; color: #000000;"
+      onclick="handleResetConfirmation()">Si</button>
     <button style="background-color: #FFB74D; color: #000000;" onclick="cancelReset()">No</button>
   </div>
 
-<script>
+  <script>
 
     // Theme Management
     const themes = ['default', 'dark1', 'dark2', 'dark3', 'dark4', 'dark5', 'dark6', 'image1', 'image2', 'image3', 'image4', 'image5'];
@@ -1389,7 +1445,7 @@
       dataChanged = true;
     }
 
-   </script>
+  </script>
 
 </body>
 

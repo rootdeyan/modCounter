@@ -9,909 +9,188 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="reload.js" defer></script>
   <style>
-    :root {
-      --primary-bg: #1E3A5F;
-      --secondary-bg: #6B7280;
-      --text-primary: #1F2937;
-      --text-secondary: #4B5563;
-      --points-color: #4B5563;
-      --card-bg: rgba(255, 255, 255, 0.65);
-      --button-decrease: linear-gradient(135deg, #FFB74D, #F57C00);
-      --button-increase: linear-gradient(135deg, #81C784, #4CAF50);
-      --button-increment: #F59E0B;
-      --button-reset: linear-gradient(135deg, #FFB74D, #F57C00);
-      --button-theme: linear-gradient(135deg, #60A5FA, #3B82F6);
-      --button-info: linear-gradient(135deg, #A5B4FC, #3B82F6);
-      --shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-      --glass-bg: rgba(255, 255, 255, 0.9);
-      --glass-border: rgba(255, 255, 255, 0.2);
-      --popup-bg: hsl(0, 0%, 100%);
-      --achievement-achieved: linear-gradient(135deg, #3b83f6d0, #1e40afc2); /* Blue gradient */
-      --achievement-surpassed: linear-gradient(135deg, #f59f0bd8, #d97706cb); /* Orange gradient */
-      --transition: all 0.3s ease;
-      --scrollbar-thumb: #ffffff;
-      --scrollbar-track: rgb(0, 0, 0);
-      --total-color: #000000;
-    }
-
-    /* Dark Theme 1 */
-    .theme-dark-new {
-      --primary-bg: #111827;
-      --secondary-bg: #374151;
-      --text-primary: #D1D5DB;
-      --text-secondary: #FFFFFF;
-      --points-color: #9CA3AF;
-      --card-bg: rgba(31, 41, 55, 0.65);
-      --glass-bg: rgba(31, 41, 55, 0.9);
-      --popup-bg: #1F2937;
-      --scrollbar-thumb: #ffffff;
-      --scrollbar-track: rgb(0, 0, 0);
-      --total-color: #FFFFFF;
-    }
-
-    /* Dark Theme 2 */
-    .theme-dark-deep {
-      --primary-bg: #0F172A;
-      --secondary-bg: #1E293B;
-      --text-primary: #E2E8F0;
-      --text-secondary: #FFFFFF;
-      --points-color: #A1A1AA;
-      --card-bg: rgba(15, 23, 42, 0.65);
-      --glass-bg: rgba(15, 23, 42, 0.9);
-      --popup-bg: #1E293B;
-      --scrollbar-thumb: #ffffff;
-      --scrollbar-track: rgb(0, 0, 0);
-      --total-color: #FFFFFF;
-    }
-
-    /* Dark Theme 3 */
-    .theme-dark-midnight {
-      --primary-bg: #1A202C;
-      --secondary-bg: #2D3748;
-      --text-primary: #CBD5E0;
-      --text-secondary: #FFFFFF;
-      --points-color: #B0B7C3;
-      --card-bg: rgba(26, 32, 44, 0.65);
-      --glass-bg: rgba(26, 32, 44, 0.9);
-      --popup-bg: #2D3748;
-      --scrollbar-thumb: #ffffff;
-      --scrollbar-track: rgb(0, 0, 0);
-      --total-color: #FFFFFF;
-    }
-
-    /* Orange Theme 1 */
-    .theme-orange-sunset {
-      --primary-bg: #6d3b17;
-      --secondary-bg: #EA580C;
-      --text-primary: #ffffff;
-      --text-secondary: #FFFFFF;
-      --points-color: #ffffff;
-      --card-bg: rgb(0, 0, 0);
-      --glass-bg: rgb(0, 0, 0);
-      --popup-bg: #000000;
-      --scrollbar-thumb: #ffffff;
-      --scrollbar-track: rgb(0, 0, 0);
-      --total-color: #ffffff;
-    }
-
-    /* Blue Green */
-    .theme-blue-green {
-      --primary-bg: #003cff;
-      --secondary-bg: #00ff55;
-      --text-primary: #ffffff;
-      --text-secondary: #FFFFFF;
-      --points-color: #ffffff;
-      --card-bg: rgb(0, 0, 0);
-      --glass-bg: rgba(0, 0, 0, 0.9);
-      --popup-bg: #000000;
-      --scrollbar-thumb: #ffffff;
-      --scrollbar-track: rgb(0, 0, 0);
-      --total-color: #FFFFFF;
-    }
-
-    /* Image Themes */
-
-    body[class^="theme-BlackMythWukong"]::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-size: cover;
-      background-position: center;
-      opacity: 1;
-      z-index: -1;
-      transition: var(--transition);
-    }
-
-    body[class^="theme-DataBreach"]::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-size: cover;
-      background-position: center;
-      opacity: 1;
-      z-index: -1;
-      transition: var(--transition);
-    }
-
-    body[class^="theme-BlackOps"]::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-size: cover;
-      background-position: center;
-      opacity: 1;
-      z-index: -1;
-      transition: var(--transition);
-    }
-
-    body[class^="theme-HELLDIVERS2"]::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-size: cover;
-      background-position: center;
-      opacity: 1;
-      z-index: -1;
-      transition: var(--transition);
-    }
-
-    body[class^="theme-BlackMarble"]::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-size: cover;
-      background-position: center;
-      opacity: 1;
-      z-index: -1;
-      transition: var(--transition);
-    }
-
-    body.theme-BlackMythWukong::before { background-image: url('BlackMythWukong.webp'); }
-    body.theme-DataBreach::before { background-image: url('DataBreach.webp'); }
-    body.theme-BlackOps::before { background-image: url('BlackOps.webp'); }
-    body.theme-HELLDIVERS2::before { background-image: url('HELLDIVERS2.webp'); }
-    body.theme-BlackMarble::before { background-image: url('BlackMarble.webp'); }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    body {
-      background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
-      background-attachment: fixed;
-      color: var(--text-primary);
-      min-height: 100vh;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: opacity 0.5s ease;
-    }
-
-    body.theme-switching {
-      opacity: 0;
-    }
-
-    /* Scrollbars */
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--scrollbar-track);
-      border-radius: 8px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--scrollbar-thumb);
-      border-radius: 8px;
-      border: 2px solid var(--scrollbar-track);
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: #ffffff;
-    }
-
-    .theme-dark-new ::-webkit-scrollbar-thumb:hover,
-    .theme-dark-deep ::-webkit-scrollbar-thumb:hover,
-    .theme-dark-midnight ::-webkit-scrollbar-thumb:hover {
-      background: #ffffff;
-    }
-
-    .theme-orange-sunset ::-webkit-scrollbar-thumb:hover,
-    .theme-blue-green ::-webkit-scrollbar-thumb:hover {
-      background: #ffffff;
-    }
-
-    .dashboard {
-      max-width: 1200px;
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 15px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 15px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--glass-border);
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 200%;
-      height: 100%;
-      background: linear-gradient(120deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .card > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
-
-    @keyframes gradientShift {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .card-header h2 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-
-    .counter-controls {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      justify-content: center;
-    }
-
-    .counter-btn {
-      color: #000000;
-      border: none;
-      padding: 12px;
-      border-radius: 10px;
-      width: 44px;
-      height: 44px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: var(--transition);
-      background: var(--button-decrease);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .counter-btn.decrease { background: var(--button-decrease); }
-    .counter-btn.increase { background: var(--button-increase); }
-
-    .counter-btn:hover {
-      transform: scale(1.08);
-      filter: brightness(110%);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .counter-controls input {
-      width: 70px;
-      text-align: center;
-      background: transparent;
-      border: none;
-      color: var(--text-primary);
-      font-size: 1.8rem;
-      font-weight: 500;
-      pointer-events: none;
-    }
-
-    .extra-controls {
-      margin-top: 10px;
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-    }
-
-    .increment-btn {
-      background: var(--button-increment);
-      color: #000000;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: var(--transition);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .increment-btn:hover {
-      transform: scale(1.08);
-      background: #ffffff83;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .points-display {
-      margin-top: 10px;
-      text-align: center;
-      font-size: 1rem;
-      color: var(--points-color);
-    }
-
-    .total-card {
-      grid-column: span 2;
-      text-align: center;
-    }
-
-    .total-card h1 {
-      font-size: 2rem;
-      margin-bottom: 15px;
-      color: var(--total-color);
-    }
-
-    .reset-btn {
-      background: var(--button-reset);
-      color: #000000;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 10px;
-      font-size: 1.1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: var(--transition);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.692);
-    }
-
-    .reset-btn:hover {
-      background: linear-gradient(135deg, #ff9900, #ff9900);
-      transform: scale(1.08);
-      box-shadow: 0 6px 12px rgb(0, 0, 0);
-    }
-
-    .action-bar {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin-top: 15px;
-    }
-
-    .action-btn {
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      width: 44px;
-      height: 44px;
-      cursor: pointer;
-      font-size: 1.1rem;
-      transition: var(--transition);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    #themeSwitcher { background: var(--button-theme); }
-    #infoBtn { background: var(--button-info); }
-
-    .action-btn:hover {
-      transform: scale(1.08);
-      filter: brightness(110%);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .action-btn[data-tooltip]:hover::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      color: #fff;
-      padding: 6px 12px;
-      border-radius: 4px;
-      font-size: 0.85rem;
-      white-space: nowrap;
-      margin-bottom: 8px;
-    }
-
-    .popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: var(--popup-bg);
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--glass-border);
-      max-width: 90%;
-      width: 400px;
-      max-height: 70vh;
-      overflow-y: auto;
-      display: none;
-      color: var(--text-secondary);
-      z-index: 1000;
-    }
-
-    .popup.show {
-      display: block;
-      animation: fadeInScale 0.5s ease forwards;
-    }
-
-    .popup.hide {
-      animation: fadeOutScale 0.5s ease forwards;
-    }
-
-    .popup h3 {
-      font-size: 1.4rem;
-      margin-bottom: 12px;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      justify-content: center;
-      text-align: center;
-    }
-
-    .popup p {
-      font-size: 1rem;
-      line-height: 1.5;
-      margin-bottom: 8px;
-      text-align: left;
-    }
-
-    .popup .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(255, 75, 75, 0.9);
-      border: none;
-      color: #fff;
-      font-size: 1.2rem;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      transition: var(--transition);
-    }
-
-    .popup .close-btn:hover {
-      background: #EF4444;
-      transform: rotate(120deg) scale(1.2);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    .reset-popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: var(--popup-bg);
-      padding: 20px;
-      border-radius: 12px;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow);
-      text-align: center;
-      display: none;
-      z-index: 1001;
-      max-width: 90%;
-      width: 350px;
-    }
-
-    .reset-popup.show {
-      display: block;
-      animation: fadeInScale 0.5s ease forwards;
-    }
-
-    .reset-popup p {
-      font-size: 1.1rem;
-      margin-bottom: 15px;
-      color: var(--text-secondary);
-    }
-
-    .reset-popup button {
-      padding: 10px 20px;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: var(--transition);
-      border: none;
-      margin: 0 10px;
-      color: #fff;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    #yesButton { background: var(--button-increase); }
-    #noButton { background: var(--button-decrease); }
-
-    .reset-popup button:hover:not(:disabled) {
-      transform: scale(1.08);
-      filter: brightness(110%);
-    }
-
-    .reset-popup button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .achievement-container {
-      position: fixed;
-      top: 20px;
-      left: 0;
-      width: 100%;
-      z-index: 1002;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      align-items: center;
-      pointer-events: none;
-    }
-
-    .achievement-popup {
-      padding: 14px 24px;
-      border-radius: 12px;
-      color: #000000; /* Black text */
-      text-align: center;
-      font-size: 1.2rem;
-      font-weight: 600;
-      animation: fadeInSlide 0.6s ease forwards;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: auto;
-      max-width: 90%;
-      border: 1px solid rgb(255, 255, 255);
-      backdrop-filter: blur(4px);
-    }
-
-    /* Animations */
-    @keyframes fadeInScale {
-      from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-      to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    }
-
-    @keyframes fadeOutScale {
-      from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-      to { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-    }
-
-    @keyframes fadeInSlide {
-      from { opacity: 0; transform: translateY(-30px) scale(0.9); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    @keyframes fadeOutSlide {
-      from { opacity: 1; transform: translateY(0) scale(1); }
-      to { opacity: 0; transform: translateY(-30px) scale(0.9); }
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .dashboard { grid-template-columns: 1fr; }
-      .total-card { grid-column: span 1; }
-      .card-header h2 { font-size: 1.1rem; }
-      .counter-controls input { font-size: 1.6rem; }
-      .total-card h1 { font-size: 1.8rem; }
-      .popup, .reset-popup { width: 90%; max-width: 350px; }
-      .achievement-popup { font-size: 1.1rem; padding: 12px 20px; max-width: 280px; }
-    }
-
-    @media (max-width: 480px) {
-      .card-header h2 { font-size: 1rem; }
-      .counter-controls input { font-size: 1.4rem; }
-      .total-card h1 { font-size: 1.6rem; }
-      .reset-btn { padding: 10px 20px; font-size: 1rem; }
-      .achievement-popup { font-size: 1rem; padding: 10px 16px; max-width: 240px; }
-    }
+    :root{--primary-bg:#1E3A5F;--secondary-bg:#6B7280;--text-primary:#1F2937;--text-secondary:#4B5563;--points-color:#4B5563;--card-bg:rgba(255,255,255,0.65);--button-decrease:linear-gradient(135deg,#FFB74D,#F57C00);--button-increase:linear-gradient(135deg,#81C784,#4CAF50);--button-increment:#F59E0B;--button-reset:linear-gradient(135deg,#FFB74D,#F57C00);--button-theme:linear-gradient(135deg,#60A5FA,#3B82F6);--button-info:linear-gradient(135deg,#A5B4FC,#3B82F6);--shadow:0 6px 12px rgba(0,0,0,0.15);--glass-bg:rgba(255,255,255,0.9);--glass-border:rgba(255,255,255,0.2);--popup-bg:hsl(0,0%,100%);--achievement-achieved:linear-gradient(135deg,#3b83f6d0,#1e40afc2);--achievement-surpassed:linear-gradient(135deg,#f59f0bd8,#d97706cb);--transition:all 0.3s ease;--scrollbar-thumb:#fff;--scrollbar-track:#000;--total-color:#000}
+    .theme-dark-new{--primary-bg:#111827;--secondary-bg:#374151;--text-primary:#D1D5DB;--text-secondary:#FFF;--points-color:#9CA3AF;--card-bg:rgba(31,41,55,0.65);--glass-bg:rgba(31,41,55,0.9);--popup-bg:#1F2937;--total-color:#FFF}
+    .theme-dark-deep{--primary-bg:#0F172A;--secondary-bg:#1E293B;--text-primary:#E2E8F0;--text-secondary:#FFF;--points-color:#A1A1AA;--card-bg:rgba(15,23,42,0.65);--glass-bg:rgba(15,23,42,0.9);--popup-bg:#1E293B;--total-color:#FFF}
+    .theme-dark-midnight{--primary-bg:#1A202C;--secondary-bg:#2D3748;--text-primary:#CBD5E0;--text-secondary:#FFF;--points-color:#B0B7C3;--card-bg:rgba(26,32,44,0.65);--glass-bg:rgba(26,32,44,0.9);--popup-bg:#2D3748;--total-color:#FFF}
+    .theme-orange-sunset{--primary-bg:#7F2A0D;--secondary-bg:#F97316;--text-primary:#FFF;--text-secondary:#FFF;--points-color:#FFF;--card-bg:rgba(0,0,0,0.65);--glass-bg:rgba(0,0,0,0.9);--popup-bg:#1F1305;--total-color:#FFF}
+    .theme-blue-green{--primary-bg:#003cff;--secondary-bg:#00ff55;--text-primary:#FFF;--text-secondary:#FFF;--points-color:#FFF;--card-bg:rgba(0,0,0,0.65);--glass-bg:rgba(0,0,0,0.9);--popup-bg:#000;--total-color:#FFF}
+    body[class^="theme-"]::before{content:'';position:fixed;top:0;left:0;width:100vw;height:100vh;background-size:cover;background-position:center;opacity:1;z-index:-1;transition:var(--transition)}
+    body.theme-BlackMythWukong::before{background-image:url('BlackMythWukong.webp')}
+    body.theme-DataBreach::before{background-image:url('DataBreach.webp')}
+    body.theme-BlackOps::before{background-image:url('BlackOps.webp')}
+    body.theme-HELLDIVERS2::before{background-image:url('HELLDIVERS2.webp')}
+    body.theme-BlackMarble::before{background-image:url('BlackMarble.webp')}
+    body.theme-custom::before{background-image:var(--custom-bg)}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    body{background:linear-gradient(135deg,var(--primary-bg),var(--secondary-bg));background-attachment:fixed;color:var(--text-primary);min-height:100vh;padding:20px;display:flex;flex-direction:column;align-items:center;transition:opacity 0.5s ease}
+    body.theme-switching{opacity:0}
+    ::-webkit-scrollbar{width:10px}
+    ::-webkit-scrollbar-track{background:var(--scrollbar-track);border-radius:8px}
+    ::-webkit-scrollbar-thumb{background:var(--scrollbar-thumb);border-radius:8px;border:2px solid var(--scrollbar-track)}
+    ::-webkit-scrollbar-thumb:hover,.theme-dark-new ::-webkit-scrollbar-thumb:hover,.theme-dark-deep ::-webkit-scrollbar-thumb:hover,.theme-dark-midnight ::-webkit-scrollbar-thumb:hover,.theme-orange-sunset ::-webkit-scrollbar-thumb:hover,.theme-blue-green ::-webkit-scrollbar-thumb:hover{background:#fff}
+    .dashboard{max-width:1200px;width:100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px}
+    .card{background:var(--card-bg);border-radius:12px;padding:15px;box-shadow:var(--shadow);backdrop-filter:blur(12px);border:1px solid var(--glass-border);transition:var(--transition);position:relative;overflow:hidden}
+    .card::before{content:'';position:absolute;top:0;left:-100%;width:200%;height:100%;background:linear-gradient(120deg,rgba(255,255,255,0.1),rgba(255,255,255,0.3),rgba(255,255,255,0.1));z-index:0;pointer-events:none}
+    .card>*{position:relative;z-index:1}
+    .card:hover{transform:translateY(-3px);box-shadow:0 8px 16px rgba(0,0,0,0.2)}
+    @keyframes gradientShift{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+    .card-header{display:flex;justify-content:center;align-items:center;gap:8px;margin-bottom:10px}
+    .card-header h2{font-size:1.2rem;font-weight:700;color:var(--text-primary)}
+    .counter-controls{display:flex;align-items:center;gap:12px;justify-content:center}
+    .counter-btn{color:#000;border:none;padding:12px;border-radius:10px;width:44px;height:44px;cursor:pointer;font-size:1rem;transition:var(--transition);background:var(--button-decrease);box-shadow:0 4px 8px rgba(0,0,0,0.1)}
+    .counter-btn.decrease{background:var(--button-decrease)}
+    .counter-btn.increase{background:var(--button-increase)}
+    .counter-btn:hover{transform:scale(1.08);filter:brightness(110%);box-shadow:0 6px 12px rgba(0,0,0,0.15)}
+    .counter-controls input{width:70px;text-align:center;background:transparent;border:none;color:var(--text-primary);font-size:1.8rem;font-weight:500;pointer-events:none}
+    .extra-controls{margin-top:10px;display:flex;gap:10px;justify-content:center}
+    .increment-btn{background:var(--button-increment);color:#000;border:none;padding:8px 16px;border-radius:10px;font-size:0.9rem;font-weight:500;cursor:pointer;transition:var(--transition);box-shadow:0 4px 8px rgba(0,0,0,0.1)}
+    .increment-btn:hover{transform:scale(1.08);background:#ffffff83;box-shadow:0 6px 12px rgba(0,0,0,0.15)}
+    .points-display{margin-top:10px;text-align:center;font-size:1rem;color:var(--points-color)}
+    .total-card{grid-column:span 2;text-align:center}
+    .total-card h1{font-size:2rem;margin-bottom:15px;color:var(--total-color)}
+    .reset-btn{background:var(--button-reset);color:#000;border:none;padding:12px 24px;border-radius:10px;font-size:1.1rem;font-weight:500;cursor:pointer;transition:var(--transition);box-shadow:0 4px 8px rgba(0,0,0,0.692)}
+    .reset-btn:hover{background:linear-gradient(135deg,#ff9900,#ff9900);transform:scale(1.08);box-shadow:0 6px 12px rgb(0,0,0)}
+    .action-bar{display:flex;gap:10px;justify-content:center;margin-top:15px}
+    .action-btn{color:#fff;border:none;border-radius:10px;width:44px;height:44px;cursor:pointer;font-size:1.1rem;transition:var(--transition);box-shadow:0 4px 8px rgba(0,0,0,0.1)}
+    #themeSwitcher{background:var(--button-theme)}
+    #infoBtn{background:var(--button-info)}
+    #styleAdjuster{background:linear-gradient(135deg,#EC4899,#DB2777)}
+    #textColorPicker{background:linear-gradient(135deg,#A78BFA,#7C3AED)}
+    #customBgPicker{background:linear-gradient(135deg,#F472B6,#F43F5E)}
+    .action-btn:hover{transform:scale(1.08);filter:brightness(110%);box-shadow:0 6px 12px rgba(0,0,0,0.15)}
+    .action-btn[data-tooltip]:hover::after{content:attr(data-tooltip);position:absolute;top:-40px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:#fff;padding:6px 12px;border-radius:4px;font-size:0.85rem;white-space:nowrap}
+    .popup,.style-popup,.text-popup,.bg-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--popup-bg);padding:20px;border-radius:12px;box-shadow:var(--shadow);border:1px solid var(--glass-border);max-width:90%;width:400px;max-height:70vh;overflow-y:auto;display:none;color:var(--text-secondary);z-index:1000}
+    .style-popup,.text-popup{width:300px}
+    .bg-popup{width:350px}
+    .popup.show,.style-popup.show,.text-popup.show,.bg-popup.show{display:block;animation:fadeInScale 0.5s ease forwards}
+    .popup.hide,.style-popup.hide,.text-popup.hide,.bg-popup.hide{animation:fadeOutScale 0.5s ease forwards}
+    .popup h3,.style-popup h3,.text-popup h3,.bg-popup h3{font-size:1.4rem;margin-bottom:12px;color:var(--text-primary);display:flex;align-items:center;gap:8px;justify-content:center;text-align:center}
+    .popup p{font-size:1rem;line-height:1.5;margin-bottom:8px;text-align:left}
+    .popup .close-btn,.style-popup .close-btn,.text-popup .close-btn,.bg-popup .close-btn{position:absolute;top:10px;right:10px;background:rgba(255,75,75,0.9);border:none;color:#fff;font-size:1.2rem;width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 4px rgba(0,0,0,0.2);transition:var(--transition)}
+    .popup .close-btn:hover,.style-popup .close-btn:hover,.text-popup .close-btn:hover,.bg-popup .close-btn:hover{background:#EF4444;transform:rotate(120deg) scale(1.2);box-shadow:0 4px 8px rgba(0,0,0,0.3)}
+    .style-popup label,.text-popup label,.bg-popup label{display:block;margin-bottom:10px;font-size:1rem;color:var(--text-primary)}
+    .style-popup input[type="range"],.text-popup input[type="color"],.bg-popup input[type="text"]{width:100%;margin-top:5px}
+    .reset-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--popup-bg);padding:20px;border-radius:12px;border:1px solid var(--glass-border);box-shadow:var(--shadow);text-align:center;display:none;z-index:1001;max-width:90%;width:350px}
+    .reset-popup.show{display:block;animation:fadeInScale 0.5s ease forwards}
+    .reset-popup p{font-size:1.1rem;margin-bottom:15px;color:var(--text-secondary)}
+    .reset-popup button{padding:10px 20px;border-radius:10px;font-size:1rem;font-weight:500;cursor:pointer;transition:var(--transition);border:none;margin:0 10px;color:#fff;box-shadow:0 4px 8px rgba(0,0,0,0.1)}
+    #yesButton{background:var(--button-increase)}
+    #noButton{background:var(--button-decrease)}
+    .reset-popup button:hover:not(:disabled){transform:scale(1.08);filter:brightness(110%)}
+    .reset-popup button:disabled{opacity:0.5;cursor:not-allowed}
+    .achievement-container{position:fixed;top:20px;left:0;width:100%;z-index:1002;display:flex;flex-direction:column;gap:10px;align-items:center;pointer-events:none}
+    .achievement-popup{padding:14px 24px;border-radius:12px;color:#000;text-align:center;font-size:1.2rem;font-weight:600;animation:fadeInSlide 0.6s ease forwards;box-shadow:0 4px 12px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;gap:10px;width:auto;max-width:90%;border:1px solid #fff;backdrop-filter:blur(4px)}
+    @keyframes fadeInScale{from{opacity:0;transform:translate(-50%,-50%) scale(0.9)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+    @keyframes fadeOutScale{from{opacity:1;transform:translate(-50%,-50%) scale(1)}to{opacity:0;transform:translate(-50%,-50%) scale(0.9)}}
+    @keyframes fadeInSlide{from{opacity:0;transform:translateY(-30px) scale(0.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+    @keyframes fadeOutSlide{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-30px) scale(0.9)}}
+    @media (max-width:768px){.dashboard{grid-template-columns:1fr}.total-card{grid-column:span 1}.card-header h2{font-size:1.1rem}.counter-controls input{font-size:1.6rem}.total-card h1{font-size:1.8rem}.popup,.reset-popup,.style-popup,.text-popup,.bg-popup{width:90%;max-width:350px}.achievement-popup{font-size:1.1rem;padding:12px 20px;max-width:280px}}
+    @media (max-width:480px){.card-header h2{font-size:1rem}.counter-controls input{font-size:1.4rem}.total-card h1{font-size:1.6rem}.reset-btn{padding:10px 20px;font-size:1rem}.achievement-popup{font-size:1rem;padding:10px 16px;max-width:240px}}
   </style>
 </head>
 <body>
   <div class="dashboard">
-    <small align="right" style="color: #ffffff;">Update: 30/03/2025</small>
+    <small align="right" style="color:#fff">Update: 30/03/2025</small>
     <div class="card total-card">
       <h1>Total: <span id="total-points">0.0</span> <i class="fa-solid fa-chart-simple"></i></h1>
       <button class="reset-btn" onclick="initiateReset()">Reset All <i class="fa-solid fa-rotate-left"></i></button>
       <div class="action-bar">
         <button class="action-btn" id="themeSwitcher" data-tooltip="Switch Theme"><i class="fa-solid fa-palette"></i></button>
-        <button class="action-btn" id="infoBtn" onclick="togglePopup()" data-tooltip="Info"><i class="fa-solid fa-info"></i></button>
+        <button class="action-btn" id="infoBtn" onclick="toggleElement('infoPopup')" data-tooltip="Info"><i class="fa-solid fa-info"></i></button>
+        <button class="action-btn" id="styleAdjuster" onclick="toggleElement('stylePopup')" data-tooltip="Adjust Style"><i class="fa-solid fa-sliders"></i></button>
+        <button class="action-btn" id="textColorPicker" onclick="toggleElement('textPopup')" data-tooltip="Text Colors"><i class="fa-solid fa-font"></i></button>
+        <button class="action-btn" id="customBgPicker" onclick="toggleElement('bgPopup')" data-tooltip="Custom Background"><i class="fa-solid fa-image"></i></button>
       </div>
     </div>
-
     <div class="card" data-id="chats">
-      <div class="card-header">
-        <h2>Chat Text <i class="fa-regular fa-comments"></i></h2>
-      </div>
-      <div class="counter-controls">
-        <button class="counter-btn decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-minus"></i></button>
-        <input type="text" id="chats" value="0" readonly>
-        <button class="counter-btn increase" onclick="handleCounter(this, 'increase')"><i class="fa-solid fa-plus"></i></button>
-      </div>
+      <div class="card-header"><h2>Chat Text <i class="fa-regular fa-comments"></i></h2></div>
+      <div class="counter-controls"><button class="counter-btn decrease" onclick="handleCounter(this,'decrease')"><i class="fa-solid fa-minus"></i></button><input type="text" id="chats" value="0" readonly><button class="counter-btn increase" onclick="handleCounter(this,'increase')"><i class="fa-solid fa-plus"></i></button></div>
       <div class="points-display">Points: <span id="chats-points">0.0</span></div>
     </div>
-
     <div class="card" data-id="voicechats">
-      <div class="card-header">
-        <h2>Voice Chat <i class="fa-solid fa-headset"></i></h2>
-      </div>
-      <div class="counter-controls">
-        <button class="counter-btn decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-minus"></i></button>
-        <input type="text" id="voicechats" value="0" readonly>
-        <button class="counter-btn increase" onclick="handleCounter(this, 'increase')"><i class="fa-solid fa-plus"></i></button>
-      </div>
+      <div class="card-header"><h2>Voice Chat <i class="fa-solid fa-headset"></i></h2></div>
+      <div class="counter-controls"><button class="counter-btn decrease" onclick="handleCounter(this,'decrease')"><i class="fa-solid fa-minus"></i></button><input type="text" id="voicechats" value="0" readonly><button class="counter-btn increase" onclick="handleCounter(this,'increase')"><i class="fa-solid fa-plus"></i></button></div>
       <div class="points-display">Points: <span id="voicechats-points">0.0</span></div>
     </div>
-
     <div class="card" data-id="images">
-      <div class="card-header">
-        <h2>Images <i class="fa-solid fa-layer-group"></i></h2>
-      </div>
-      <div class="counter-controls">
-        <button class="counter-btn decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-minus"></i></button>
-        <input type="text" id="images" value="0" readonly>
-        <button class="counter-btn increase" onclick="handleCounter(this, 'increase')"><i class="fa-solid fa-plus"></i></button>
-      </div>
-      <div class="extra-controls">
-        <button class="increment-btn" onclick="handleCounter(this, 'increment', 3)">+3</button>
-        <button class="increment-btn" onclick="handleCounter(this, 'increment', 5)">+5</button>
-        <button class="increment-btn" onclick="handleCounter(this, 'increment', 10)">+10</button>
-      </div>
+      <div class="card-header"><h2>Images <i class="fa-solid fa-layer-group"></i></h2></div>
+      <div class="counter-controls"><button class="counter-btn decrease" onclick="handleCounter(this,'decrease')"><i class="fa-solid fa-minus"></i></button><input type="text" id="images" value="0" readonly><button class="counter-btn increase" onclick="handleCounter(this,'increase')"><i class="fa-solid fa-plus"></i></button></div>
+      <div class="extra-controls"><button class="increment-btn" onclick="handleCounter(this,'increment',3)">+3</button><button class="increment-btn" onclick="handleCounter(this,'increment',5)">+5</button><button class="increment-btn" onclick="handleCounter(this,'increment',10)">+10</button></div>
       <div class="points-display">Points: <span id="images-points">0.0</span></div>
     </div>
-
     <div class="card" data-id="audios">
-      <div class="card-header">
-        <h2>Audio <i class="fa-solid fa-headphones-simple"></i></h2>
-      </div>
-      <div class="counter-controls">
-        <button class="counter-btn decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-minus"></i></button>
-        <input type="text" id="audios" value="0" readonly>
-        <button class="counter-btn increase" onclick="handleCounter(this, 'increase')"><i class="fa-solid fa-plus"></i></button>
-      </div>
+      <div class="card-header"><h2>Audio <i class="fa-solid fa-headphones-simple"></i></h2></div>
+      <div class="counter-controls"><button class="counter-btn decrease" onclick="handleCounter(this,'decrease')"><i class="fa-solid fa-minus"></i></button><input type="text" id="audios" value="0" readonly><button class="counter-btn increase" onclick="handleCounter(this,'increase')"><i class="fa-solid fa-plus"></i></button></div>
       <div class="points-display">Points: <span id="audios-points">0.0</span></div>
     </div>
-
     <div class="card" data-id="mesh">
-      <div class="card-header">
-        <h2>Mesh 2D/3D <i class="fa-brands fa-unity"></i></h2>
-      </div>
-      <div class="counter-controls">
-        <button class="counter-btn decrease" onclick="handleCounter(this, 'decrease')"><i class="fa-solid fa-minus"></i></button>
-        <input type="text" id="mesh" value="0" readonly>
-        <button class="counter-btn increase" onclick="handleCounter(this, 'increase')"><i class="fa-solid fa-plus"></i></button>
-      </div>
+      <div class="card-header"><h2>Mesh 2D/3D <i class="fa-brands fa-unity"></i></h2></div>
+      <div class="counter-controls"><button class="counter-btn decrease" onclick="handleCounter(this,'decrease')"><i class="fa-solid fa-minus"></i></button><input type="text" id="mesh" value="0" readonly><button class="counter-btn increase" onclick="handleCounter(this,'increase')"><i class="fa-solid fa-plus"></i></button></div>
       <div class="points-display">Points: <span id="mesh-points">0.0</span></div>
     </div>
   </div>
-
   <div class="popup" id="infoPopup">
-    <button class="close-btn" onclick="closePopup()"><i class="fa-regular fa-circle-xmark"></i></button>
+    <button class="close-btn" onclick="closeElement('infoPopup')"><i class="fa-regular fa-circle-xmark"></i></button>
     <h3><i class="fa-solid fa-ranking-star"></i> Bonus Target</h3>
-    <p>Average Points per day (280);</p>
-    <p>Quality at 95% and over;</p>
-    <p>Utilization at 80%;</p><br>
+    <p>Average Points per day (280);</p><p>Quality at 95% and over;</p><p>Utilization at 80%;</p><br>
     <p><b><i class="fa-solid fa-medal"></i> Bonus Level 1:</b><br>300 points (target points);<br>25 BGN (points bonus);<br>95% Quality Target;<br>25 BGN (quality bonus);</p><br>
     <p><b><i class="fa-solid fa-medal"></i> Bonus Level 2:</b><br>350 points (target points);<br>50 BGN (points bonus);<br>96% Quality Target;<br>50 BGN (quality bonus);</p><br>
     <p><b><i class="fa-solid fa-medal"></i> Bonus Level 3:</b><br>400 points (target points);<br>100 BGN (points bonus);<br>97% Quality Target;<br>100 BGN (quality bonus);</p><br>
     <p><b><i class="fa-solid fa-circle-xmark"></i> Auto Fail Bonus:</b><br>Attendance: more than 2 days absence;<br>6 delays during the month;<br>Escalation: DPA or GDPR breach;<br>No Ethical behavior in Chat, Calls, or Emails;<br>Valid escalation received by the Client;</p><br>
-    <p><b><i class="fa-solid fa-triangle-exclamation"></i> Note:</b><br>Vacation is not considered absenteeism.<br>Sick Leave, no Show, etc.<br>If the Utilization is under 80%, the bonus is reduced to 50%.</p>
+    <p><b><i class="fa-solid fa-triangle-exclamation"></i> Note:</b><br>Vacation is not considered absenteeism<br>Sick Leave, no Show, etc.<br>If the Utilization is under 80%, the bonus is reduced to 50%.</p>
   </div>
-
+  <div class="style-popup" id="stylePopup">
+    <button class="close-btn" onclick="closeElement('stylePopup')"><i class="fa-regular fa-circle-xmark"></i></button>
+    <h3><i class="fa-solid fa-sliders"></i> Adjust Style</h3>
+    <label>Transparency (0-1):<input type="range" id="transparencyRange" min="0" max="1" step="0.05" value="0.65"></label>
+    <label>Blur (0-20px):<input type="range" id="blurRange" min="0" max="20" step="1" value="12"></label>
+  </div>
+  <div class="text-popup" id="textPopup">
+    <button class="close-btn" onclick="closeElement('textPopup')"><i class="fa-regular fa-circle-xmark"></i></button>
+    <h3><i class="fa-solid fa-font"></i> Text Colors</h3>
+    <label>Primary Text:<input type="color" id="textPrimaryColor" value="#1F2937"></label>
+    <label>Secondary Text:<input type="color" id="textSecondaryColor" value="#4B5563"></label>
+    <label>Points Text:<input type="color" id="pointsColor" value="#4B5563"></label>
+    <label>Total Text:<input type="color" id="totalColor" value="#000000"></label>
+  </div>
+  <div class="bg-popup" id="bgPopup">
+    <button class="close-btn" onclick="closeElement('bgPopup')"><i class="fa-regular fa-circle-xmark"></i></button>
+    <h3><i class="fa-solid fa-image"></i> Custom Background</h3>
+    <label>Image URL:<input type="text" id="customBgUrl" placeholder="Enter image URL"></label>
+    <button onclick="applyCustomBackground()" style="background:var(--button-increase);padding:10px 20px;border-radius:10px;border:none;color:#fff;cursor:pointer">Apply</button>
+  </div>
   <div class="achievement-container" id="achievementContainer"></div>
-
   <div class="reset-popup" id="resetPopup">
     <p id="resetMessage"></p>
     <button id="yesButton" onclick="handleResetConfirmation()">Yes</button>
     <button id="noButton" onclick="cancelReset()">No</button>
   </div>
-
   <script>
-    const themes = [
-      'default', 'dark-new', 'dark-deep', 'dark-midnight', 
-      'orange-sunset', 'blue-green', 'BlackMythWukong', 'DataBreach', 
-      'BlackOps', 'HELLDIVERS2', 'BlackMarble'
-    ];
-    let currentThemeIndex = 0;
-    const pointsPerCount = { chats: 2, voicechats: 4, images: 0.2, audios: 2, mesh: 0.2 };
-    const achievementThresholds = [300, 350, 400];
-    let previousTotal = 0;
-    let resetConfirmations = 0;
-    const resetMessages = [
-      "Have you reported the total score in your <i><u>Daily Tracker</u></i>?<br>",
-      "<u>Final Warning</u>: <br><i>All data will be lost.</i><br><i>Proceed</i>?"
-    ];
-
-    window.onload = () => {
-      const savedTheme = localStorage.getItem('selectedTheme') || 'default';
-      currentThemeIndex = themes.indexOf(savedTheme) === -1 ? 0 : themes.indexOf(savedTheme);
-      applyTheme(themes[currentThemeIndex]);
-
-      Object.keys(pointsPerCount).forEach(id => {
-        const count = parseInt(localStorage.getItem(id)) || 0;
-        document.getElementById(id).value = count;
-        updatePoints(id, count);
-      });
-      const storedTotal = parseFloat(localStorage.getItem('total-points')) || 0;
-      document.getElementById('total-points').textContent = storedTotal.toFixed(1);
-      previousTotal = storedTotal;
-      checkAchievements(storedTotal);
-    };
-
-    function applyTheme(theme) {
-      document.body.classList.add('theme-switching');
-      requestAnimationFrame(() => {
-        document.body.className = theme === 'default' ? '' : `theme-${theme}`;
-        localStorage.setItem('selectedTheme', theme);
-        document.getElementById('themeSwitcher').setAttribute('data-tooltip', 
-          theme === 'default' ? 'Switch Theme' : theme.replace('-', ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
-        );
-        setTimeout(() => document.body.classList.remove('theme-switching'), 500);
-      });
-    }
-
-    document.getElementById('themeSwitcher').addEventListener('click', () => {
-      currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-      applyTheme(themes[currentThemeIndex]);
-    });
-
-    function handleCounter(button, action, amount = 1) {
-      const section = button.closest('.card');
-      const id = section.dataset.id;
-      let count = parseInt(document.getElementById(id).value) || 0;
-
-      if (action === 'increase' || action === 'increment') count += amount;
-      else if (action === 'decrease') count = Math.max(0, count - amount);
-
-      document.getElementById(id).value = count;
-      localStorage.setItem(id, count);
-      updatePoints(id, count);
-      updateTotalPoints();
-    }
-
-    function updatePoints(id, count) {
-      const points = (count * pointsPerCount[id]).toFixed(1);
-      document.getElementById(`${id}-points`).textContent = points;
-      localStorage.setItem(`${id}-points`, points);
-    }
-
-    function updateTotalPoints() {
-      const total = Object.keys(pointsPerCount).reduce((sum, id) => 
-        sum + parseFloat(document.getElementById(`${id}-points`).textContent) || 0, 0);
-      document.getElementById('total-points').textContent = total.toFixed(1);
-      localStorage.setItem('total-points', total.toFixed(1));
-      checkAchievements(total);
-      previousTotal = total;
-    }
-
-    function checkAchievements(total) {
-      achievementThresholds.forEach(threshold => {
-        if (previousTotal < threshold && total >= threshold) {
-          displayAchievement(threshold, total === threshold ? 'achieved' : 'surpassed');
-        }
-      });
-    }
-
-    function displayAchievement(threshold, type) {
-      const container = document.getElementById('achievementContainer');
-      const popup = document.createElement('div');
-      popup.classList.add('achievement-popup');
-      popup.style.background = type === 'achieved' ? 'var(--achievement-achieved)' : 'var(--achievement-surpassed)';
-      popup.innerHTML = `<i class="fa-solid fa-trophy"></i> ${type === 'achieved' ? 'Achieved' : 'Surpassed'} ${threshold} Points!`;
-      container.appendChild(popup);
-      setTimeout(() => {
-        popup.style.animation = 'fadeOutSlide 0.6s ease forwards';
-        popup.addEventListener('animationend', () => popup.remove(), { once: true });
-      }, 5000);
-    }
-
-    function togglePopup() {
-      const popup = document.getElementById('infoPopup');
-      if (!popup.classList.contains('show')) {
-        popup.classList.remove('hide');
-        popup.classList.add('show');
-        popup.style.display = 'block';
-      } else {
-        closePopup();
-      }
-    }
-
-    function closePopup() {
-      const popup = document.getElementById('infoPopup');
-      popup.classList.remove('show');
-      popup.classList.add('hide');
-      setTimeout(() => {
-        if (!popup.classList.contains('show')) popup.style.display = 'none';
-      }, 500); // Match animation duration
-    }
-
-    document.getElementById('infoPopup').addEventListener('animationend', (e) => {
-      if (e.animationName === 'fadeOutScale') {
-        document.getElementById('infoPopup').style.display = 'none';
-      }
-    });
-
-    function initiateReset() {
-      resetConfirmations = 0;
-      showResetPopup();
-    }
-
-    function showResetPopup() {
-      const popup = document.getElementById('resetPopup');
-      document.getElementById('resetMessage').innerHTML = resetMessages[resetConfirmations];
-      document.getElementById('yesButton').disabled = false;
-      popup.classList.add('show');
-      popup.style.display = 'block';
-    }
-
-    function handleResetConfirmation() {
-      const yesButton = document.getElementById('yesButton');
-      yesButton.disabled = true;
-      resetConfirmations++;
-      if (resetConfirmations < resetMessages.length) {
-        setTimeout(showResetPopup, 1000);
-        setTimeout(() => yesButton.disabled = false, 3000);
-      } else {
-        resetAllCounters();
-        document.getElementById('resetPopup').style.display = 'none';
-        resetConfirmations = 0;
-        setTimeout(() => yesButton.disabled = false, 3000);
-      }
-    }
-
-    function cancelReset() {
-      document.getElementById('resetPopup').style.display = 'none';
-      resetConfirmations = 0;
-    }
-
-    function resetAllCounters() {
-      Object.keys(pointsPerCount).forEach(id => {
-        document.getElementById(id).value = 0;
-        localStorage.setItem(id, 0);
-        updatePoints(id, 0);
-      });
-      updateTotalPoints();
-    }
+    const themes=['default','dark-new','dark-deep','dark-midnight','orange-sunset','blue-green','BlackMythWukong','DataBreach','BlackOps','HELLDIVERS2','BlackMarble','custom'],pointsPerCount={chats:2,voicechats:4,images:0.2,audios:2,mesh:0.2},achievementThresholds=[300,350,400],resetMessages=["Have you reported the total score in your <i><u>Daily Tracker</u></i>?<br>","<u>Final Warning</u>: <br><i>All data will be lost.</i><br><i>Proceed</i>?"];
+    let currentThemeIndex=0,previousTotal=0,resetConfirmations=0;
+    window.onload=()=>{const t=localStorage.getItem('selectedTheme')||'default';currentThemeIndex=themes.indexOf(t)===-1?0:themes.indexOf(t);applyTheme(themes[currentThemeIndex]);Object.keys(pointsPerCount).forEach(i=>{const c=parseInt(localStorage.getItem(i))||0;document.getElementById(i).value=c;updatePoints(i,c)});const s=parseFloat(localStorage.getItem('total-points'))||0;document.getElementById('total-points').textContent=s.toFixed(1);previousTotal=s;checkAchievements(s);const a=localStorage.getItem('cardTransparency')||0.65,b=localStorage.getItem('cardBlur')||12;document.getElementById('transparencyRange').value=a;document.getElementById('blurRange').value=b;updateCardStyles(a,b);['textPrimaryColor','textSecondaryColor','pointsColor','totalColor'].forEach(id=>{const v=localStorage.getItem(id)||document.getElementById(id).value;document.getElementById(id).value=v;updateTextColors()});const bg=localStorage.getItem('customBgUrl');if(bg){document.getElementById('customBgUrl').value=bg;applyCustomBackground()}};
+    document.getElementById('themeSwitcher').addEventListener('click',()=>{currentThemeIndex=(currentThemeIndex+1)%themes.length;applyTheme(themes[currentThemeIndex])});
+    document.getElementById('transparencyRange').addEventListener('input',e=>updateCardStyles(e.target.value,document.getElementById('blurRange').value));
+    document.getElementById('blurRange').addEventListener('input',e=>updateCardStyles(document.getElementById('transparencyRange').value,e.target.value));
+    ['textPrimaryColor','textSecondaryColor','pointsColor','totalColor'].forEach(id=>document.getElementById(id).addEventListener('input',updateTextColors));
+    function applyTheme(t){document.body.classList.add('theme-switching');requestAnimationFrame(()=>{document.body.className=t==='default'?'':`theme-${t}`;localStorage.setItem('selectedTheme',t);document.getElementById('themeSwitcher').setAttribute('data-tooltip',t==='default'?'Switch Theme':t.replace('-',' ').split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' '));setTimeout(()=>document.body.classList.remove('theme-switching'),500)})}
+    function handleCounter(b,a,n=1){const s=b.closest('.card'),i=s.dataset.id;let c=parseInt(document.getElementById(i).value)||0;c=a==='increase'||a==='increment'?c+n:a==='decrease'?Math.max(0,c-n):c;document.getElementById(i).value=c;localStorage.setItem(i,c);updatePoints(i,c);updateTotalPoints()}
+    function updatePoints(i,c){const p=(c*pointsPerCount[i]).toFixed(1);document.getElementById(`${i}-points`).textContent=p;localStorage.setItem(`${i}-points`,p)}
+    function updateTotalPoints(){const t=Object.keys(pointsPerCount).reduce((s,i)=>s+parseFloat(document.getElementById(`${i}-points`).textContent)||0,0);document.getElementById('total-points').textContent=t.toFixed(1);localStorage.setItem('total-points',t.toFixed(1));checkAchievements(t);previousTotal=t}
+    function checkAchievements(t){achievementThresholds.forEach(h=>{if(previousTotal<h&&t>=h)displayAchievement(h,t===h?'achieved':'surpassed')})}
+    function displayAchievement(h,t){const c=document.getElementById('achievementContainer'),p=document.createElement('div');p.classList.add('achievement-popup');p.style.background=t==='achieved'?'var(--achievement-achieved)':'var(--achievement-surpassed)';p.innerHTML=`<i class="fa-solid fa-trophy"></i> ${t==='achieved'?'Achieved':'Surpassed'} ${h} Points!`;c.appendChild(p);setTimeout(()=>{p.style.animation='fadeOutSlide 0.6s ease forwards';p.addEventListener('animationend',()=>p.remove(),{once:!0})},5000)}
+    function toggleElement(i){const p=document.getElementById(i);p.classList.contains('show')?closeElement(i):(p.classList.remove('hide'),p.classList.add('show'),p.style.display='block')}
+    function closeElement(i){const p=document.getElementById(i);p.classList.remove('show');p.classList.add('hide');setTimeout(()=>{if(!p.classList.contains('show'))p.style.display='none'},500)}
+    ['infoPopup','stylePopup','textPopup','bgPopup'].forEach(i=>document.getElementById(i).addEventListener('animationend',e=>e.animationName==='fadeOutScale'&&(document.getElementById(i).style.display='none')));
+    function updateCardStyles(t,b){document.querySelectorAll('.card').forEach(c=>{const d=document.body.className.includes('dark')||document.body.className.includes('orange')||document.body.className.includes('blue-green');c.style.background=`rgba(${d?'31,41,55':'255,255,255'},${t})`;c.style.backdropFilter=`blur(${b}px)`});localStorage.setItem('cardTransparency',t);localStorage.setItem('cardBlur',b)}
+    function updateTextColors(){const p=document.getElementById('textPrimaryColor').value,s=document.getElementById('textSecondaryColor').value,c=document.getElementById('pointsColor').value,t=document.getElementById('totalColor').value;document.documentElement.style.setProperty('--text-primary',p);document.documentElement.style.setProperty('--text-secondary',s);document.documentElement.style.setProperty('--points-color',c);document.documentElement.style.setProperty('--total-color',t);['textPrimaryColor','textSecondaryColor','pointsColor','totalColor'].forEach(id=>localStorage.setItem(id,document.getElementById(id).value))}
+    function applyCustomBackground(){const u=document.getElementById('customBgUrl').value;if(u){document.documentElement.style.setProperty('--custom-bg',`url(${u})`);applyTheme('custom');localStorage.setItem('customBgUrl',u)}}
+    function initiateReset(){resetConfirmations=0;showResetPopup()}
+    function showResetPopup(){const p=document.getElementById('resetPopup');document.getElementById('resetMessage').innerHTML=resetMessages[resetConfirmations];document.getElementById('yesButton').disabled=!1;p.classList.add('show');p.style.display='block'}
+    function handleResetConfirmation(){const y=document.getElementById('yesButton');y.disabled=!0;resetConfirmations++;resetConfirmations<resetMessages.length?(setTimeout(showResetPopup,1000),setTimeout(()=>y.disabled=!1,3000)):(resetAllCounters(),document.getElementById('resetPopup').style.display='none',resetConfirmations=0,setTimeout(()=>y.disabled=!1,3000))}
+    function cancelReset(){document.getElementById('resetPopup').style.display='none';resetConfirmations=0}
+    function resetAllCounters(){Object.keys(pointsPerCount).forEach(i=>{document.getElementById(i).value=0;localStorage.setItem(i,0);updatePoints(i,0)});updateTotalPoints()}
   </script>
 </body>
 </html>

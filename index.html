@@ -320,7 +320,7 @@
     }
     .popup .content-wrapper {
       padding: 0 10px;
-      max-height: calc(70vh - 80px); /* Account for padding and header */
+      max-height: calc(70vh - 80px);
       overflow-y: auto;
     }
     .popup .close-btn, .style-popup .close-btn, .text-popup .close-btn, .bg-popup .close-btn { 
@@ -572,7 +572,7 @@
   <div class="text-popup" id="textPopup">
     <button class="close-btn" onclick="toggleElement('textPopup', false)"><i class="fa-regular fa-circle-xmark"></i></button>
     <h3><i class="fa-solid fa-font"></i> Text Color & Font</h3>
-    <label>Main Text:<input type="color" id="textMainColor" value="#1F2937"></label>
+    <label>Main Text:<input type="color" id="textMainColor"></label>
     <label>Font:<select id="fontSelector">
       <option value="Inter">Inter</option>
       <option value="Roboto">Roboto</option>
@@ -612,6 +612,21 @@
       "Have you reported the total score in your <i><u>Daily Tracker</u></i>?<br>",
       "<u>Final Warning</u>: <br><i>All data will be lost.</i><br><i>Proceed</i>?"
     ];
+    const DEFAULT_TEXT_COLORS = {
+      'default': '#212121',
+      'dark-new': '#ffffff',
+      'dark-deep': '#cbd5e1',
+      'dark-midnight': '#d1d5db',
+      'orange-sunset': '#000000',
+      'blue-green': '#000000',
+      'dark-black': '#f3f4f6',
+      'BlackMythWukong': '#f9fafb',
+      'DataBreach': '#ffffff',
+      'BlackOps': '#ffffff',
+      'HELLDIVERS2': '#ffffff',
+      'BlackMarble': '#ffffff',
+      'custom': '#212121'
+    };
 
     // State
     const state = {
@@ -632,7 +647,8 @@
       resetMessage: document.getElementById('resetMessage'),
       yesButton: document.getElementById('yesButton'),
       noButton: document.getElementById('noButton'),
-      resetBtn: document.getElementById('resetBtn')
+      resetBtn: document.getElementById('resetBtn'),
+      textMainColor: document.getElementById('textMainColor')
     };
 
     // Utility Functions
@@ -675,6 +691,7 @@
             ? 'Switch Theme' 
             : theme.replace('-', ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
         );
+        loadTextColor(theme);
         setTimeout(() => document.body.classList.remove('theme-switching'), 500);
       });
     }
@@ -781,6 +798,17 @@
       updateTotalPoints();
     }
 
+    // Text Color Functions
+    function loadTextColor(theme) {
+      const savedColor = localStorage.getItem(`textMainColor-${theme}`) || DEFAULT_TEXT_COLORS[theme];
+      elements.textMainColor.value = savedColor;
+      updateTextStyles(savedColor, document.getElementById('fontSelector').value);
+    }
+
+    function saveTextColor(theme, color) {
+      localStorage.setItem(`textMainColor-${theme}`, color);
+    }
+
     // Initialization and Event Listeners
     function initialize() {
       loadSavedSettings();
@@ -828,23 +856,21 @@
     function loadThemeSettings(theme) {
       const transparency = localStorage.getItem(`transparency-${theme}`) || 0.65;
       const blur = localStorage.getItem(`blur-${theme}`) || 12;
-      const mainColor = localStorage.getItem(`textMainColor-${theme}`) || '#1F2937';
       const font = localStorage.getItem(`font-${theme}`) || 'Inter';
 
       document.getElementById('transparencyRange').value = transparency;
       document.getElementById('blurRange').value = blur;
-      document.getElementById('textMainColor').value = mainColor;
       document.getElementById('fontSelector').value = font;
 
+      loadTextColor(theme);
       updateCardStyles(transparency, blur);
-      updateTextStyles(mainColor, font);
     }
 
     function saveThemeSettings(theme) {
       localStorage.setItem(`transparency-${theme}`, document.getElementById('transparencyRange').value);
       localStorage.setItem(`blur-${theme}`, document.getElementById('blurRange').value);
-      localStorage.setItem(`textMainColor-${theme}`, document.getElementById('textMainColor').value);
       localStorage.setItem(`font-${theme}`, document.getElementById('fontSelector').value);
+      saveTextColor(theme, document.getElementById('textMainColor').value);
     }
 
     function attachEventListeners() {

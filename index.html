@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="reload.js" defer></script>
   <style>
     :root {
       --primary-bg: #000000;
@@ -776,9 +775,9 @@
     </div>
     <div class="time-display" id="realTime"></div>
     <div class="break-buttons">
-      <button class="break-btn" id="break15Btn" onclick="startBreakTimer(15)">BREAK 15</button>
-      <button class="break-btn" id="lunch1HrBtn" onclick="startBreakTimer(60)">LUNCH 60</button>
-      <button class="reset-timer-btn" id="resetTimerBtn" onclick="resetTimers()">RESET TIMERS</button>
+      <button class="break-btn" id="break15Btn" onclick="startBreakTimer(15)">Break 15</button>
+      <button class="break-btn" id="lunch1HrBtn" onclick="startBreakTimer(60)">Lunch 60</button>
+      <button class="reset-timer-btn" id="resetTimerBtn" onclick="resetTimers()">Stop</button>
     </div>
   </div>
   <div class="dashboard">
@@ -921,8 +920,13 @@
     async function getWeather() {
       try {
         const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error('Failed to fetch weather data');
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
         const data = await response.json();
+        if (!data.current || typeof data.current.temperature_2m === 'undefined' || typeof data.current.weather_code === 'undefined') {
+          throw new Error('Invalid data structure from API');
+        }
         const temp = Math.round(data.current.temperature_2m);
         const weatherCode = data.current.weather_code;
         const weatherDetails = getWeatherDetails(weatherCode);
@@ -930,9 +934,9 @@
         document.getElementById('description').textContent = weatherDetails.description;
         document.getElementById('weatherIcon').className = `fas ${weatherDetails.icon}`;
       } catch (error) {
-        console.error('Error fetching weather:', error);
+        console.error('Error fetching weather:', error.message);
         document.getElementById('temperature').textContent = 'Error';
-        document.getElementById('description').textContent = '';
+        document.getElementById('description').textContent = error.message;
         document.getElementById('weatherIcon').className = 'fas fa-exclamation-triangle';
       }
     }
@@ -950,10 +954,10 @@
       lunch1HrActive: false,
       break15Interval: null,
       lunch1HrInterval: null,
-      break15TimeLeft: 0,
-      lunch1HrTimeLeft: 0,
+      break15StartTime: null,
+      lunch1HrStartTime: null,
       elapsedInterval: null,
-      elapsedTime: 0,
+      elapsedStartTime: null,
       activeTimerType: null
     };
 
@@ -988,8 +992,12 @@
         popup.classList.add('show');
         popup.style.display = 'block';
         if (id === 'timerPopup' && timerState.elapsedInterval === null) {
-          timerState.elapsedTime = parseInt(localStorage.getItem('elapsedTime') || '0');
+          const savedStartTime = localStorage.getItem('elapsedStartTime');
+          if (savedStartTime) {
+            timerState.elapsedStartTime = parseInt(savedStartTime);
+          }
           timerState.elapsedInterval = setInterval(updateElapsedTime, 1000);
+          updateElapsedTime();
         }
       } else {
         popup.classList.remove('show');
@@ -1000,7 +1008,6 @@
             if (id === 'timerPopup' && timerState.elapsedInterval !== null) {
               clearInterval(timerState.elapsedInterval);
               timerState.elapsedInterval = null;
-              localStorage.setItem('elapsedTime', timerState.elapsedTime);
             }
           }
         }, { once: true });
@@ -1021,13 +1028,13 @@
       const startTime = Date.now();
       if (isBreak) {
         timerState.break15Active = true;
-        timerState.break15TimeLeft = totalSeconds;
+        timerState.break15StartTime = startTime;
         timerState.activeTimerType = 'break';
         localStorage.setItem('break15Active', 'true');
         localStorage.setItem('break15StartTime', startTime);
       } else {
         timerState.lunch1HrActive = true;
-        timerState.lunch1HrTimeLeft = totalSeconds;
+        timerState.lunch1HrStartTime = startTime;
         timerState.activeTimerType = 'lunch';
         localStorage.setItem('lunch1HrActive', 'true');
         localStorage.setItem('lunch1HrStartTime', startTime);
@@ -1041,13 +1048,18 @@
         const timeLeft = totalSeconds - elapsed;
         if (timeLeft <= 0) {
           clearInterval(isBreak ? timerState.break15Interval : timerState.lunch1HrInterval);
+          if (isBreak) {
+            timerState.break15Interval = null;
+            timerState.break15StartTime = null;
+          } else {
+            timerState.lunch1HrInterval = null;
+            timerState.lunch1HrStartTime = null;
+          }
           showTimerPopup(isBreak ? 'Break' : 'Lunch');
           resetBreakButton(button, otherButton, isBreak);
           return;
         }
 
-        if (isBreak) timerState.break15TimeLeft = timeLeft;
-        else timerState.lunch1HrTimeLeft = timeLeft;
         updateTimerDisplay(button, timeLeft);
       }, 1000);
 
@@ -1068,20 +1080,20 @@
           timerState.break15Interval = null;
         }
         timerState.break15Active = false;
-        timerState.break15TimeLeft = 0;
+        timerState.break15StartTime = null;
         localStorage.removeItem('break15Active');
         localStorage.removeItem('break15StartTime');
-        button.textContent = 'BREAK 15';
+        button.textContent = 'Break 15';
       } else {
         if (timerState.lunch1HrInterval) {
           clearInterval(timerState.lunch1HrInterval);
           timerState.lunch1HrInterval = null;
         }
         timerState.lunch1HrActive = false;
-        timerState.lunch1HrTimeLeft = 0;
+        timerState.lunch1HrStartTime = null;
         localStorage.removeItem('lunch1HrActive');
         localStorage.removeItem('lunch1HrStartTime');
-        button.textContent = 'LUNCH 60';
+        button.textContent = 'Lunch 60';
       }
       timerState.activeTimerType = null;
       localStorage.removeItem('activeTimerType');
@@ -1098,8 +1110,8 @@
       if (timerState.lunch1HrActive) {
         resetBreakButton(elements.lunch1HrBtn, elements.break15Btn, false);
       }
-      localStorage.removeItem('elapsedTime');
-      timerState.elapsedTime = 0;
+      localStorage.removeItem('elapsedStartTime');
+      timerState.elapsedStartTime = null;
       if (timerState.elapsedInterval) {
         clearInterval(timerState.elapsedInterval);
         timerState.elapsedInterval = null;
@@ -1109,8 +1121,8 @@
       localStorage.removeItem('break15StartTime');
       localStorage.removeItem('lunch1HrStartTime');
       localStorage.removeItem('activeTimerType');
-      elements.break15Btn.textContent = 'BREAK 15';
-      elements.lunch1HrBtn.textContent = 'LUNCH 60';
+      elements.break15Btn.textContent = 'Break 15';
+      elements.lunch1HrBtn.textContent = 'Lunch 60';
     }
 
     function showTimerPopup(type) {
@@ -1118,29 +1130,36 @@
       const timerMessage = document.getElementById('timerMessage');
       timerState.activeTimerType = type.toLowerCase();
       localStorage.setItem('activeTimerType', timerState.activeTimerType);
+
+      if (!timerState.elapsedStartTime) {
+        timerState.elapsedStartTime = Date.now();
+        localStorage.setItem('elapsedStartTime', timerState.elapsedStartTime);
+      }
+
       timerMessage.textContent = `Your ${type.toLowerCase()} time has ended! Time elapsed: 0 minutes and 0 seconds`;
       toggleElement('timerPopup', true);
     }
 
     function updateElapsedTime() {
-      timerState.elapsedTime++;
-      localStorage.setItem('elapsedTime', timerState.elapsedTime);
-      const minutes = Math.floor(timerState.elapsedTime / 60);
-      const seconds = timerState.elapsedTime % 60;
+      if (!timerState.elapsedStartTime) return;
+
+      const elapsedSeconds = Math.floor((Date.now() - timerState.elapsedStartTime) / 1000);
+      const minutes = Math.floor(elapsedSeconds / 60);
+      const seconds = elapsedSeconds % 60;
       const timerMessage = document.getElementById('timerMessage');
       const type = timerState.activeTimerType || 'break';
       timerMessage.textContent = `Your ${type} time has ended! Time elapsed: ${minutes} minutes and ${seconds} seconds`;
     }
 
-    function resumeTimer(button, otherButton, isBreak, timeLeft, startTime) {
+    function resumeTimer(button, otherButton, isBreak, startTime) {
       const totalSeconds = isBreak ? 15 * 60 : 60 * 60;
       if (isBreak) {
         timerState.break15Active = true;
-        timerState.break15TimeLeft = timeLeft;
+        timerState.break15StartTime = startTime;
         timerState.activeTimerType = 'break';
       } else {
         timerState.lunch1HrActive = true;
-        timerState.lunch1HrTimeLeft = timeLeft;
+        timerState.lunch1HrStartTime = startTime;
         timerState.activeTimerType = 'lunch';
       }
 
@@ -1148,20 +1167,29 @@
       elements.break15Btn.disabled = true;
       elements.lunch1HrBtn.disabled = true;
       elements.resetTimerBtn.disabled = false;
-      updateTimerDisplay(button, timeLeft);
+
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      let initialTimeLeft = totalSeconds - elapsed;
+      initialTimeLeft = Math.max(0, initialTimeLeft);
+      updateTimerDisplay(button, initialTimeLeft);
 
       const interval = setInterval(() => {
         const elapsed = Math.floor((Date.now() - startTime) / 1000);
         const remaining = totalSeconds - elapsed;
         if (remaining <= 0) {
           clearInterval(isBreak ? timerState.break15Interval : timerState.lunch1HrInterval);
+          if (isBreak) {
+            timerState.break15Interval = null;
+            timerState.break15StartTime = null;
+          } else {
+            timerState.lunch1HrInterval = null;
+            timerState.lunch1HrStartTime = null;
+          }
           showTimerPopup(isBreak ? 'Break' : 'Lunch');
           resetBreakButton(button, otherButton, isBreak);
           return;
         }
 
-        if (isBreak) timerState.break15TimeLeft = remaining;
-        else timerState.lunch1HrTimeLeft = remaining;
         updateTimerDisplay(button, remaining);
       }, 1000);
 
@@ -1177,12 +1205,12 @@
       const savedActiveTimerType = localStorage.getItem('activeTimerType');
 
       if (breakActive && breakStartTime) {
-        const elapsed = Math.floor((Date.now() - breakStartTime) / 1000);
         const totalSeconds = 15 * 60;
+        const elapsed = Math.floor((Date.now() - breakStartTime) / 1000);
         let timeLeft = totalSeconds - elapsed;
-        timeLeft = Math.max(0, timeLeft); // Ensure timeLeft doesn't go negative
+        timeLeft = Math.max(0, timeLeft);
         if (timeLeft > 0) {
-          resumeTimer(elements.break15Btn, elements.lunch1HrBtn, true, timeLeft, breakStartTime);
+          resumeTimer(elements.break15Btn, elements.lunch1HrBtn, true, breakStartTime);
         } else {
           resetBreakButton(elements.break15Btn, elements.lunch1HrBtn, true);
           timerState.activeTimerType = savedActiveTimerType;
@@ -1191,12 +1219,12 @@
       }
 
       if (lunchActive && lunchStartTime) {
-        const elapsed = Math.floor((Date.now() - lunchStartTime) / 1000);
         const totalSeconds = 60 * 60;
+        const elapsed = Math.floor((Date.now() - lunchStartTime) / 1000);
         let timeLeft = totalSeconds - elapsed;
-        timeLeft = Math.max(0, timeLeft); // Ensure timeLeft doesn't go negative
+        timeLeft = Math.max(0, timeLeft);
         if (timeLeft > 0) {
-          resumeTimer(elements.lunch1HrBtn, elements.break15Btn, false, timeLeft, lunchStartTime);
+          resumeTimer(elements.lunch1HrBtn, elements.break15Btn, false, lunchStartTime);
         } else {
           resetBreakButton(elements.lunch1HrBtn, elements.break15Btn, false);
           timerState.activeTimerType = savedActiveTimerType;
@@ -1479,6 +1507,42 @@
       getWeather();
       setInterval(getWeather, 600000);
       restoreTimerState();
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          if (timerState.elapsedStartTime) {
+            updateElapsedTime();
+          }
+          if (timerState.break15Active && timerState.break15StartTime) {
+            const totalSeconds = 15 * 60;
+            const elapsed = Math.floor((Date.now() - timerState.break15StartTime) / 1000);
+            const timeLeft = totalSeconds - elapsed;
+            if (timeLeft <= 0) {
+              clearInterval(timerState.break15Interval);
+              timerState.break15Interval = null;
+              timerState.break15StartTime = null;
+              showTimerPopup('Break');
+              resetBreakButton(elements.break15Btn, elements.lunch1HrBtn, true);
+            } else {
+              updateTimerDisplay(elements.break15Btn, timeLeft);
+            }
+          }
+          if (timerState.lunch1HrActive && timerState.lunch1HrStartTime) {
+            const totalSeconds = 60 * 60;
+            const elapsed = Math.floor((Date.now() - timerState.lunch1HrStartTime) / 1000);
+            const timeLeft = totalSeconds - elapsed;
+            if (timeLeft <= 0) {
+              clearInterval(timerState.lunch1HrInterval);
+              timerState.lunch1HrInterval = null;
+              timerState.lunch1HrStartTime = null;
+              showTimerPopup('Lunch');
+              resetBreakButton(elements.lunch1HrBtn, elements.break15Btn, false);
+            } else {
+              updateTimerDisplay(elements.lunch1HrBtn, timeLeft);
+            }
+          }
+        }
+      });
     }
 
     function loadSavedSettings() {

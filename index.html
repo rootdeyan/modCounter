@@ -1108,7 +1108,7 @@
       const seconds = elapsedSeconds % 60;
       const timerMessage = document.getElementById('timerMessage');
       const type = state.timer.activeTimerType || 'break';
-      timerMessage.textContent = `Your ${type} time has ended! <br> Time elapsed: ${minutes} minutes and ${seconds} seconds`;
+      timerMessage.textContent = `Your ${type} time has ended! \nTime elapsed: ${minutes} minutes and ${seconds} seconds`;
     }
 
     function resumeTimer(button, otherButton, isBreak, startTime) {

@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="reload.js" defer></script>
   <style>
     :root {
       --primary-bg: #000000;
@@ -227,9 +226,14 @@
       padding: 6px 15px;
     }
 
+    .weather-widget span {
+      color: var(--text-main);
+    }
+
     .weather-icon {
       font-size: 1.5rem;
       line-height: 1;
+      color: var(--text-main);
     }
 
     .break-buttons {
@@ -239,58 +243,34 @@
       flex-wrap: wrap;
     }
 
-    .break-btn {
-      background: var(--button-theme);
-      color: #fff;
-      border: none;
+    .break-btn, .reset-timer-btn {
+      border: 2px solid white;
       padding: 8px 16px;
       border-radius: 10px;
       font-size: 1rem;
       font-weight: 500;
       cursor: pointer;
-      transition: var(--transition);
+      transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       min-width: 120px;
+      color: #fff !important;
+      background: #000 !important;
+      backdrop-filter: none !important;
     }
 
-    .break-btn:hover:not(:disabled) {
+    .break-btn:hover:not(:disabled), .reset-timer-btn:hover:not(:disabled) {
       transform: scale(1.08);
       filter: brightness(110%);
       box-shadow: 0 6px 12px rgba(0,0,0,0.15);
     }
 
-    .break-btn:disabled {
-      opacity: 0.5;
+    .break-btn:disabled, .reset-timer-btn:disabled {
+      opacity: 0.7;
       cursor: not-allowed;
     }
 
     .break-btn.timer-active {
-      background: var(--button-increment);
-    }
-
-    .reset-timer-btn {
-      background: var(--button-reset);
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: var(--transition);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      min-width: 120px;
-    }
-
-    .reset-timer-btn:hover:not(:disabled) {
-      transform: scale(1.08);
-      filter: brightness(110%);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-    }
-
-    .reset-timer-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+      background: #FF9800 !important;
     }
 
     .dashboard {
@@ -312,7 +292,6 @@
       position: relative;
       overflow: hidden;
       cursor: move;
-      will-change: transform, box-shadow;
       transform: translateZ(0);
     }
 
@@ -357,7 +336,6 @@
       font-size: 1rem;
       transition: var(--transition);
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      will-change: transform, filter;
       transform: translateZ(0);
     }
 
@@ -406,7 +384,6 @@
       cursor: pointer;
       transition: var(--transition);
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      will-change: transform, filter;
       transform: translateZ(0);
     }
 
@@ -429,9 +406,16 @@
       cursor: default;
     }
 
-    .total-card h1 {
-      font-size: 2rem;
+    .total-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       margin-bottom: 15px;
+    }
+
+    .total-header h1 {
+      font-size: 2rem;
       color: var(--text-main);
     }
 
@@ -439,14 +423,12 @@
       background: var(--button-reset);
       color: #fff;
       border: none;
-      padding: 12px 24px;
+      padding: 8px;
       border-radius: 10px;
       font-size: 1.1rem;
-      font-weight: 500;
       cursor: pointer;
       transition: var(--transition);
       box-shadow: 0 4px 8px rgba(0,0,0,0.692);
-      will-change: transform, filter;
       transform: translateZ(0);
     }
 
@@ -473,7 +455,6 @@
       font-size: 0.9rem;
       transition: var(--transition);
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      will-change: transform, filter;
       transform: translateZ(0);
     }
 
@@ -666,7 +647,7 @@
     }
 
     .bg-popup button:disabled, .reset-popup button:disabled {
-      opacity: 0.5;
+      opacity: 0.7;
       cursor: not-allowed;
     }
 
@@ -732,7 +713,7 @@
       .total-card { grid-column: span 1; }
       .card-header h2 { font-size: 1.1rem; }
       .counter-controls input { font-size: 1.6rem; }
-      .total-card h1 { font-size: 1.8rem; }
+      .total-header h1 { font-size: 1.8rem; }
       .popup, .style-popup, .text-popup, .bg-popup, .reset-popup, .timer-popup {
         width: 90%;
         max-width: 350px;
@@ -750,8 +731,8 @@
     @media (max-width: 480px) {
       .card-header h2 { font-size: 1rem; }
       .counter-controls input { font-size: 1.4rem; }
-      .total-card h1 { font-size: 1.6rem; }
-      .reset-btn { padding: 10px 20px; font-size: 1rem; }
+      .total-header h1 { font-size: 1.6rem; }
+      .reset-btn { padding: 6px; font-size: 1rem; }
       .popup, .style-popup, .text-popup, .bg-popup, .reset-popup, .timer-popup {
         width: 85%;
         max-width: 300px;
@@ -783,8 +764,10 @@
   </div>
   <div class="dashboard">
     <div class="card total-card">
-      <h1>Total: <span id="total-points">0.0</span> <i class="fa-solid fa-chart-simple"></i></h1>
-      <button class="reset-btn" id="resetBtn" onclick="initiateReset()">Reset All <i class="fa-solid fa-rotate-left"></i></button>
+      <div class="total-header">
+        <h1>Total: <span id="total-points">0.0</span> <i class="fa-solid fa-chart-simple"></i></h1>
+        <button class="reset-btn" id="resetBtn" onclick="initiateReset()"><i class="fa-solid fa-rotate-left"></i></button>
+      </div>
       <div class="action-bar">
         <button class="action-btn" id="themeSwitcher" data-tooltip="Switch Theme"><i class="fa-solid fa-palette"></i></button>
         <button class="action-btn" id="infoBtn" onclick="toggleElement('infoPopup')" data-tooltip="Info"><i class="fa-solid fa-info"></i></button>
@@ -877,17 +860,17 @@
   </div>
   <script>
     const THEMES = ['default', 'dark-new', 'dark-deep', 'dark-midnight', 'orange-sunset', 'blue-green', 'dark-black', 'custom'];
-    const POINTS_PER_COUNT = Object.freeze({
+    const POINTS_PER_COUNT = {
       chats: 2,
       voicechats: 4,
       images: 0.2,
       audios: 2,
       mesh: 0.2
-    });
+    };
     const ACHIEVEMENT_THRESHOLDS = [300, 350, 400];
     const RESET_MESSAGES = [
-      "Have you reported the total score in your <i><u>Daily Tracker</u></i>?<br>",
-      "<u>Final Warning</u>: <br><i>All data will be lost.</i><br><i>Proceed</i>?"
+      "Have you reported the total score in your <b>Daily Tracker 'Google Sheets Doc'</b> ?",
+      "<b>Final Warning:</b> <br><i>All data will be lost.</i><br><b>Proceed</b> ?"
     ];
     const DEFAULT_TEXT_COLORS = {
       'default': '#212121',
@@ -900,66 +883,38 @@
       'custom': '#212121'
     };
 
-    const apiUrl = 'https://api.open-meteo.com/v1/forecast?latitude=42.6977&longitude=23.3219&current=temperature_2m,weather_code&timezone=Europe%2FSofia';
+    const apiUrl = 'https://api.open-meteo.com/v1/forecast?latitude=42.6977&longitude=23.3219&current=temperature_2m,weather_code&timezone=Europe/Sofia';
 
-    function getWeatherDetails(code) {
-      const weatherCodes = {
-        0: { description: 'Clear sky', icon: 'fa-sun' },
-        1: { description: 'Mainly clear', icon: 'fa-cloud-sun' },
-        2: { description: 'Partly cloudy', icon: 'fa-cloud-sun' },
-        3: { description: 'Overcast', icon: 'fa-cloud' },
-        45: { description: 'Fog', icon: 'fa-smog' },
-        51: { description: 'Light drizzle', icon: 'fa-cloud-rain' },
-        61: { description: 'Rain', icon: 'fa-cloud-showers-heavy' },
-        71: { description: 'Snow', icon: 'fa-snowflake' },
-        80: { description: 'Showers', icon: 'fa-cloud-rain' },
-        95: { description: 'Thunderstorm', icon: 'fa-bolt' }
-      };
-      return weatherCodes[code] || { description: 'Unknown', icon: 'fa-question' };
-    }
-
-    async function getWeather() {
-      try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const data = await response.json();
-        if (!data.current || typeof data.current.temperature_2m === 'undefined' || typeof data.current.weather_code === 'undefined') {
-          throw new Error('Invalid data structure from API');
-        }
-        const temp = Math.round(data.current.temperature_2m);
-        const weatherCode = data.current.weather_code;
-        const weatherDetails = getWeatherDetails(weatherCode);
-        document.getElementById('temperature').textContent = `${temp}°C`;
-        document.getElementById('description').textContent = weatherDetails.description;
-        document.getElementById('weatherIcon').className = `fas ${weatherDetails.icon}`;
-      } catch (error) {
-        console.error('Error fetching weather:', error.message);
-        document.getElementById('temperature').textContent = 'Error';
-        document.getElementById('description').textContent = error.message;
-        document.getElementById('weatherIcon').className = 'fas fa-exclamation-triangle';
-      }
-    }
+    const weatherCodes = {
+      0: { description: 'Clear sky', icon: 'fa-sun' },
+      1: { description: 'Mainly clear', icon: 'fa-cloud-sun' },
+      2: { description: 'Partly cloudy', icon: 'fa-cloud-sun' },
+      3: { description: 'Overcast', icon: 'fa-cloud' },
+      45: { description: 'Fog', icon: 'fa-smog' },
+      51: { description: 'Light drizzle', icon: 'fa-cloud-rain' },
+      61: { description: 'Rain', icon: 'fa-cloud-showers-heavy' },
+      71: { description: 'Snow', icon: 'fa-snowflake' },
+      80: { description: 'Showers', icon: 'fa-cloud-rain' },
+      95: { description: 'Thunderstorm', icon: 'fa-bolt' }
+    };
 
     const state = {
       currentThemeIndex: 0,
       previousTotal: 0,
       resetConfirmations: 0,
       draggedCard: null,
-      dragOverCard: null
-    };
-
-    const timerState = {
-      break15Active: false,
-      lunch1HrActive: false,
-      break15Interval: null,
-      lunch1HrInterval: null,
-      break15StartTime: null,
-      lunch1HrStartTime: null,
-      elapsedInterval: null,
-      elapsedStartTime: null,
-      activeTimerType: null
+      dragOverCard: null,
+      timer: {
+        break15Active: false,
+        lunch1HrActive: false,
+        break15Interval: null,
+        lunch1HrInterval: null,
+        break15StartTime: null,
+        lunch1HrStartTime: null,
+        elapsedInterval: null,
+        elapsedStartTime: null,
+        activeTimerType: null
+      }
     };
 
     const elements = {
@@ -975,51 +930,75 @@
       textMainColor: document.getElementById('textMainColor'),
       break15Btn: document.getElementById('break15Btn'),
       lunch1HrBtn: document.getElementById('lunch1HrBtn'),
-      resetTimerBtn: document.getElementById('resetTimerBtn')
+      resetTimerBtn: document.getElementById('resetTimerBtn'),
+      weatherWidget: document.getElementById('weatherWidget'),
+      temperature: document.getElementById('temperature'),
+      description: document.getElementById('description'),
+      weatherIcon: document.getElementById('weatherIcon')
     };
 
-    const debounce = (func, wait) => {
-      let timeout;
-      return (...args) => {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func(...args), wait);
-      };
-    };
+    async function getWeather() {
+      try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        const data = await response.json();
+        if (!data.current) throw new Error('Invalid data structure from API');
+        const temp = Math.round(data.current.temperature_2m);
+        const weatherCode = data.current.weather_code;
+        const weather = weatherCodes[weatherCode] || { description: 'Unknown', icon: 'fa-question' };
+        elements.temperature.textContent = `${temp}°C`;
+        elements.description.textContent = weather.description;
+        elements.weatherIcon.className = `fas ${weather.icon}`;
+      } catch (error) {
+        elements.temperature.textContent = 'Error';
+        elements.description.textContent = error.message;
+        elements.weatherIcon.className = 'fas fa-exclamation-triangle';
+      }
+      updateWeatherAndTimeColors();
+    }
 
-    const toggleElement = (id, show = true) => {
+    function updateTime() {
+      elements.timeDisplay.textContent = new Date().toLocaleTimeString('en-US', { hour12: true });
+      updateWeatherAndTimeColors();
+    }
+
+    function updateWeatherAndTimeColors() {
+      const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-main').trim();
+      elements.timeDisplay.style.color = textColor;
+      elements.weatherWidget.style.color = textColor;
+      elements.temperature.style.color = textColor;
+      elements.description.style.color = textColor;
+      elements.weatherIcon.style.color = textColor;
+    }
+
+    function toggleElement(id, show = true) {
       const popup = document.getElementById(id);
-      if (show) {
-        popup.classList.remove('hide');
-        popup.classList.add('show');
-        popup.style.display = 'block';
-        if (id === 'timerPopup' && timerState.elapsedInterval === null) {
-          const savedStartTime = localStorage.getItem('elapsedStartTime');
-          if (savedStartTime) {
-            timerState.elapsedStartTime = parseInt(savedStartTime);
-          }
-          timerState.elapsedInterval = setInterval(updateElapsedTime, 1000);
-          updateElapsedTime();
-        }
-      } else {
-        popup.classList.remove('show');
-        popup.classList.add('hide');
+      popup.classList.toggle('show', show);
+      popup.classList.toggle('hide', !show);
+      popup.style.display = show ? 'block' : '';
+      if (!show) {
         popup.addEventListener('animationend', () => {
-          if (!popup.classList.contains('show')) {
-            popup.style.display = 'none';
-            if (id === 'timerPopup' && timerState.elapsedInterval !== null) {
-              clearInterval(timerState.elapsedInterval);
-              timerState.elapsedInterval = null;
-            }
-          }
+          if (!popup.classList.contains('show')) popup.style.display = 'none';
         }, { once: true });
       }
-    };
+      if (id === 'timerPopup') {
+        if (show && !state.timer.elapsedInterval) {
+          state.timer.elapsedStartTime = localStorage.getItem('elapsedStartTime') ? parseInt(localStorage.getItem('elapsedStartTime')) : Date.now();
+          state.timer.elapsedInterval = setInterval(updateElapsedTime, 1000);
+          localStorage.setItem('elapsedStartTime', state.timer.elapsedStartTime);
+          updateElapsedTime();
+        } else if (!show && state.timer.elapsedInterval) {
+          clearInterval(state.timer.elapsedInterval);
+          state.timer.elapsedInterval = null;
+        }
+      }
+    }
 
     function startBreakTimer(minutes) {
       const isBreak = minutes === 15;
       const button = isBreak ? elements.break15Btn : elements.lunch1HrBtn;
       const otherButton = isBreak ? elements.lunch1HrBtn : elements.break15Btn;
-      if ((isBreak && timerState.break15Active) || (!isBreak && timerState.lunch1HrActive)) return;
+      if ((isBreak && state.timer.break15Active) || (!isBreak && state.timer.lunch1HrActive)) return;
 
       elements.break15Btn.disabled = true;
       elements.lunch1HrBtn.disabled = true;
@@ -1028,15 +1007,15 @@
       const totalSeconds = minutes * 60;
       const startTime = Date.now();
       if (isBreak) {
-        timerState.break15Active = true;
-        timerState.break15StartTime = startTime;
-        timerState.activeTimerType = 'break';
+        state.timer.break15Active = true;
+        state.timer.break15StartTime = startTime;
+        state.timer.activeTimerType = 'break';
         localStorage.setItem('break15Active', 'true');
         localStorage.setItem('break15StartTime', startTime);
       } else {
-        timerState.lunch1HrActive = true;
-        timerState.lunch1HrStartTime = startTime;
-        timerState.activeTimerType = 'lunch';
+        state.timer.lunch1HrActive = true;
+        state.timer.lunch1HrStartTime = startTime;
+        state.timer.activeTimerType = 'lunch';
         localStorage.setItem('lunch1HrActive', 'true');
         localStorage.setItem('lunch1HrStartTime', startTime);
       }
@@ -1048,24 +1027,23 @@
         const elapsed = Math.floor((Date.now() - startTime) / 1000);
         const timeLeft = totalSeconds - elapsed;
         if (timeLeft <= 0) {
-          clearInterval(isBreak ? timerState.break15Interval : timerState.lunch1HrInterval);
+          clearInterval(isBreak ? state.timer.break15Interval : state.timer.lunch1HrInterval);
           if (isBreak) {
-            timerState.break15Interval = null;
-            timerState.break15StartTime = null;
+            state.timer.break15Interval = null;
+            state.timer.break15StartTime = null;
           } else {
-            timerState.lunch1HrInterval = null;
-            timerState.lunch1HrStartTime = null;
+            state.timer.lunch1HrInterval = null;
+            state.timer.lunch1HrStartTime = null;
           }
           showTimerPopup(isBreak ? 'Break' : 'Lunch');
           resetBreakButton(button, otherButton, isBreak);
           return;
         }
-
         updateTimerDisplay(button, timeLeft);
       }, 1000);
 
-      if (isBreak) timerState.break15Interval = interval;
-      else timerState.lunch1HrInterval = interval;
+      if (isBreak) state.timer.break15Interval = interval;
+      else state.timer.lunch1HrInterval = interval;
     }
 
     function updateTimerDisplay(button, seconds) {
@@ -1076,27 +1054,21 @@
 
     function resetBreakButton(button, otherButton, isBreak) {
       if (isBreak) {
-        if (timerState.break15Interval) {
-          clearInterval(timerState.break15Interval);
-          timerState.break15Interval = null;
-        }
-        timerState.break15Active = false;
-        timerState.break15StartTime = null;
+        clearInterval(state.timer.break15Interval);
+        state.timer.break15Active = false;
+        state.timer.break15StartTime = null;
         localStorage.removeItem('break15Active');
         localStorage.removeItem('break15StartTime');
         button.textContent = 'Break 15';
       } else {
-        if (timerState.lunch1HrInterval) {
-          clearInterval(timerState.lunch1HrInterval);
-          timerState.lunch1HrInterval = null;
-        }
-        timerState.lunch1HrActive = false;
-        timerState.lunch1HrStartTime = null;
+        clearInterval(state.timer.lunch1HrInterval);
+        state.timer.lunch1HrActive = false;
+        state.timer.lunch1HrStartTime = null;
         localStorage.removeItem('lunch1HrActive');
         localStorage.removeItem('lunch1HrStartTime');
         button.textContent = 'Lunch 60';
       }
-      timerState.activeTimerType = null;
+      state.timer.activeTimerType = null;
       localStorage.removeItem('activeTimerType');
       button.classList.remove('timer-active');
       elements.break15Btn.disabled = false;
@@ -1105,18 +1077,12 @@
     }
 
     function resetTimers() {
-      if (timerState.break15Active) {
-        resetBreakButton(elements.break15Btn, elements.lunch1HrBtn, true);
-      }
-      if (timerState.lunch1HrActive) {
-        resetBreakButton(elements.lunch1HrBtn, elements.break15Btn, false);
-      }
+      if (state.timer.break15Active) resetBreakButton(elements.break15Btn, elements.lunch1HrBtn, true);
+      if (state.timer.lunch1HrActive) resetBreakButton(elements.lunch1HrBtn, elements.break15Btn, false);
       localStorage.removeItem('elapsedStartTime');
-      timerState.elapsedStartTime = null;
-      if (timerState.elapsedInterval) {
-        clearInterval(timerState.elapsedInterval);
-        timerState.elapsedInterval = null;
-      }
+      state.timer.elapsedStartTime = null;
+      clearInterval(state.timer.elapsedInterval);
+      state.timer.elapsedInterval = null;
       localStorage.removeItem('break15Active');
       localStorage.removeItem('lunch1HrActive');
       localStorage.removeItem('break15StartTime');
@@ -1127,41 +1093,33 @@
     }
 
     function showTimerPopup(type) {
-      const timerPopup = document.getElementById('timerPopup');
       const timerMessage = document.getElementById('timerMessage');
-      timerState.activeTimerType = type.toLowerCase();
-      localStorage.setItem('activeTimerType', timerState.activeTimerType);
-
-      if (!timerState.elapsedStartTime) {
-        timerState.elapsedStartTime = Date.now();
-        localStorage.setItem('elapsedStartTime', timerState.elapsedStartTime);
-      }
-
-      timerMessage.textContent = `Your ${type.toLowerCase()} time has ended! Time elapsed: 0 minutes and 0 seconds`;
+      state.timer.activeTimerType = type.toLowerCase();
+      localStorage.setItem('activeTimerType', state.timer.activeTimerType);
+      timerMessage.textContent = `Your ${type.toLowerCase()} time has ended! <br> Time elapsed: 0 minutes and 0 seconds`;
       toggleElement('timerPopup', true);
     }
 
     function updateElapsedTime() {
-      if (!timerState.elapsedStartTime) return;
-
-      const elapsedSeconds = Math.floor((Date.now() - timerState.elapsedStartTime) / 1000);
+      if (!state.timer.elapsedStartTime) return;
+      const elapsedSeconds = Math.floor((Date.now() - state.timer.elapsedStartTime) / 1000);
       const minutes = Math.floor(elapsedSeconds / 60);
       const seconds = elapsedSeconds % 60;
       const timerMessage = document.getElementById('timerMessage');
-      const type = timerState.activeTimerType || 'break';
+      const type = state.timer.activeTimerType || 'break';
       timerMessage.textContent = `Your ${type} time has ended! Time elapsed: ${minutes} minutes and ${seconds} seconds`;
     }
 
     function resumeTimer(button, otherButton, isBreak, startTime) {
       const totalSeconds = isBreak ? 15 * 60 : 60 * 60;
       if (isBreak) {
-        timerState.break15Active = true;
-        timerState.break15StartTime = startTime;
-        timerState.activeTimerType = 'break';
+        state.timer.break15Active = true;
+        state.timer.break15StartTime = startTime;
+        state.timer.activeTimerType = 'break';
       } else {
-        timerState.lunch1HrActive = true;
-        timerState.lunch1HrStartTime = startTime;
-        timerState.activeTimerType = 'lunch';
+        state.timer.lunch1HrActive = true;
+        state.timer.lunch1HrStartTime = startTime;
+        state.timer.activeTimerType = 'lunch';
       }
 
       button.classList.add('timer-active');
@@ -1178,24 +1136,23 @@
         const elapsed = Math.floor((Date.now() - startTime) / 1000);
         const remaining = totalSeconds - elapsed;
         if (remaining <= 0) {
-          clearInterval(isBreak ? timerState.break15Interval : timerState.lunch1HrInterval);
+          clearInterval(isBreak ? state.timer.break15Interval : state.timer.lunch1HrInterval);
           if (isBreak) {
-            timerState.break15Interval = null;
-            timerState.break15StartTime = null;
+            state.timer.break15Interval = null;
+            state.timer.break15StartTime = null;
           } else {
-            timerState.lunch1HrInterval = null;
-            timerState.lunch1HrStartTime = null;
+            state.timer.lunch1HrInterval = null;
+            state.timer.lunch1HrStartTime = null;
           }
           showTimerPopup(isBreak ? 'Break' : 'Lunch');
           resetBreakButton(button, otherButton, isBreak);
           return;
         }
-
         updateTimerDisplay(button, remaining);
       }, 1000);
 
-      if (isBreak) timerState.break15Interval = interval;
-      else timerState.lunch1HrInterval = interval;
+      if (isBreak) state.timer.break15Interval = interval;
+      else state.timer.lunch1HrInterval = interval;
     }
 
     function restoreTimerState() {
@@ -1214,7 +1171,7 @@
           resumeTimer(elements.break15Btn, elements.lunch1HrBtn, true, breakStartTime);
         } else {
           resetBreakButton(elements.break15Btn, elements.lunch1HrBtn, true);
-          timerState.activeTimerType = savedActiveTimerType;
+          state.timer.activeTimerType = savedActiveTimerType;
           showTimerPopup('Break');
         }
       }
@@ -1228,43 +1185,35 @@
           resumeTimer(elements.lunch1HrBtn, elements.break15Btn, false, lunchStartTime);
         } else {
           resetBreakButton(elements.lunch1HrBtn, elements.break15Btn, false);
-          timerState.activeTimerType = savedActiveTimerType;
+          state.timer.activeTimerType = savedActiveTimerType;
           showTimerPopup('Lunch');
         }
       }
     }
 
-    function updateTime() {
-      elements.timeDisplay.textContent = new Date().toLocaleTimeString('en-US', { hour12: true });
-    }
-
     function applyTheme(theme) {
-      requestAnimationFrame(() => {
-        document.body.classList.add('theme-switching');
-        document.body.className = theme === 'default' ? 'theme-default' : `theme-${theme}`;
-        localStorage.setItem('selectedTheme', theme);
-        const switcher = document.getElementById('themeSwitcher');
-        switcher.setAttribute('data-tooltip',
-          theme === 'default'
-            ? 'Switch Theme'
-            : theme.replace('-', ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
-        );
-        loadThemeSettings(theme);
-        setTimeout(() => document.body.classList.remove('theme-switching'), 500);
-      });
+      document.body.classList.add('theme-switching');
+      document.body.className = theme === 'default' ? 'theme-default' : `theme-${theme}`;
+      localStorage.setItem('selectedTheme', theme);
+      const switcher = document.getElementById('themeSwitcher');
+      switcher.setAttribute('data-tooltip',
+        theme === 'default'
+          ? 'Switch Theme'
+          : theme.replace('-', ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+      );
+      loadThemeSettings(theme);
+      setTimeout(() => {
+        document.body.classList.remove('theme-switching');
+        updateWeatherAndTimeColors();
+      }, 500);
     }
 
     function handleCounter(button, action, num = 1) {
       const section = button.closest('.card');
       const id = section.dataset.id;
       const input = document.getElementById(id);
-      if (!input) return;
-
       let count = parseInt(input.value) || 0;
-      count = action === 'increase' || action === 'increment'
-        ? count + num
-        : Math.max(0, count - num);
-
+      count = action === 'increase' || action === 'increment' ? count + num : Math.max(0, count - num);
       input.value = count;
       localStorage.setItem(id, count);
       updatePoints(id, count);
@@ -1273,11 +1222,9 @@
 
     function updatePoints(id, count) {
       const pointsEl = document.getElementById(`${id}-points`);
-      if (pointsEl) {
-        const points = (count * POINTS_PER_COUNT[id]).toFixed(1);
-        pointsEl.textContent = points;
-        localStorage.setItem(`${id}-points`, points);
-      }
+      const points = (count * POINTS_PER_COUNT[id]).toFixed(1);
+      pointsEl.textContent = points;
+      localStorage.setItem(`${id}-points`, points);
     }
 
     function updateTotalPoints() {
@@ -1339,11 +1286,9 @@
     function resetAllCounters() {
       Object.keys(POINTS_PER_COUNT).forEach(id => {
         const input = document.getElementById(id);
-        if (input) {
-          input.value = 0;
-          localStorage.setItem(id, 0);
-          updatePoints(id, 0);
-        }
+        input.value = 0;
+        localStorage.setItem(id, 0);
+        updatePoints(id, 0);
       });
       updateTotalPoints();
     }
@@ -1352,37 +1297,39 @@
       const savedColor = localStorage.getItem(`textMainColor-${theme}`) || DEFAULT_TEXT_COLORS[theme];
       elements.textMainColor.value = savedColor;
       document.documentElement.style.setProperty('--text-main', savedColor);
+      updateWeatherAndTimeColors();
     }
 
     function saveTextColor(theme, color) {
       localStorage.setItem(`textMainColor-${theme}`, color);
       document.documentElement.style.setProperty('--text-main', color);
+      updateWeatherAndTimeColors();
     }
 
     function loadThemeSettings(theme) {
       const defaultTransparency = 50;
       const defaultBlur = 50;
+      const defaultFont = 'Inter';
       const transparency = localStorage.getItem(`transparency-${theme}`) || defaultTransparency;
       const blur = localStorage.getItem(`blur-${theme}`) || defaultBlur;
-      const font = localStorage.getItem(`font-${theme}`) || 'Inter';
+      const font = localStorage.getItem('selectedFont') || defaultFont;
 
       document.getElementById('transparencyRange').value = transparency;
       document.getElementById('blurRange').value = blur;
       document.getElementById('fontSelector').value = font;
 
       loadTextColor(theme);
-      updateCardStyles(transparency, blur);
-      updateTextStyles(null, font);
+      updateStyles(transparency, blur, font);
     }
 
     function saveThemeSettings(theme) {
       localStorage.setItem(`transparency-${theme}`, document.getElementById('transparencyRange').value);
       localStorage.setItem(`blur-${theme}`, document.getElementById('blurRange').value);
-      localStorage.setItem(`font-${theme}`, document.getElementById('fontSelector').value);
+      localStorage.setItem('selectedFont', document.getElementById('fontSelector').value);
       saveTextColor(theme, document.getElementById('textMainColor').value);
     }
 
-    function updateCardStyles(transparency, blur) {
+    function updateStyles(transparency, blur, font) {
       const isDarkTheme = document.body.className.includes('dark') ||
                           document.body.className.includes('orange') ||
                           document.body.className.includes('blue-green');
@@ -1394,11 +1341,9 @@
         el.style.background = rgba;
         el.style.backdropFilter = `blur(${blurPx}px)`;
       });
-    }
 
-    function updateTextStyles(main, font) {
-      if (main) document.documentElement.style.setProperty('--text-main', main);
-      if (font) document.body.style.fontFamily = `'${font}', sans-serif`;
+      document.body.style.fontFamily = `'${font}', sans-serif`;
+      updateWeatherAndTimeColors();
     }
 
     function applyCustomBackground() {
@@ -1430,51 +1375,37 @@
       const cards = elements.dashboard.querySelectorAll('.card:not(.total-card)');
       cards.forEach(card => {
         card.draggable = true;
-
         card.addEventListener('dragstart', e => {
           state.draggedCard = card;
           card.classList.add('dragging');
           e.dataTransfer.effectAllowed = 'move';
           e.dataTransfer.setData('text/plain', card.dataset.id);
         });
-
         card.addEventListener('dragend', () => {
           card.classList.remove('dragging');
           state.draggedCard = null;
           state.dragOverCard = null;
           saveCardOrder();
         });
-
         card.addEventListener('dragenter', e => {
           e.preventDefault();
-          if (state.draggedCard && state.draggedCard !== card) {
-            state.dragOverCard = card;
-          }
+          if (state.draggedCard && state.draggedCard !== card) state.dragOverCard = card;
         });
-
         card.addEventListener('dragover', e => {
           e.preventDefault();
           e.dataTransfer.dropEffect = 'move';
         });
-
         card.addEventListener('dragleave', () => {
-          if (state.dragOverCard === card) {
-            state.dragOverCard = null;
-          }
+          if (state.dragOverCard === card) state.dragOverCard = null;
         });
-
         card.addEventListener('drop', e => {
           e.preventDefault();
           if (state.draggedCard && state.draggedCard !== card) {
             const allCards = Array.from(elements.dashboard.querySelectorAll('.card:not(.total-card)'));
             const draggedIndex = allCards.indexOf(state.draggedCard);
             const dropIndex = allCards.indexOf(card);
-
-            if (draggedIndex < dropIndex) {
-              card.after(state.draggedCard);
-            } else {
-              card.before(state.draggedCard);
-            }
+            if (draggedIndex < dropIndex) card.after(state.draggedCard);
+            else card.before(state.draggedCard);
             saveCardOrder();
           }
         });
@@ -1500,7 +1431,6 @@
 
     function initialize() {
       loadSavedSettings();
-      attachEventListeners();
       makeCardsDraggable();
       updateClearButtonState();
       setInterval(updateTime, 1000);
@@ -1509,107 +1439,96 @@
       setInterval(getWeather, 600000);
       restoreTimerState();
 
-      document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') {
-          if (timerState.elapsedStartTime) {
-            updateElapsedTime();
-          }
-          if (timerState.break15Active && timerState.break15StartTime) {
-            const totalSeconds = 15 * 60;
-            const elapsed = Math.floor((Date.now() - timerState.break15StartTime) / 1000);
-            const timeLeft = totalSeconds - elapsed;
-            if (timeLeft <= 0) {
-              clearInterval(timerState.break15Interval);
-              timerState.break15Interval = null;
-              timerState.break15StartTime = null;
-              showTimerPopup('Break');
-              resetBreakButton(elements.break15Btn, elements.lunch1HrBtn, true);
-            } else {
-              updateTimerDisplay(elements.break15Btn, timeLeft);
-            }
-          }
-          if (timerState.lunch1HrActive && timerState.lunch1HrStartTime) {
-            const totalSeconds = 60 * 60;
-            const elapsed = Math.floor((Date.now() - timerState.lunch1HrStartTime) / 1000);
-            const timeLeft = totalSeconds - elapsed;
-            if (timeLeft <= 0) {
-              clearInterval(timerState.lunch1HrInterval);
-              timerState.lunch1HrInterval = null;
-              timerState.lunch1HrStartTime = null;
-              showTimerPopup('Lunch');
-              resetBreakButton(elements.lunch1HrBtn, elements.break15Btn, false);
-            } else {
-              updateTimerDisplay(elements.lunch1HrBtn, timeLeft);
-            }
-          }
-        }
-      });
-    }
-
-    function loadSavedSettings() {
-      try {
-        const savedTheme = localStorage.getItem('selectedTheme') || 'default';
-        state.currentThemeIndex = THEMES.indexOf(savedTheme) === -1 ? 0 : THEMES.indexOf(savedTheme);
-        applyTheme(THEMES[state.currentThemeIndex]);
-
-        Object.keys(POINTS_PER_COUNT).forEach(id => {
-          const count = parseInt(localStorage.getItem(id) || '0', 10);
-          const input = document.getElementById(id);
-          if (input) {
-            input.value = count;
-            updatePoints(id, count);
-          }
-        });
-
-        const savedTotal = parseFloat(localStorage.getItem('total-points') || '0');
-        elements.totalPoints.textContent = savedTotal.toFixed(1);
-        state.previousTotal = savedTotal;
-        checkAchievements(savedTotal);
-
-        const customBg = localStorage.getItem('customBgUrl');
-        if (customBg) {
-          document.getElementById('customBgUrl').value = customBg;
-          applyCustomBackground();
-        }
-
-        const cardOrder = JSON.parse(localStorage.getItem('cardOrder')) || ['chats', 'voicechats', 'images', 'audios', 'mesh'];
-        reorderCards(cardOrder);
-      } catch (error) {
-        console.error('Error loading settings:', error);
-      }
-    }
-
-    function attachEventListeners() {
-      const debouncedUpdateCardStyles = debounce((transparency, blur) => {
-        updateCardStyles(transparency, blur);
-        saveThemeSettings(THEMES[state.currentThemeIndex]);
-      }, 100);
-
-      const debouncedUpdateTextStyles = debounce(() => {
-        const currentTheme = THEMES[state.currentThemeIndex];
-        const color = document.getElementById('textMainColor').value;
-        const font = document.getElementById('fontSelector').value;
-        saveTextColor(currentTheme, color);
-        updateTextStyles(color, font);
-      }, 100);
-
       document.getElementById('themeSwitcher').addEventListener('click', () => {
         state.currentThemeIndex = (state.currentThemeIndex + 1) % THEMES.length;
         applyTheme(THEMES[state.currentThemeIndex]);
       });
 
-      document.getElementById('transparencyRange').addEventListener('input', e =>
-        debouncedUpdateCardStyles(e.target.value, document.getElementById('blurRange').value)
-      );
-      document.getElementById('blurRange').addEventListener('input', e =>
-        debouncedUpdateCardStyles(document.getElementById('transparencyRange').value, e.target.value)
-      );
-      document.getElementById('textMainColor').addEventListener('input', debouncedUpdateTextStyles);
-      document.getElementById('fontSelector').addEventListener('change', debouncedUpdateTextStyles);
+      const updateStylesDebounced = debounce(() => {
+        const transparency = document.getElementById('transparencyRange').value;
+        const blur = document.getElementById('blurRange').value;
+        const font = document.getElementById('fontSelector').value;
+        updateStyles(transparency, blur, font);
+        saveThemeSettings(THEMES[state.currentThemeIndex]);
+      }, 100);
+
+      const updateTextColorDebounced = debounce(() => {
+        saveTextColor(THEMES[state.currentThemeIndex], document.getElementById('textMainColor').value);
+      }, 100);
+
+      document.getElementById('transparencyRange').addEventListener('input', updateStylesDebounced);
+      document.getElementById('blurRange').addEventListener('input', updateStylesDebounced);
+      document.getElementById('textMainColor').addEventListener('input', updateTextColorDebounced);
+      document.getElementById('fontSelector').addEventListener('change', updateStylesDebounced);
       document.getElementById('customBgUrl').addEventListener('input', updateClearButtonState);
-      elements.resetBtn.addEventListener('click', initiateReset);
       elements.yesButton.addEventListener('click', handleResetConfirmation);
       elements.noButton.addEventListener('click', cancelReset);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState !== 'visible') return;
+        if (state.timer.elapsedStartTime) updateElapsedTime();
+        const checkTimer = (isBreak, totalSeconds, startTime, button, otherButton) => {
+          const elapsed = Math.floor((Date.now() - startTime) / 1000);
+          const timeLeft = totalSeconds - elapsed;
+          if (timeLeft <= 0) {
+            clearInterval(isBreak ? state.timer.break15Interval : state.timer.lunch1HrInterval);
+            if (isBreak) {
+              state.timer.break15Interval = null;
+              state.timer.break15StartTime = null;
+            } else {
+              state.timer.lunch1HrInterval = null;
+              state.timer.lunch1HrStartTime = null;
+            }
+            showTimerPopup(isBreak ? 'Break' : 'Lunch');
+            resetBreakButton(button, otherButton, isBreak);
+          } else {
+            updateTimerDisplay(button, timeLeft);
+          }
+        };
+        if (state.timer.break15Active && state.timer.break15StartTime) {
+          checkTimer(true, 15 * 60, state.timer.break15StartTime, elements.break15Btn, elements.lunch1HrBtn);
+        }
+        if (state.timer.lunch1HrActive && state.timer.lunch1HrStartTime) {
+          checkTimer(false, 60 * 60, state.timer.lunch1HrStartTime, elements.lunch1HrBtn, elements.break15Btn);
+        }
+      });
+    }
+
+    function loadSavedSettings() {
+      const savedTheme = localStorage.getItem('selectedTheme') || 'default';
+      state.currentThemeIndex = THEMES.indexOf(savedTheme) === -1 ? 0 : THEMES.indexOf(savedTheme);
+      applyTheme(THEMES[state.currentThemeIndex]);
+
+      Object.keys(POINTS_PER_COUNT).forEach(id => {
+        const count = parseInt(localStorage.getItem(id) || '0', 10);
+        const input = document.getElementById(id);
+        if (input) {
+          input.value = count;
+          updatePoints(id, count);
+        }
+      });
+
+      const savedTotal = parseFloat(localStorage.getItem('total-points') || '0');
+      elements.totalPoints.textContent = savedTotal.toFixed(1);
+      state.previousTotal = savedTotal;
+      checkAchievements(savedTotal);
+
+      const customBg = localStorage.getItem('customBgUrl');
+      if (customBg) {
+        document.getElementById('customBgUrl').value = customBg;
+        applyCustomBackground();
+      }
+
+      const cardOrder = JSON.parse(localStorage.getItem('cardOrder')) || ['chats', 'voicechats', 'images', 'audios', 'mesh'];
+      reorderCards(cardOrder);
+    }
+
+    function debounce(func, wait) {
+      let timeout;
+      return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func(...args), wait);
+      };
     }
 
     window.addEventListener('load', initialize);

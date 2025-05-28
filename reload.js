@@ -4,7 +4,7 @@ function silentRefresh() {
     window.location.reload(true); // Reload page from server, bypassing cache
 }
 
-// Set a timer to refresh every 30 minutes (30 * 60 * 1000 ms)
-setTimeout(silentRefresh, 30 * 60 * 1000);
+// Set a timer to refresh every 65 minutes (65 * 60 * 1000 ms)
+setTimeout(silentRefresh, 65 * 60 * 1000);
 
-console.log("Page will refresh silently in 30 minutes.");
+console.log("Page will refresh silently in 65 minutes.");

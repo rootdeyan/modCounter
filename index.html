@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="reload.js" defer></script>
   <style>
     :root {
       --primary-bg: #000000;
@@ -870,8 +869,8 @@
     };
     const ACHIEVEMENT_THRESHOLDS = [300, 350, 400];
     const RESET_MESSAGES = [
-      "Have you reported the total score in your <b>Daily Tracker 'Google Sheets Doc'</b> ?",
-      "<b>Final Warning:</b> <br><i>All data will be lost.</i><br><b>Proceed</b> ?"
+      "Have you reported the total score in your <i><u>Daily Tracker</u></i>?<br>",
+      "<u>Final Warning</u>: <br><i>All data will be lost.</i><br><i>Proceed</i>?"
     ];
     const DEFAULT_TEXT_COLORS = {
       'default': '#212121',
@@ -984,13 +983,15 @@
       }
       if (id === 'timerPopup') {
         if (show && !state.timer.elapsedInterval) {
-          state.timer.elapsedStartTime = localStorage.getItem('elapsedStartTime') ? parseInt(localStorage.getItem('elapsedStartTime')) : Date.now();
+          state.timer.elapsedStartTime = Date.now();
           state.timer.elapsedInterval = setInterval(updateElapsedTime, 1000);
           localStorage.setItem('elapsedStartTime', state.timer.elapsedStartTime);
           updateElapsedTime();
-        } else if (!show && state.timer.elapsedInterval) {
+        } else if (!show) {
           clearInterval(state.timer.elapsedInterval);
           state.timer.elapsedInterval = null;
+          state.timer.elapsedStartTime = null;
+          localStorage.removeItem('elapsedStartTime');
         }
       }
     }
@@ -1075,6 +1076,14 @@
       elements.break15Btn.disabled = false;
       elements.lunch1HrBtn.disabled = false;
       elements.resetTimerBtn.disabled = true;
+
+      // Reset elapsed time when break/lunch ends
+      if (state.timer.elapsedInterval) {
+        clearInterval(state.timer.elapsedInterval);
+        state.timer.elapsedInterval = null;
+        state.timer.elapsedStartTime = null;
+        localStorage.removeItem('elapsedStartTime');
+      }
     }
 
     function resetTimers() {
@@ -1082,8 +1091,10 @@
       if (state.timer.lunch1HrActive) resetBreakButton(elements.lunch1HrBtn, elements.break15Btn, false);
       localStorage.removeItem('elapsedStartTime');
       state.timer.elapsedStartTime = null;
-      clearInterval(state.timer.elapsedInterval);
-      state.timer.elapsedInterval = null;
+      if (state.timer.elapsedInterval) {
+        clearInterval(state.timer.elapsedInterval);
+        state.timer.elapsedInterval = null;
+      }
       localStorage.removeItem('break15Active');
       localStorage.removeItem('lunch1HrActive');
       localStorage.removeItem('break15StartTime');
@@ -1097,7 +1108,7 @@
       const timerMessage = document.getElementById('timerMessage');
       state.timer.activeTimerType = type.toLowerCase();
       localStorage.setItem('activeTimerType', state.timer.activeTimerType);
-      timerMessage.textContent = `Your ${type.toLowerCase()} time has ended! <br> Time elapsed: 0 minutes and 0 seconds`;
+      timerMessage.innerHTML = `Your ${type.toLowerCase()} time has ended!<br>Time elapsed: 0 hours, 0 minutes and 0 seconds`;
       toggleElement('timerPopup', true);
     }
 
@@ -1109,7 +1120,7 @@
       const seconds = elapsedSeconds % 60;
       const timerMessage = document.getElementById('timerMessage');
       const type = state.timer.activeTimerType || 'break';
-      timerMessage.innerHTML = `Your ${type} time has ended! <br> Time elapsed: ${hours} hours, ${minutes} minutes and ${seconds} seconds`;
+      timerMessage.innerHTML = `Your ${type} time has ended!<br>Time elapsed: ${hours} hours, ${minutes} minutes and ${seconds} seconds`;
     }
 
     function resumeTimer(button, otherButton, isBreak, startTime) {

@@ -1104,11 +1104,12 @@
     function updateElapsedTime() {
       if (!state.timer.elapsedStartTime) return;
       const elapsedSeconds = Math.floor((Date.now() - state.timer.elapsedStartTime) / 1000);
-      const minutes = Math.floor(elapsedSeconds / 60);
+      const hours = Math.floor(elapsedSeconds / 3600);
+      const minutes = Math.floor((elapsedSeconds % 3600) / 60);
       const seconds = elapsedSeconds % 60;
       const timerMessage = document.getElementById('timerMessage');
       const type = state.timer.activeTimerType || 'break';
-      timerMessage.textContent = `Your ${type} time has ended! \nTime elapsed: ${minutes} minutes and ${seconds} seconds`;
+      timerMessage.innerHTML = `Your ${type} time has ended!\nTime elapsed: ${hours} hours, ${minutes} minutes and ${seconds} seconds`;
     }
 
     function resumeTimer(button, otherButton, isBreak, startTime) {

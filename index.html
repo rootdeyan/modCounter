@@ -813,7 +813,7 @@
       .weather-icon, .weather-plus { font-size: 1rem; }
       .break-btn, .reset-timer-btn { font-size: 0.85rem; min-width: 90px; }
       .close-btn { width: 90px; height: 32px; font-size: 0.85rem; }
-      .weather-popup .forecast-day .icon { font-size: 0.9rem; }
+      .weather-popup .forecast-day .icon { FONT-SIZE: 0.9REM; }
       .weather-popup .forecast-day .day { font-size: 0.7rem; }
       .weather-popup .forecast-day .date { font-size: 0.65rem; }
       .weather-popup .forecast-day .temp { font-size: 0.65rem; }
@@ -986,8 +986,8 @@
     };
     const ACHIEVEMENT_THRESHOLDS = [300, 350, 400];
     const RESET_MESSAGES = [
-      "<br>Did you update your <b>Daily Tracker</b> in <b>Google Sheets</b> with the total score?",
-      "<br><h3>Final Warning:</h3> All data on the counter page will be lost. <br> Make sure to enter it into your <b>Daily Tracker</b> file before proceeding"
+      "Did you update your <b>Daily Tracker</b> in <b>Google Sheets</b> with the total score?",
+      "<h3>Final Warning:</h3> All data on the counter page will be lost. <br> Make sure to enter it into your <b>Daily Tracker</b> file before proceeding"
     ];
     const DEFAULT_TEXT_COLORS = {
       'default': '#212121',
@@ -1157,7 +1157,7 @@
         setTimeout(() => {
           popup.style.display = 'none';
           popup.style.visibility = 'hidden';
-        }, 300); // Assuming the transition duration is 0.3s
+        }, 300);
       }
     }
 

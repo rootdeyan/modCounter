@@ -173,7 +173,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Roboto', sans-serif;
     }
 
     body.theme-switching {
@@ -688,7 +688,7 @@
     .weather-popup .forecast-container {
       display: flex;
       flex-direction: row;
-      gap: 5px;
+      gap: 8px;
       text-align: center;
       justify-content: space-between;
       flex-wrap: wrap;
@@ -701,13 +701,18 @@
       align-items: center;
       gap: 3px;
       flex: 1;
-      min-width: 60px;
+      min-width: 45px;
       padding: 5px;
     }
 
     .weather-popup .forecast-day .day {
       font-size: 0.9rem;
       font-weight: 600;
+    }
+
+    .weather-popup .forecast-day .date {
+      font-size: 0.8rem;
+      color: #333;
     }
 
     .weather-popup .forecast-day .icon {
@@ -784,6 +789,7 @@
       .close-btn { width: 100px; height: 36px; font-size: 0.9rem; }
       .weather-popup .forecast-day .icon { font-size: 1rem; }
       .weather-popup .forecast-day .day { font-size: 0.8rem; }
+      .weather-popup .forecast-day .date { font-size: 0.7rem; }
       .weather-popup .forecast-day .temp { font-size: 0.7rem; }
     }
 
@@ -801,7 +807,7 @@
         font-size: 1.1rem;
       }
       .popup p, .reset-popup p, .weather-popup p { font-size: 0.85rem; }
-      .achievement-popup { font-size: 1rem; padding: 10px 16px; max-width: 240px; }
+      .achievement-popup { max-width: 240px; }
       .time-display, .weather-widget { font-size: 1rem; min-width: 100px; }
       .weather-widget { padding: 6px 12px; }
       .weather-icon, .weather-plus { font-size: 1rem; }
@@ -809,6 +815,7 @@
       .close-btn { width: 90px; height: 32px; font-size: 0.85rem; }
       .weather-popup .forecast-day .icon { font-size: 0.9rem; }
       .weather-popup .forecast-day .day { font-size: 0.7rem; }
+      .weather-popup .forecast-day .date { font-size: 0.65rem; }
       .weather-popup .forecast-day .temp { font-size: 0.65rem; }
       .weather-popup .forecast-container { flex-direction: column; gap: 8px; }
     }
@@ -894,8 +901,8 @@
     <h3><i class="fa-solid fa-font"></i> Text Color & Font</h3>
     <label>Main Text:<input type="color" id="textMainColor"></label>
     <label>Font:<select id="fontSelector">
-      <option value="Inter">Inter</option>
       <option value="Roboto">Roboto</option>
+      <option value="Inter">Inter</option>
       <option value="Open Sans">Open Sans</option>
       <option value="Lato">Lato</option>
     </select></label>
@@ -914,37 +921,44 @@
     <h3><i class="fa-solid fa-cloud-sun"></i> 7-Day Forecast</h3>
     <div class="forecast-container" id="forecastContainer">
       <div class="forecast-day">
-        <div class="day">Mo</div>
+        <div class="day" id="forecastDay1">Mo</div>
+        <div class="date" id="forecastDate1"></div>
         <i class="fas fa-question icon" id="forecastIcon1"></i>
         <div class="temp" id="forecastTemp1">Loading...</div>
       </div>
       <div class="forecast-day">
-        <div class="day">Tu</div>
+        <div class="day" id="forecastDay2">Tu</div>
+        <div class="date" id="forecastDate2"></div>
         <i class="fas fa-question icon" id="forecastIcon2"></i>
         <div class="temp" id="forecastTemp2">Loading...</div>
       </div>
       <div class="forecast-day">
-        <div class="day">We</div>
+        <div class="day" id="forecastDay3">We</div>
+        <div class="date" id="forecastDate3"></div>
         <i class="fas fa-question icon" id="forecastIcon3"></i>
         <div class="temp" id="forecastTemp3">Loading...</div>
       </div>
       <div class="forecast-day">
-        <div class="day">Th</div>
+        <div class="day" id="forecastDay4">Th</div>
+        <div class="date" id="forecastDate4"></div>
         <i class="fas fa-question icon" id="forecastIcon4"></i>
         <div class="temp" id="forecastTemp4">Loading...</div>
       </div>
       <div class="forecast-day">
-        <div class="day">Fr</div>
+        <div class="day" id="forecastDay5">Fr</div>
+        <div class="date" id="forecastDate5"></div>
         <i class="fas fa-question icon" id="forecastIcon5"></i>
         <div class="temp" id="forecastTemp5">Loading...</div>
       </div>
       <div class="forecast-day">
-        <div class="day">Sa</div>
+        <div class="day" id="forecastDay6">Sa</div>
+        <div class="date" id="forecastDate6"></div>
         <i class="fas fa-question icon" id="forecastIcon6"></i>
         <div class="temp" id="forecastTemp6">Loading...</div>
       </div>
       <div class="forecast-day">
-        <div class="day">Su</div>
+        <div class="day" id="forecastDay7">Su</div>
+        <div class="date" id="forecastDate7"></div>
         <i class="fas fa-question icon" id="forecastIcon7"></i>
         <div class="temp" id="forecastTemp7">Loading...</div>
       </div>
@@ -972,8 +986,8 @@
     };
     const ACHIEVEMENT_THRESHOLDS = [300, 350, 400];
     const RESET_MESSAGES = [
-      "Did you update your <b>Daily Tracker</b> in <b>Google Sheets</b> with the total score?",
-      "<h3>Final Warning:</h3> All data on the counter page will be lost. <br> Make sure to enter it into your <b>Daily Tracker</b> file before proceeding"
+      "<br>Did you update your <b>Daily Tracker</b> in <b>Google Sheets</b> with the total score?",
+      "<br><h3>Final Warning:</h3> All data on the counter page will be lost. <br> Make sure to enter it into your <b>Daily Tracker</b> file before proceeding"
     ];
     const DEFAULT_TEXT_COLORS = {
       'default': '#212121',
@@ -1036,18 +1050,32 @@
       weatherPlus: document.getElementById('weatherPlus'),
       weatherPopup: document.getElementById('weatherPopup'),
       forecastContainer: document.getElementById('forecastContainer'),
+      forecastDay1: document.getElementById('forecastDay1'),
+      forecastDate1: document.getElementById('forecastDate1'),
       forecastIcon1: document.getElementById('forecastIcon1'),
       forecastTemp1: document.getElementById('forecastTemp1'),
+      forecastDay2: document.getElementById('forecastDay2'),
+      forecastDate2: document.getElementById('forecastDate2'),
       forecastIcon2: document.getElementById('forecastIcon2'),
       forecastTemp2: document.getElementById('forecastTemp2'),
+      forecastDay3: document.getElementById('forecastDay3'),
+      forecastDate3: document.getElementById('forecastDate3'),
       forecastIcon3: document.getElementById('forecastIcon3'),
       forecastTemp3: document.getElementById('forecastTemp3'),
+      forecastDay4: document.getElementById('forecastDay4'),
+      forecastDate4: document.getElementById('forecastDate4'),
       forecastIcon4: document.getElementById('forecastIcon4'),
       forecastTemp4: document.getElementById('forecastTemp4'),
+      forecastDay5: document.getElementById('forecastDay5'),
+      forecastDate5: document.getElementById('forecastDate5'),
       forecastIcon5: document.getElementById('forecastIcon5'),
       forecastTemp5: document.getElementById('forecastTemp5'),
+      forecastDay6: document.getElementById('forecastDay6'),
+      forecastDate6: document.getElementById('forecastDate6'),
       forecastIcon6: document.getElementById('forecastIcon6'),
       forecastTemp6: document.getElementById('forecastTemp6'),
+      forecastDay7: document.getElementById('forecastDay7'),
+      forecastDate7: document.getElementById('forecastDate7'),
       forecastIcon7: document.getElementById('forecastIcon7'),
       forecastTemp7: document.getElementById('forecastTemp7')
     };
@@ -1066,14 +1094,19 @@
         elements.description.textContent = weather.description;
         elements.weatherIcon.className = `fas ${weather.icon}`;
 
-        const days = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
-        const forecastDays = elements.forecastContainer.querySelectorAll('.forecast-day');
+        const today = new Date();
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         for (let i = 0; i < 7; i++) {
-          const maxTemp = Math.round(data.daily.temperature_2m_max[i]);
-          const forecastCode = data.daily.weather_code[i];
-          const forecastWeather = weatherCodes[forecastCode] || { icon: 'fa-question' };
-          forecastDays[i].querySelector('.day').textContent = days[i];
-          elements[`forecastTemp${i + 1}`].textContent = `${maxTemp}°C`;
+          const forecastDate = new Date(today);
+          forecastDate.setDate(today.getDate() + i);
+          const dayName = days[forecastDate.getDay()];
+          const dateStr = `${forecastDate.getDate()}/${forecastDate.getMonth() + 1}`;
+          const maxTemp = data.daily.temperature_2m_max ? Math.round(data.daily.temperature_2m_max[i]) : 'N/A';
+          const forecastCode = data.daily.weather_code ? data.daily.weather_code[i] : null;
+          const forecastWeather = forecastCode !== null ? (weatherCodes[forecastCode] || { icon: 'fa-question' }) : { icon: 'fa-question' };
+          elements[`forecastDay${i + 1}`].textContent = dayName;
+          elements[`forecastDate${i + 1}`].textContent = dateStr;
+          elements[`forecastTemp${i + 1}`].textContent = maxTemp !== 'N/A' ? `${maxTemp}°C` : 'N/A';
           elements[`forecastIcon${i + 1}`].className = `fas ${forecastWeather.icon} icon`;
         }
       } catch (error) {
@@ -1084,6 +1117,8 @@
         for (let i = 1; i <= 7; i++) {
           elements[`forecastTemp${i}`].textContent = 'Error';
           elements[`forecastIcon${i}`].className = 'fas fa-exclamation-triangle icon';
+          elements[`forecastDay${i}`].textContent = 'Err';
+          elements[`forecastDate${i}`].textContent = 'Err';
         }
       }
       updateWeatherAndTimeColors();
@@ -1095,7 +1130,7 @@
     }
 
     function updateWeatherAndTimeColors() {
-      const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-main').trim();
+      const textColor = getComputedStyle(document.body).getPropertyValue('--text-main').trim();
       elements.timeDisplay.style.color = textColor;
       elements.weatherWidget.style.color = textColor;
       elements.temperature.style.color = textColor;
@@ -1119,12 +1154,10 @@
         popup.classList.remove('show');
         popup.style.opacity = '0';
         popup.style.transform = 'translate(-50%, -50%) scale(0.9)';
-        popup.addEventListener('transitionend', () => {
-          if (!popup.classList.contains('show')) {
-            popup.style.display = 'none';
-            popup.style.visibility = 'hidden';
-          }
-        }, { once: true });
+        setTimeout(() => {
+          popup.style.display = 'none';
+          popup.style.visibility = 'hidden';
+        }, 300); // Assuming the transition duration is 0.3s
       }
     }
 
@@ -1165,11 +1198,9 @@
       const secs = absSeconds % 60;
       let display = '';
       if (seconds < 0) {
-        display = hours > 0 ? `-${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}` :
-                             `-${minutes}:${secs.toString().padStart(2, '0')}`;
+        display = hours > 0 ? `-${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}` : `-${minutes}:${secs.toString().padStart(2, '0')}`;
       } else {
-        display = hours > 0 ? `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}` :
-                             `${minutes}:${secs.toString().padStart(2, '0')}`;
+        display = hours > 0 ? `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}` : `${minutes}:${secs.toString().padStart(2, '0')}`;
       }
       button.textContent = display;
     }
@@ -1269,7 +1300,7 @@
 
     function updateTotalPoints() {
       const total = Object.keys(POINTS_PER_COUNT).reduce((sum, id) => {
-        return sum + parseFloat(document.getElementById(`${id}-points`)?.textContent || '0');
+        return sum + parseFloat(document.getElementById(`${id}-points`).textContent || '0');
       }, 0);
       elements.totalPoints.textContent = total.toFixed(1);
       localStorage.setItem('total-points', total.toFixed(1));
@@ -1349,7 +1380,7 @@
     function loadThemeSettings(theme) {
       const defaultTransparency = 50;
       const defaultBlur = 50;
-      const defaultFont = 'Inter';
+      const defaultFont = 'Roboto';
       const transparency = localStorage.getItem(`transparency-${theme}`) || defaultTransparency;
       const blur = localStorage.getItem(`blur-${theme}`) || defaultBlur;
       const font = localStorage.getItem('selectedFont') || defaultFont;
@@ -1429,14 +1460,18 @@
         });
         card.addEventListener('dragenter', e => {
           e.preventDefault();
-          if (state.draggedCard && state.draggedCard !== card) state.dragOverCard = card;
+          if (state.draggedCard && state.draggedCard !== card) {
+            state.dragOverCard = card;
+          }
         });
         card.addEventListener('dragover', e => {
           e.preventDefault();
           e.dataTransfer.dropEffect = 'move';
         });
         card.addEventListener('dragleave', () => {
-          if (state.dragOverCard === card) state.dragOverCard = null;
+          if (state.dragOverCard === card) {
+            state.dragOverCard = null;
+          }
         });
         card.addEventListener('drop', e => {
           e.preventDefault();
@@ -1444,8 +1479,11 @@
             const allCards = Array.from(elements.dashboard.querySelectorAll('.card:not(.total-card)'));
             const draggedIndex = allCards.indexOf(state.draggedCard);
             const dropIndex = allCards.indexOf(card);
-            if (draggedIndex < dropIndex) card.after(state.draggedCard);
-            else card.before(state.draggedCard);
+            if (draggedIndex < dropIndex) {
+              card.after(state.draggedCard);
+            } else {
+              card.before(state.draggedCard);
+            }
             saveCardOrder();
           }
         });
@@ -1464,9 +1502,13 @@
       cards.forEach(card => elements.dashboard.removeChild(card));
       order.forEach(id => {
         const card = cards.find(c => c.dataset.id === id);
-        if (card) elements.dashboard.appendChild(card);
+        if (card) {
+          elements.dashboard.appendChild(card);
+        }
       });
-      if (totalCard) elements.dashboard.insertBefore(totalCard, elements.dashboard.firstChild);
+      if (totalCard) {
+        elements.dashboard.insertBefore(totalCard, elements.dashboard.firstChild);
+      }
     }
 
     function initialize() {
@@ -1505,7 +1547,9 @@
       elements.noButton.addEventListener('click', cancelReset);
 
       document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState !== 'visible') return;
+        if (document.visibilityState !== 'visible') {
+          return;
+        }
         if (state.timer.active && state.timer.startTime) {
           const elapsed = Math.floor((Date.now() - state.timer.startTime) / 1000);
           const timeLeft = state.timer.duration - elapsed;
@@ -1513,6 +1557,10 @@
           updateTimerDisplay(button, timeLeft);
         }
       });
+
+      setTimeout(() => {
+        location.reload();
+      }, 3900000); // 65 minutes
     }
 
     function loadSavedSettings() {

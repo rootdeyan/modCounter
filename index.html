@@ -274,6 +274,15 @@
       background: #FF9800 !important;
     }
 
+    .break-btn.timer-negative {
+      animation: flash 1s infinite;
+    }
+
+    @keyframes flash {
+      0%, 100% { background: #FF0000 !important; }
+      50% { background: #B22222 !important; }
+    }
+
     .dashboard {
       max-width: 1200px;
       width: 100%;
@@ -485,7 +494,7 @@
       white-space: nowrap;
     }
 
-    .popup, .style-popup, .text-popup, .bg-popup, .reset-popup, .timer-popup {
+    .popup, .style-popup, .text-popup, .bg-popup, .reset-popup {
       position: fixed;
       top: 50%;
       left: 50%;
@@ -506,18 +515,18 @@
     }
 
     .style-popup, .text-popup { width: 300px; }
-    .bg-popup, .reset-popup, .timer-popup { width: 350px; }
+    .bg-popup, .reset-popup { width: 350px; }
 
-    .popup.show, .style-popup.show, .text-popup.show, .bg-popup.show, .reset-popup.show, .timer-popup.show {
+    .popup.show, .style-popup.show, .text-popup.show, .bg-popup.show, .reset-popup.show {
       display: block;
       animation: fadeInScale 0.5s ease forwards;
     }
 
-    .popup.hide, .style-popup.hide, .text-popup.hide, .bg-popup.hide, .reset-popup.hide, .timer-popup.hide {
+    .popup.hide, .style-popup.hide, .text-popup.hide, .bg-popup.hide, .reset-popup.hide {
       animation: fadeOutScale 0.5s ease forwards;
     }
 
-    .popup h3, .style-popup h3, .text-popup h3, .bg-popup h3, .timer-popup h3 {
+    .popup h3, .style-popup h3, .text-popup h3, .bg-popup h3, .reset-popup h3 {
       font-size: 1.4rem;
       margin-bottom: 12px;
       color: #000;
@@ -527,7 +536,7 @@
       justify-content: center;
     }
 
-    .popup p, .reset-popup p, .timer-popup p {
+    .popup p, .reset-popup p {
       font-size: 1rem;
       line-height: 1.5;
       margin-bottom: 8px;
@@ -540,7 +549,7 @@
       overflow-y: auto;
     }
 
-    .popup .close-btn, .style-popup .close-btn, .text-popup .close-btn, .bg-popup .close-btn, .reset-popup .close-btn, .timer-popup .close-btn {
+    .popup .close-btn, .style-popup .close-btn, .text-popup .close-btn, .bg-popup .close-btn, .reset-popup .close-btn {
       position: absolute;
       top: 10px;
       right: 10px;
@@ -558,7 +567,7 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
 
-    .popup .close-btn:hover, .style-popup .close-btn:hover, .text-popup .close-btn:hover, .bg-popup .close-btn:hover, .reset-popup .close-btn:hover, .timer-popup .close-btn:hover {
+    .popup .close-btn:hover, .style-popup .close-btn:hover, .text-popup .close-btn:hover, .bg-popup .close-btn:hover, .reset-popup .close-btn:hover {
       background: #EF4444;
     }
 
@@ -715,13 +724,13 @@
       .card-header h2 { font-size: 1.1rem; }
       .counter-controls input { font-size: 1.6rem; }
       .total-header h1 { font-size: 1.8rem; }
-      .popup, .style-popup, .text-popup, .bg-popup, .reset-popup, .timer-popup {
+      .popup, .style-popup, .text-popup, .bg-popup, .reset-popup {
         width: 90%;
         max-width: 350px;
         padding: 15px;
       }
-      .popup h3, .timer-popup h3 { font-size: 1.2rem; }
-      .popup p, .timer-popup p { font-size: 0.9rem; }
+      .popup h3, .reset-popup h3 { font-size: 1.2rem; }
+      .popup p, .reset-popup p { font-size: 0.9rem; }
       .achievement-popup { font-size: 1.1rem; padding: 12px 20px; max-width: 280px; }
       .time-display, .weather-widget { font-size: 1.2rem; }
       .weather-widget { padding: 8px 15px; }
@@ -734,13 +743,13 @@
       .counter-controls input { font-size: 1.4rem; }
       .total-header h1 { font-size: 1.6rem; }
       .reset-btn { padding: 6px; font-size: 1rem; }
-      .popup, .style-popup, .text-popup, .bg-popup, .reset-popup, .timer-popup {
+      .popup, .style-popup, .text-popup, .bg-popup, .reset-popup {
         width: 85%;
         max-width: 300px;
         padding: 10px;
       }
-      .popup h3, .timer-popup h3 { font-size: 1.1rem; }
-      .popup p, .timer-popup p { font-size: 0.85rem; }
+      .popup h3, .reset-popup h3 { font-size: 1.1rem; }
+      .popup p, .reset-popup p { font-size: 0.85rem; }
       .achievement-popup { font-size: 1rem; padding: 10px 16px; max-width: 240px; }
       .time-display, .weather-widget { font-size: 1rem; min-width: 100px; }
       .weather-widget { padding: 6px 12px; }
@@ -760,7 +769,7 @@
     <div class="break-buttons">
       <button class="break-btn" id="break15Btn" onclick="startBreakTimer(15)">Break 15</button>
       <button class="break-btn" id="lunch1HrBtn" onclick="startBreakTimer(60)">Lunch 60</button>
-      <button class="reset-timer-btn" id="resetTimerBtn" onclick="resetTimers()">Stop</button>
+      <button class="reset-timer-btn" id="resetTimerBtn" onclick="resetTimers()" disabled>Stop</button>
     </div>
   </div>
   <div class="dashboard">
@@ -854,11 +863,6 @@
       <button id="noButton">No</button>
     </div>
   </div>
-  <div class="timer-popup" id="timerPopup">
-    <button class="close-btn" onclick="toggleElement('timerPopup', false)"><i class="fa-regular fa-circle-xmark"></i></button>
-    <h3><i class="fa-solid fa-bell"></i> Break/Lunch Ended</h3>
-    <p id="timerMessage">Your break/lunch time has ended!</p>
-  </div>
   <script>
     const THEMES = ['default', 'dark-new', 'dark-deep', 'dark-midnight', 'orange-sunset', 'blue-green', 'dark-black', 'custom'];
     const POINTS_PER_COUNT = {
@@ -909,9 +913,7 @@
         active: null, // null, 'break', or 'lunch'
         duration: 0,
         startTime: null,
-        interval: null,
-        elapsedStartTime: null,
-        elapsedInterval: null
+        interval: null
       }
     };
 
@@ -932,9 +934,7 @@
       weatherWidget: document.getElementById('weatherWidget'),
       temperature: document.getElementById('temperature'),
       description: document.getElementById('description'),
-      weatherIcon: document.getElementById('weatherIcon'),
-      timerPopup: document.getElementById('timerPopup'),
-      timerMessage: document.getElementById('timerMessage')
+      weatherIcon: document.getElementById('weatherIcon')
     };
 
     async function getWeather() {
@@ -982,22 +982,6 @@
           if (!popup.classList.contains('show')) popup.style.display = 'none';
         }, { once: true });
       }
-      if (id === 'timerPopup') {
-        if (show && state.timer.elapsedStartTime) {
-          if (!state.timer.elapsedInterval) {
-            updateElapsedTime();
-            state.timer.elapsedInterval = setInterval(updateElapsedTime, 1000);
-          }
-        } else if (!show) {
-          if (state.timer.elapsedInterval) {
-            clearInterval(state.timer.elapsedInterval);
-            state.timer.elapsedInterval = null;
-          }
-          state.timer.elapsedStartTime = null;
-          localStorage.removeItem('elapsedStartTime');
-          elements.timerMessage.innerHTML = `Your ${state.timer.active || 'break'} time has ended!<br>Time elapsed: 0 hours, 0 minutes and 0 seconds`;
-        }
-      }
     }
 
     function startBreakTimer(minutes) {
@@ -1022,23 +1006,29 @@
       state.timer.interval = setInterval(() => {
         const elapsed = Math.floor((Date.now() - state.timer.startTime) / 1000);
         const timeLeft = state.timer.duration - elapsed;
-        if (timeLeft <= 0) {
-          clearInterval(state.timer.interval);
-          state.timer.interval = null;
-          state.timer.elapsedStartTime = Date.now();
-          localStorage.setItem('elapsedStartTime', state.timer.elapsedStartTime);
-          showTimerPopup(state.timer.active);
-          resetBreakButton(button, otherButton);
+        updateTimerDisplay(button, timeLeft);
+        if (timeLeft < 0) {
+          button.classList.add('timer-negative');
         } else {
-          updateTimerDisplay(button, timeLeft);
+          button.classList.remove('timer-negative');
         }
       }, 1000);
     }
 
     function updateTimerDisplay(button, seconds) {
-      const minutes = Math.floor(seconds / 60);
-      const secs = seconds % 60;
-      button.textContent = `${minutes}:${secs.toString().padStart(2, '0')}`;
+      const absSeconds = Math.abs(seconds);
+      const hours = Math.floor(absSeconds / 3600);
+      const minutes = Math.floor((absSeconds % 3600) / 60);
+      const secs = absSeconds % 60;
+      let display = '';
+      if (seconds < 0) {
+        display = hours > 0 ? `-${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}` :
+                             `-${minutes}:${secs.toString().padStart(2, '0')}`;
+      } else {
+        display = hours > 0 ? `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}` :
+                             `${minutes}:${secs.toString().padStart(2, '0')}`;
+      }
+      button.textContent = display;
     }
 
     function resetBreakButton(button, otherButton) {
@@ -1050,7 +1040,7 @@
       localStorage.removeItem('timerActive');
       localStorage.removeItem('timerStartTime');
       localStorage.removeItem('timerDuration');
-      button.classList.remove('timer-active');
+      button.classList.remove('timer-active', 'timer-negative');
       button.textContent = button === elements.break15Btn ? 'Break 15' : 'Lunch 60';
       elements.break15Btn.disabled = false;
       elements.lunch1HrBtn.disabled = false;
@@ -1062,47 +1052,15 @@
       const button = state.timer.active === 'break' ? elements.break15Btn : elements.lunch1HrBtn;
       const otherButton = state.timer.active === 'break' ? elements.lunch1HrBtn : elements.break15Btn;
       resetBreakButton(button, otherButton);
-      if (state.timer.elapsedInterval) {
-        clearInterval(state.timer.elapsedInterval);
-        state.timer.elapsedInterval = null;
-      }
-      state.timer.elapsedStartTime = null;
-      localStorage.removeItem('elapsedStartTime');
-      toggleElement('timerPopup', false);
-    }
-
-    function showTimerPopup(type) {
-      state.timer.active = type;
-      localStorage.setItem('timerActive', type);
-      if (!state.timer.elapsedStartTime) {
-        state.timer.elapsedStartTime = Date.now();
-        localStorage.setItem('elapsedStartTime', state.timer.elapsedStartTime);
-      }
-      updateElapsedTime();
-      toggleElement('timerPopup', true);
-    }
-
-    function updateElapsedTime() {
-      if (!state.timer.elapsedStartTime || !state.timer.active) return;
-      const elapsedSeconds = Math.floor((Date.now() - state.timer.elapsedStartTime) / 1000);
-      const hours = Math.floor(elapsedSeconds / 3600);
-      const minutes = Math.floor((elapsedSeconds % 3600) / 60);
-      const seconds = elapsedSeconds % 60;
-      elements.timerMessage.innerHTML = `Your ${state.timer.active} time has ended!<br>Time elapsed: ${hours} hours, ${minutes} minutes and ${seconds} seconds`;
     }
 
     function resumeTimer() {
       const active = localStorage.getItem('timerActive');
       const startTime = parseInt(localStorage.getItem('timerStartTime') || '0');
       const duration = parseInt(localStorage.getItem('timerDuration') || '0');
-      const elapsedStartTime = parseInt(localStorage.getItem('elapsedStartTime') || '0');
 
       if (!active || !startTime || !duration) {
-        if (elapsedStartTime) {
-          state.timer.active = localStorage.getItem('timerActive') || 'break';
-          state.timer.elapsedStartTime = elapsedStartTime;
-          showTimerPopup(state.timer.active);
-        }
+        elements.resetTimerBtn.disabled = true;
         return;
       }
 
@@ -1113,41 +1071,29 @@
       state.timer.active = active;
       state.timer.startTime = startTime;
       state.timer.duration = duration;
-      state.timer.elapsedStartTime = elapsedStartTime || null;
 
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      let timeLeft = duration - elapsed;
-      timeLeft = Math.max(0, timeLeft);
+      const timeLeft = duration - elapsed;
 
-      if (timeLeft <= 0) {
-        resetBreakButton(button, otherButton);
-        if (!state.timer.elapsedStartTime) {
-          state.timer.elapsedStartTime = Date.now();
-          localStorage.setItem('elapsedStartTime', state.timer.elapsedStartTime);
-        }
-        showTimerPopup(active);
-      } else {
-        elements.break15Btn.disabled = true;
-        elements.lunch1HrBtn.disabled = true;
-        elements.resetTimerBtn.disabled = false;
-        button.classList.add('timer-active');
-        updateTimerDisplay(button, timeLeft);
-
-        state.timer.interval = setInterval(() => {
-          const elapsed = Math.floor((Date.now() - state.timer.startTime) / 1000);
-          const remaining = state.timer.duration - elapsed;
-          if (remaining <= 0) {
-            clearInterval(state.timer.interval);
-            state.timer.interval = null;
-            state.timer.elapsedStartTime = Date.now();
-            localStorage.setItem('elapsedStartTime', state.timer.elapsedStartTime);
-            showTimerPopup(state.timer.active);
-            resetBreakButton(button, otherButton);
-          } else {
-            updateTimerDisplay(button, remaining);
-          }
-        }, 1000);
+      elements.break15Btn.disabled = true;
+      elements.lunch1HrBtn.disabled = true;
+      elements.resetTimerBtn.disabled = false;
+      button.classList.add('timer-active');
+      updateTimerDisplay(button, timeLeft);
+      if (timeLeft < 0) {
+        button.classList.add('timer-negative');
       }
+
+      state.timer.interval = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - state.timer.startTime) / 1000);
+        const remaining = state.timer.duration - elapsed;
+        updateTimerDisplay(button, remaining);
+        if (remaining < 0) {
+          button.classList.add('timer-negative');
+        } else {
+          button.classList.remove('timer-negative');
+        }
+      }, 1000);
     }
 
     function applyTheme(theme) {
@@ -1429,21 +1375,11 @@
           const elapsed = Math.floor((Date.now() - state.timer.startTime) / 1000);
           const timeLeft = state.timer.duration - elapsed;
           const button = state.timer.active === 'break' ? elements.break15Btn : elements.lunch1HrBtn;
-          if (timeLeft <= 0) {
-            resetBreakButton(button, state.timer.active === 'break' ? elements.lunch1HrBtn : elements.break15Btn);
-            if (!state.timer.elapsedStartTime) {
-              state.timer.elapsedStartTime = Date.now();
-              localStorage.setItem('elapsedStartTime', state.timer.elapsedStartTime);
-            }
-            showTimerPopup(state.timer.active);
+          updateTimerDisplay(button, timeLeft);
+          if (timeLeft < 0) {
+            button.classList.add('timer-negative');
           } else {
-            updateTimerDisplay(button, timeLeft);
-          }
-        }
-        if (state.timer.elapsedStartTime && elements.timerPopup.classList.contains('show')) {
-          updateElapsedTime();
-          if (!state.timer.elapsedInterval) {
-            state.timer.elapsedInterval = setInterval(updateElapsedTime, 1000);
+            button.classList.remove('timer-negative');
           }
         }
       });

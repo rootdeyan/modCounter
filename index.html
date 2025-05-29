@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="reload.js" defer></script>
   <style>
     :root {
       --primary-bg: #000000;
@@ -869,8 +870,8 @@
     };
     const ACHIEVEMENT_THRESHOLDS = [300, 350, 400];
     const RESET_MESSAGES = [
-      "Have you reported the total score in your <i><u>Daily Tracker</u></i>?<br>",
-      "<u>Final Warning</u>: <br><i>All data will be lost.</i><br><i>Proceed</i>?"
+      "<br>Did you update your <b>Daily Tracker</b> in <b>Google Sheets</b> with the total score?",
+      "<br><h3>Final Warning:</h3> All data on the counter page will be lost. <br> Make sure to enter it into your <b>Daily Tracker</b> file before proceeding"
     ];
     const DEFAULT_TEXT_COLORS = {
       'default': '#212121',
@@ -905,15 +906,12 @@
       draggedCard: null,
       dragOverCard: null,
       timer: {
-        break15Active: false,
-        lunch1HrActive: false,
-        break15Interval: null,
-        lunch1HrInterval: null,
-        break15StartTime: null,
-        lunch1HrStartTime: null,
-        elapsedInterval: null,
+        active: null, // null, 'break', or 'lunch'
+        duration: 0,
+        startTime: null,
+        interval: null,
         elapsedStartTime: null,
-        activeTimerType: null
+        elapsedInterval: null
       }
     };
 
@@ -934,7 +932,9 @@
       weatherWidget: document.getElementById('weatherWidget'),
       temperature: document.getElementById('temperature'),
       description: document.getElementById('description'),
-      weatherIcon: document.getElementById('weatherIcon')
+      weatherIcon: document.getElementById('weatherIcon'),
+      timerPopup: document.getElementById('timerPopup'),
+      timerMessage: document.getElementById('timerMessage')
     };
 
     async function getWeather() {
@@ -950,8 +950,9 @@
         elements.description.textContent = weather.description;
         elements.weatherIcon.className = `fas ${weather.icon}`;
       } catch (error) {
+        console.error('Weather fetch error:', error);
         elements.temperature.textContent = 'Error';
-        elements.description.textContent = error.message;
+        elements.description.textContent = 'Unable to load weather';
         elements.weatherIcon.className = 'fas fa-exclamation-triangle';
       }
       updateWeatherAndTimeColors();
@@ -982,75 +983,56 @@
         }, { once: true });
       }
       if (id === 'timerPopup') {
-        if (show) {
-          if (state.timer.elapsedInterval) {
-            clearInterval(state.timer.elapsedInterval);
+        if (show && state.timer.elapsedStartTime) {
+          if (!state.timer.elapsedInterval) {
+            updateElapsedTime();
+            state.timer.elapsedInterval = setInterval(updateElapsedTime, 1000);
           }
-          state.timer.elapsedStartTime = Date.now();
-          localStorage.setItem('elapsedStartTime', state.timer.elapsedStartTime);
-          updateElapsedTime(); // Call immediately to show initial time
-          state.timer.elapsedInterval = setInterval(updateElapsedTime, 1000);
-        } else {
+        } else if (!show) {
           if (state.timer.elapsedInterval) {
             clearInterval(state.timer.elapsedInterval);
             state.timer.elapsedInterval = null;
-            state.timer.elapsedStartTime = null;
-            localStorage.removeItem('elapsedStartTime');
           }
+          state.timer.elapsedStartTime = null;
+          localStorage.removeItem('elapsedStartTime');
+          elements.timerMessage.innerHTML = `Your ${state.timer.active || 'break'} time has ended!<br>Time elapsed: 0 hours, 0 minutes and 0 seconds`;
         }
       }
     }
 
     function startBreakTimer(minutes) {
+      if (state.timer.active) return;
       const isBreak = minutes === 15;
       const button = isBreak ? elements.break15Btn : elements.lunch1HrBtn;
       const otherButton = isBreak ? elements.lunch1HrBtn : elements.break15Btn;
-      if ((isBreak && state.timer.break15Active) || (!isBreak && state.timer.lunch1HrActive)) return;
+
+      state.timer.active = isBreak ? 'break' : 'lunch';
+      state.timer.duration = minutes * 60;
+      state.timer.startTime = Date.now();
+      localStorage.setItem('timerActive', state.timer.active);
+      localStorage.setItem('timerStartTime', state.timer.startTime);
+      localStorage.setItem('timerDuration', state.timer.duration);
 
       elements.break15Btn.disabled = true;
       elements.lunch1HrBtn.disabled = true;
       elements.resetTimerBtn.disabled = false;
-
-      const totalSeconds = minutes * 60;
-      const startTime = Date.now();
-      if (isBreak) {
-        state.timer.break15Active = true;
-        state.timer.break15StartTime = startTime;
-        state.timer.activeTimerType = 'break';
-        localStorage.setItem('break15Active', 'true');
-        localStorage.setItem('break15StartTime', startTime);
-      } else {
-        state.timer.lunch1HrActive = true;
-        state.timer.lunch1HrStartTime = startTime;
-        state.timer.activeTimerType = 'lunch';
-        localStorage.setItem('lunch1HrActive', 'true');
-        localStorage.setItem('lunch1HrStartTime', startTime);
-      }
-
       button.classList.add('timer-active');
-      updateTimerDisplay(button, totalSeconds);
+      updateTimerDisplay(button, state.timer.duration);
 
-      const interval = setInterval(() => {
-        const elapsed = Math.floor((Date.now() - startTime) / 1000);
-        const timeLeft = totalSeconds - elapsed;
+      state.timer.interval = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - state.timer.startTime) / 1000);
+        const timeLeft = state.timer.duration - elapsed;
         if (timeLeft <= 0) {
-          clearInterval(isBreak ? state.timer.break15Interval : state.timer.lunch1HrInterval);
-          if (isBreak) {
-            state.timer.break15Interval = null;
-            state.timer.break15StartTime = null;
-          } else {
-            state.timer.lunch1HrInterval = null;
-            state.timer.lunch1HrStartTime = null;
-          }
-          showTimerPopup(isBreak ? 'Break' : 'Lunch');
-          resetBreakButton(button, otherButton, isBreak);
-          return;
+          clearInterval(state.timer.interval);
+          state.timer.interval = null;
+          state.timer.elapsedStartTime = Date.now();
+          localStorage.setItem('elapsedStartTime', state.timer.elapsedStartTime);
+          showTimerPopup(state.timer.active);
+          resetBreakButton(button, otherButton);
+        } else {
+          updateTimerDisplay(button, timeLeft);
         }
-        updateTimerDisplay(button, timeLeft);
       }, 1000);
-
-      if (isBreak) state.timer.break15Interval = interval;
-      else state.timer.lunch1HrInterval = interval;
     }
 
     function updateTimerDisplay(button, seconds) {
@@ -1059,153 +1041,112 @@
       button.textContent = `${minutes}:${secs.toString().padStart(2, '0')}`;
     }
 
-    function resetBreakButton(button, otherButton, isBreak) {
-      if (isBreak) {
-        clearInterval(state.timer.break15Interval);
-        state.timer.break15Active = false;
-        state.timer.break15StartTime = null;
-        localStorage.removeItem('break15Active');
-        localStorage.removeItem('break15StartTime');
-        button.textContent = 'Break 15';
-      } else {
-        clearInterval(state.timer.lunch1HrInterval);
-        state.timer.lunch1HrActive = false;
-        state.timer.lunch1HrStartTime = null;
-        localStorage.removeItem('lunch1HrActive');
-        localStorage.removeItem('lunch1HrStartTime');
-        button.textContent = 'Lunch 60';
-      }
-      state.timer.activeTimerType = null;
-      localStorage.removeItem('activeTimerType');
+    function resetBreakButton(button, otherButton) {
+      clearInterval(state.timer.interval);
+      state.timer.active = null;
+      state.timer.startTime = null;
+      state.timer.duration = 0;
+      state.timer.interval = null;
+      localStorage.removeItem('timerActive');
+      localStorage.removeItem('timerStartTime');
+      localStorage.removeItem('timerDuration');
       button.classList.remove('timer-active');
+      button.textContent = button === elements.break15Btn ? 'Break 15' : 'Lunch 60';
       elements.break15Btn.disabled = false;
       elements.lunch1HrBtn.disabled = false;
       elements.resetTimerBtn.disabled = true;
-
-      // Reset elapsed time when break/lunch ends
-      if (state.timer.elapsedInterval) {
-        clearInterval(state.timer.elapsedInterval);
-        state.timer.elapsedInterval = null;
-        state.timer.elapsedStartTime = null;
-        localStorage.removeItem('elapsedStartTime');
-      }
     }
 
     function resetTimers() {
-      if (state.timer.break15Active) resetBreakButton(elements.break15Btn, elements.lunch1HrBtn, true);
-      if (state.timer.lunch1HrActive) resetBreakButton(elements.lunch1HrBtn, elements.break15Btn, false);
-      localStorage.removeItem('elapsedStartTime');
-      state.timer.elapsedStartTime = null;
+      if (!state.timer.active) return;
+      const button = state.timer.active === 'break' ? elements.break15Btn : elements.lunch1HrBtn;
+      const otherButton = state.timer.active === 'break' ? elements.lunch1HrBtn : elements.break15Btn;
+      resetBreakButton(button, otherButton);
       if (state.timer.elapsedInterval) {
         clearInterval(state.timer.elapsedInterval);
         state.timer.elapsedInterval = null;
       }
-      localStorage.removeItem('break15Active');
-      localStorage.removeItem('lunch1HrActive');
-      localStorage.removeItem('break15StartTime');
-      localStorage.removeItem('lunch1HrStartTime');
-      localStorage.removeItem('activeTimerType');
-      elements.break15Btn.textContent = 'Break 15';
-      elements.lunch1HrBtn.textContent = 'Lunch 60';
+      state.timer.elapsedStartTime = null;
+      localStorage.removeItem('elapsedStartTime');
+      toggleElement('timerPopup', false);
     }
 
     function showTimerPopup(type) {
-      const timerMessage = document.getElementById('timerMessage');
-      state.timer.activeTimerType = type.toLowerCase();
-      localStorage.setItem('activeTimerType', state.timer.activeTimerType);
-      timerMessage.innerHTML = `Your ${type.toLowerCase()} time has ended!<br>Time elapsed: 0 hours, 0 minutes and 0 seconds`;
+      state.timer.active = type;
+      localStorage.setItem('timerActive', type);
+      if (!state.timer.elapsedStartTime) {
+        state.timer.elapsedStartTime = Date.now();
+        localStorage.setItem('elapsedStartTime', state.timer.elapsedStartTime);
+      }
+      updateElapsedTime();
       toggleElement('timerPopup', true);
     }
 
     function updateElapsedTime() {
-      if (!state.timer.elapsedStartTime) return;
+      if (!state.timer.elapsedStartTime || !state.timer.active) return;
       const elapsedSeconds = Math.floor((Date.now() - state.timer.elapsedStartTime) / 1000);
       const hours = Math.floor(elapsedSeconds / 3600);
       const minutes = Math.floor((elapsedSeconds % 3600) / 60);
       const seconds = elapsedSeconds % 60;
-      const timerMessage = document.getElementById('timerMessage');
-      const type = state.timer.activeTimerType || 'break';
-      timerMessage.innerHTML = `Your ${type} time has ended!<br>Time elapsed: ${hours} hours, ${minutes} minutes and ${seconds} seconds`;
+      elements.timerMessage.innerHTML = `Your ${state.timer.active} time has ended!<br>Time elapsed: ${hours} hours, ${minutes} minutes and ${seconds} seconds`;
     }
 
-    function resumeTimer(button, otherButton, isBreak, startTime) {
-      const totalSeconds = isBreak ? 15 * 60 : 60 * 60;
-      if (isBreak) {
-        state.timer.break15Active = true;
-        state.timer.break15StartTime = startTime;
-        state.timer.activeTimerType = 'break';
-      } else {
-        state.timer.lunch1HrActive = true;
-        state.timer.lunch1HrStartTime = startTime;
-        state.timer.activeTimerType = 'lunch';
+    function resumeTimer() {
+      const active = localStorage.getItem('timerActive');
+      const startTime = parseInt(localStorage.getItem('timerStartTime') || '0');
+      const duration = parseInt(localStorage.getItem('timerDuration') || '0');
+      const elapsedStartTime = parseInt(localStorage.getItem('elapsedStartTime') || '0');
+
+      if (!active || !startTime || !duration) {
+        if (elapsedStartTime) {
+          state.timer.active = localStorage.getItem('timerActive') || 'break';
+          state.timer.elapsedStartTime = elapsedStartTime;
+          showTimerPopup(state.timer.active);
+        }
+        return;
       }
 
-      button.classList.add('timer-active');
-      elements.break15Btn.disabled = true;
-      elements.lunch1HrBtn.disabled = true;
-      elements.resetTimerBtn.disabled = false;
+      const isBreak = active === 'break';
+      const button = isBreak ? elements.break15Btn : elements.lunch1HrBtn;
+      const otherButton = isBreak ? elements.lunch1HrBtn : elements.break15Btn;
+
+      state.timer.active = active;
+      state.timer.startTime = startTime;
+      state.timer.duration = duration;
+      state.timer.elapsedStartTime = elapsedStartTime || null;
 
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      let initialTimeLeft = totalSeconds - elapsed;
-      initialTimeLeft = Math.max(0, initialTimeLeft);
-      updateTimerDisplay(button, initialTimeLeft);
+      let timeLeft = duration - elapsed;
+      timeLeft = Math.max(0, timeLeft);
 
-      const interval = setInterval(() => {
-        const elapsed = Math.floor((Date.now() - startTime) / 1000);
-        const remaining = totalSeconds - elapsed;
-        if (remaining <= 0) {
-          clearInterval(isBreak ? state.timer.break15Interval : state.timer.lunch1HrInterval);
-          if (isBreak) {
-            state.timer.break15Interval = null;
-            state.timer.break15StartTime = null;
+      if (timeLeft <= 0) {
+        resetBreakButton(button, otherButton);
+        if (!state.timer.elapsedStartTime) {
+          state.timer.elapsedStartTime = Date.now();
+          localStorage.setItem('elapsedStartTime', state.timer.elapsedStartTime);
+        }
+        showTimerPopup(active);
+      } else {
+        elements.break15Btn.disabled = true;
+        elements.lunch1HrBtn.disabled = true;
+        elements.resetTimerBtn.disabled = false;
+        button.classList.add('timer-active');
+        updateTimerDisplay(button, timeLeft);
+
+        state.timer.interval = setInterval(() => {
+          const elapsed = Math.floor((Date.now() - state.timer.startTime) / 1000);
+          const remaining = state.timer.duration - elapsed;
+          if (remaining <= 0) {
+            clearInterval(state.timer.interval);
+            state.timer.interval = null;
+            state.timer.elapsedStartTime = Date.now();
+            localStorage.setItem('elapsedStartTime', state.timer.elapsedStartTime);
+            showTimerPopup(state.timer.active);
+            resetBreakButton(button, otherButton);
           } else {
-            state.timer.lunch1HrInterval = null;
-            state.timer.lunch1HrStartTime = null;
+            updateTimerDisplay(button, remaining);
           }
-          showTimerPopup(isBreak ? 'Break' : 'Lunch');
-          resetBreakButton(button, otherButton, isBreak);
-          return;
-        }
-        updateTimerDisplay(button, remaining);
-      }, 1000);
-
-      if (isBreak) state.timer.break15Interval = interval;
-      else state.timer.lunch1HrInterval = interval;
-    }
-
-    function restoreTimerState() {
-      const breakActive = localStorage.getItem('break15Active') === 'true';
-      const lunchActive = localStorage.getItem('lunch1HrActive') === 'true';
-      const breakStartTime = parseInt(localStorage.getItem('break15StartTime') || '0');
-      const lunchStartTime = parseInt(localStorage.getItem('lunch1HrStartTime') || '0');
-      const savedActiveTimerType = localStorage.getItem('activeTimerType');
-
-      if (breakActive && breakStartTime) {
-        const totalSeconds = 15 * 60;
-        const elapsed = Math.floor((Date.now() - breakStartTime) / 1000);
-        let timeLeft = totalSeconds - elapsed;
-        timeLeft = Math.max(0, timeLeft);
-        if (timeLeft > 0) {
-          resumeTimer(elements.break15Btn, elements.lunch1HrBtn, true, breakStartTime);
-        } else {
-          resetBreakButton(elements.break15Btn, elements.lunch1HrBtn, true);
-          state.timer.activeTimerType = savedActiveTimerType;
-          showTimerPopup('Break');
-        }
-      }
-
-      if (lunchActive && lunchStartTime) {
-        const totalSeconds = 60 * 60;
-        const elapsed = Math.floor((Date.now() - lunchStartTime) / 1000);
-        let timeLeft = totalSeconds - elapsed;
-        timeLeft = Math.max(0, timeLeft);
-        if (timeLeft > 0) {
-          resumeTimer(elements.lunch1HrBtn, elements.break15Btn, false, lunchStartTime);
-        } else {
-          resetBreakButton(elements.lunch1HrBtn, elements.break15Btn, false);
-          state.timer.activeTimerType = savedActiveTimerType;
-          showTimerPopup('Lunch');
-        }
+        }, 1000);
       }
     }
 
@@ -1455,7 +1396,7 @@
       updateTime();
       getWeather();
       setInterval(getWeather, 600000);
-      restoreTimerState();
+      resumeTimer();
 
       document.getElementById('themeSwitcher').addEventListener('click', () => {
         state.currentThemeIndex = (state.currentThemeIndex + 1) % THEMES.length;
@@ -1484,30 +1425,26 @@
 
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState !== 'visible') return;
-        if (state.timer.elapsedStartTime) updateElapsedTime();
-        const checkTimer = (isBreak, totalSeconds, startTime, button, otherButton) => {
-          const elapsed = Math.floor((Date.now() - startTime) / 1000);
-          const timeLeft = totalSeconds - elapsed;
+        if (state.timer.active && state.timer.startTime) {
+          const elapsed = Math.floor((Date.now() - state.timer.startTime) / 1000);
+          const timeLeft = state.timer.duration - elapsed;
+          const button = state.timer.active === 'break' ? elements.break15Btn : elements.lunch1HrBtn;
           if (timeLeft <= 0) {
-            clearInterval(isBreak ? state.timer.break15Interval : state.timer.lunch1HrInterval);
-            if (isBreak) {
-              state.timer.break15Interval = null;
-              state.timer.break15StartTime = null;
-            } else {
-              state.timer.lunch1HrInterval = null;
-              state.timer.lunch1HrStartTime = null;
+            resetBreakButton(button, state.timer.active === 'break' ? elements.lunch1HrBtn : elements.break15Btn);
+            if (!state.timer.elapsedStartTime) {
+              state.timer.elapsedStartTime = Date.now();
+              localStorage.setItem('elapsedStartTime', state.timer.elapsedStartTime);
             }
-            showTimerPopup(isBreak ? 'Break' : 'Lunch');
-            resetBreakButton(button, otherButton, isBreak);
+            showTimerPopup(state.timer.active);
           } else {
             updateTimerDisplay(button, timeLeft);
           }
-        };
-        if (state.timer.break15Active && state.timer.break15StartTime) {
-          checkTimer(true, 15 * 60, state.timer.break15StartTime, elements.break15Btn, elements.lunch1HrBtn);
         }
-        if (state.timer.lunch1HrActive && state.timer.lunch1HrStartTime) {
-          checkTimer(false, 60 * 60, state.timer.lunch1HrStartTime, elements.lunch1HrBtn, elements.break15Btn);
+        if (state.timer.elapsedStartTime && elements.timerPopup.classList.contains('show')) {
+          updateElapsedTime();
+          if (!state.timer.elapsedInterval) {
+            state.timer.elapsedInterval = setInterval(updateElapsedTime, 1000);
+          }
         }
       });
     }
@@ -1536,9 +1473,6 @@
         document.getElementById('customBgUrl').value = customBg;
         applyCustomBackground();
       }
-
-      const cardOrder = JSON.parse(localStorage.getItem('cardOrder')) || ['chats', 'voicechats', 'images', 'audios', 'mesh'];
-      reorderCards(cardOrder);
     }
 
     function debounce(func, wait) {

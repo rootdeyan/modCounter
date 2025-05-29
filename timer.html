@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Timer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #0f172a;
+      color: #cbd5e1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+    }
+    .timer-container {
+      text-align: center;
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+    .timer-display {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+    .timer-btn {
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      background: linear-gradient(135deg, #FFB74D, #F57C00);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .timer-btn:hover {
+      transform: scale(1.08);
+      filter: brightness(110%);
+    }
+  </style>
+</head>
+<body>
+  <div class="timer-container">
+    <h1 id="timerType">Timer</h1>
+    <div class="timer-display" id="timerDisplay">00:00</div>
+    <button class="timer-btn" id="stopTimerBtn" onclick="stopTimer()">Stop</button>
+  </div>
+  <script>
+    let timerInterval;
+    let timerActive = false;
+    let timerType, startTime, duration;
+
+    function initializeTimer() {
+      const urlParams = new URLSearchParams(window.location.search);
+      timerType = urlParams.get('timerType');
+      startTime = parseInt(urlParams.get('startTime'));
+      duration = parseInt(urlParams.get('duration'));
+
+      if (timerType && !isNaN(startTime) && !isNaN(duration)) {
+        document.getElementById('timerType').textContent = timerType === 'break' ? 'Break Timer' : 'Lunch Timer';
+        timerActive = true;
+        updateTimer();
+        timerInterval = setInterval(updateTimer, 1000);
+      } else {
+        document.getElementById('timerDisplay').textContent = 'Invalid timer parameters';
+        document.getElementById('stopTimerBtn').style.display = 'none';
+      }
+    }
+
+    function updateTimer() {
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const timeLeft = duration - elapsed;
+      const absSeconds = Math.abs(timeLeft);
+      const minutes = Math.floor(absSeconds / 60);
+      const seconds = absSeconds % 60;
+      const display = timeLeft < 0 
+        ? `-${minutes}:${seconds.toString().padStart(2, '0')}` 
+        : `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      document.getElementById('timerDisplay').textContent = display;
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+      timerActive = false;
+      document.getElementById('timerDisplay').textContent = 'Timer Stopped';
+      document.getElementById('stopTimerBtn').style.display = 'none';
+      setTimeout(() => window.close(), 500);
+    }
+
+    window.addEventListener('load', initializeTimer);
+    window.addEventListener('beforeunload', () => {
+      if (timerActive) clearInterval(timerInterval);
+    });
+  </script>
+</body>
+</html>

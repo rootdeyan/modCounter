@@ -31,6 +31,10 @@
       --scrollbar-track: #000;
       --time-bg: rgba(0,0,0,0.3);
       --scrollbar-width: 10px;
+      --close-btn-bg: #000000;
+      --close-btn-border: #ffffff;
+      --close-btn-text: #ffffff;
+      --close-btn-hover-bg: #333333;
     }
 
     .theme-default {
@@ -225,6 +229,7 @@
       gap: 8px;
       font-size: 1.2rem;
       padding: 6px 15px;
+      position: relative;
     }
 
     .weather-widget span {
@@ -235,6 +240,18 @@
       font-size: 1.5rem;
       line-height: 1;
       color: var(--text-main);
+    }
+
+    .weather-plus {
+      font-size: 1rem;
+      cursor: pointer;
+      color: var(--text-main);
+      transition: var(--transition);
+    }
+
+    .weather-plus:hover {
+      transform: scale(1.2);
+      filter: brightness(120%);
     }
 
     .break-buttons {
@@ -274,13 +291,8 @@
       background: #FF9800 !important;
     }
 
-    .break-btn.timer-negative {
-      animation: flash 1s infinite;
-    }
-
-    @keyframes flash {
-      0%, 100% { background: #FF0000 !important; }
-      50% { background: #B22222 !important; }
+    .reset-timer-btn.hidden {
+      display: none;
     }
 
     .dashboard {
@@ -494,11 +506,11 @@
       white-space: nowrap;
     }
 
-    .popup, .style-popup, .text-popup, .bg-popup, .reset-popup {
+    .popup, .style-popup, .text-popup, .bg-popup, .reset-popup, .weather-popup {
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%) scale(0.9);
       background: var(--popup-bg);
       padding: 20px;
       border-radius: 12px;
@@ -508,25 +520,25 @@
       width: 400px;
       max-height: 70vh;
       overflow-y: auto;
-      display: none;
       color: #000;
       z-index: 1000;
       text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
     }
 
     .style-popup, .text-popup { width: 300px; }
-    .bg-popup, .reset-popup { width: 350px; }
+    .bg-popup, .reset-popup, .weather-popup { width: 350px; }
 
-    .popup.show, .style-popup.show, .text-popup.show, .bg-popup.show, .reset-popup.show {
-      display: block;
-      animation: fadeInScale 0.5s ease forwards;
+    .popup.show, .style-popup.show, .text-popup.show, .bg-popup.show, .reset-popup.show, .weather-popup.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0s;
     }
 
-    .popup.hide, .style-popup.hide, .text-popup.hide, .bg-popup.hide, .reset-popup.hide {
-      animation: fadeOutScale 0.5s ease forwards;
-    }
-
-    .popup h3, .style-popup h3, .text-popup h3, .bg-popup h3, .reset-popup h3 {
+    .popup h3, .style-popup h3, .text-popup h3, .bg-popup h3, .reset-popup h3, .weather-popup h3 {
       font-size: 1.4rem;
       margin-bottom: 12px;
       color: #000;
@@ -536,7 +548,7 @@
       justify-content: center;
     }
 
-    .popup p, .reset-popup p {
+    .popup p, .reset-popup p, .weather-popup p {
       font-size: 1rem;
       line-height: 1.5;
       margin-bottom: 8px;
@@ -549,26 +561,30 @@
       overflow-y: auto;
     }
 
-    .popup .close-btn, .style-popup .close-btn, .text-popup .close-btn, .bg-popup .close-btn, .reset-popup .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(255,75,75,0.9);
-      border: none;
-      color: #fff;
-      font-size: 1.2rem;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      cursor: pointer;
+    .close-btn {
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      margin: 15px auto 0;
+      padding: 10px;
+      width: 120px;
+      height: 40px;
+      background: var(--close-btn-bg);
+      border: 2px solid var(--close-btn-border);
+      color: var(--close-btn-text);
+      font-size: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      line-height: 1;
+      text-align: center;
     }
 
-    .popup .close-btn:hover, .style-popup .close-btn:hover, .text-popup .close-btn:hover, .bg-popup .close-btn:hover, .reset-popup .close-btn:hover {
-      background: #EF4444;
+    .close-btn:hover {
+      background: var(--close-btn-hover-bg);
+      transform: scale(1.08);
+      filter: brightness(110%);
     }
 
     .style-popup label, .text-popup label, .bg-popup label {
@@ -649,6 +665,9 @@
       transition: var(--transition);
       flex: 1;
       max-width: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .bg-popup button:hover:not(:disabled), .reset-popup button:hover:not(:disabled) {
@@ -665,6 +684,40 @@
     .bg-popup #clearBgBtn { background: var(--button-decrease); }
     .reset-popup #yesButton { background: var(--button-increase); }
     .reset-popup #noButton { background: var(--button-decrease); }
+
+    .weather-popup .forecast-container {
+      display: flex;
+      flex-direction: row;
+      gap: 5px;
+      text-align: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 0 5px;
+    }
+
+    .weather-popup .forecast-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      flex: 1;
+      min-width: 60px;
+      padding: 5px;
+    }
+
+    .weather-popup .forecast-day .day {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .weather-popup .forecast-day .icon {
+      font-size: 1.2rem;
+      color: #000;
+    }
+
+    .weather-popup .forecast-day .temp {
+      font-size: 0.8rem;
+    }
 
     .achievement-container {
       position: fixed;
@@ -698,16 +751,6 @@
       backdrop-filter: blur(4px);
     }
 
-    @keyframes fadeInScale {
-      from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-      to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    }
-
-    @keyframes fadeOutScale {
-      from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-      to { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-    }
-
     @keyframes fadeInSlide {
       from { opacity: 0; transform: translateY(-30px) scale(0.9); }
       to { opacity: 1; transform: translateY(0) scale(1); }
@@ -724,18 +767,24 @@
       .card-header h2 { font-size: 1.1rem; }
       .counter-controls input { font-size: 1.6rem; }
       .total-header h1 { font-size: 1.8rem; }
-      .popup, .style-popup, .text-popup, .bg-popup, .reset-popup {
+      .popup, .style-popup, .text-popup, .bg-popup, .reset-popup, .weather-popup {
         width: 90%;
         max-width: 350px;
         padding: 15px;
       }
-      .popup h3, .reset-popup h3 { font-size: 1.2rem; }
-      .popup p, .reset-popup p { font-size: 0.9rem; }
+      .popup h3, .style-popup h3, .text-popup h3, .bg-popup h3, .reset-popup h3, .weather-popup h3 {
+        font-size: 1.2rem;
+      }
+      .popup p, .reset-popup p, .weather-popup p { font-size: 0.9rem; }
       .achievement-popup { font-size: 1.1rem; padding: 12px 20px; max-width: 280px; }
       .time-display, .weather-widget { font-size: 1.2rem; }
       .weather-widget { padding: 8px 15px; }
-      .weather-icon { font-size: 1.2rem; }
+      .weather-icon, .weather-plus { font-size: 1.2rem; }
       .break-btn, .reset-timer-btn { font-size: 0.9rem; min-width: 100px; }
+      .close-btn { width: 100px; height: 36px; font-size: 0.9rem; }
+      .weather-popup .forecast-day .icon { font-size: 1rem; }
+      .weather-popup .forecast-day .day { font-size: 0.8rem; }
+      .weather-popup .forecast-day .temp { font-size: 0.7rem; }
     }
 
     @media (max-width: 480px) {
@@ -743,18 +792,25 @@
       .counter-controls input { font-size: 1.4rem; }
       .total-header h1 { font-size: 1.6rem; }
       .reset-btn { padding: 6px; font-size: 1rem; }
-      .popup, .style-popup, .text-popup, .bg-popup, .reset-popup {
+      .popup, .style-popup, .text-popup, .bg-popup, .reset-popup, .weather-popup {
         width: 85%;
         max-width: 300px;
         padding: 10px;
       }
-      .popup h3, .reset-popup h3 { font-size: 1.1rem; }
-      .popup p, .reset-popup p { font-size: 0.85rem; }
+      .popup h3, .style-popup h3, .text-popup h3, .bg-popup h3, .reset-popup h3, .weather-popup h3 {
+        font-size: 1.1rem;
+      }
+      .popup p, .reset-popup p, .weather-popup p { font-size: 0.85rem; }
       .achievement-popup { font-size: 1rem; padding: 10px 16px; max-width: 240px; }
       .time-display, .weather-widget { font-size: 1rem; min-width: 100px; }
       .weather-widget { padding: 6px 12px; }
-      .weather-icon { font-size: 1rem; }
+      .weather-icon, .weather-plus { font-size: 1rem; }
       .break-btn, .reset-timer-btn { font-size: 0.85rem; min-width: 90px; }
+      .close-btn { width: 90px; height: 32px; font-size: 0.85rem; }
+      .weather-popup .forecast-day .icon { font-size: 0.9rem; }
+      .weather-popup .forecast-day .day { font-size: 0.7rem; }
+      .weather-popup .forecast-day .temp { font-size: 0.65rem; }
+      .weather-popup .forecast-container { flex-direction: column; gap: 8px; }
     }
   </style>
 </head>
@@ -764,12 +820,13 @@
       <i id="weatherIcon" class="fas"></i>
       <span id="temperature">Loading...</span>
       <span id="description"></span>
+      <i id="weatherPlus" class="fas fa-plus-circle weather-plus" onclick="toggleWeatherForecast()"></i>
     </div>
     <div class="time-display" id="realTime"></div>
     <div class="break-buttons">
       <button class="break-btn" id="break15Btn" onclick="startBreakTimer(15)">Break 15</button>
       <button class="break-btn" id="lunch1HrBtn" onclick="startBreakTimer(60)">Lunch 60</button>
-      <button class="reset-timer-btn" id="resetTimerBtn" onclick="resetTimers()" disabled>Stop</button>
+      <button class="reset-timer-btn hidden" id="resetTimerBtn" onclick="resetTimers()">Stop</button>
     </div>
   </div>
   <div class="dashboard">
@@ -814,7 +871,6 @@
     </div>
   </div>
   <div class="popup" id="infoPopup">
-    <button class="close-btn" onclick="toggleElement('infoPopup', false)"><i class="fa-regular fa-circle-xmark"></i></button>
     <h3><i class="fa-solid fa-ranking-star"></i> Bonus Target</h3>
     <div class="content-wrapper">
       <p>Average Points per day (280)</p>
@@ -826,15 +882,15 @@
       <p><b><i class="fa-solid fa-circle-xmark"></i> Auto Fail Bonus:</b><br>Attendance: more than 2 days absence<br>6 delays during the month<br>Escalation: DPA or GDPR breach<br>No Ethical behavior in Chat, Calls, or Emails<br>Valid escalation received by the Client</p>
       <p><b><i class="fa-solid fa-triangle-exclamation"></i> Note:</b><br>Vacation is not considered absenteeism<br>Sick Leave, no Show, etc.<br>If the Utilization is under 80%, the bonus is reduced to 50%</p>
     </div>
+    <button class="close-btn" onclick="toggleElement('infoPopup', false)">Close</button>
   </div>
   <div class="style-popup" id="stylePopup">
-    <button class="close-btn" onclick="toggleElement('stylePopup', false)"><i class="fa-regular fa-circle-xmark"></i></button>
     <h3><i class="fa-solid fa-sliders"></i> Adjust Style</h3>
     <label>Transparency (0%-100%):<input type="range" id="transparencyRange" min="0" max="100" step="1" value="50"></label>
     <label>Blur (0%-100%):<input type="range" id="blurRange" min="0" max="100" step="1" value="50"></label>
+    <button class="close-btn" onclick="toggleElement('stylePopup', false)">Close</button>
   </div>
   <div class="text-popup" id="textPopup">
-    <button class="close-btn" onclick="toggleElement('textPopup', false)"><i class="fa-regular fa-circle-xmark"></i></button>
     <h3><i class="fa-solid fa-font"></i> Text Color & Font</h3>
     <label>Main Text:<input type="color" id="textMainColor"></label>
     <label>Font:<select id="fontSelector">
@@ -843,25 +899,67 @@
       <option value="Open Sans">Open Sans</option>
       <option value="Lato">Lato</option>
     </select></label>
+    <button class="close-btn" onclick="toggleElement('textPopup', false)">Close</button>
   </div>
   <div class="bg-popup" id="bgPopup">
-    <button class="close-btn" onclick="toggleElement('bgPopup', false)"><i class="fa-regular fa-circle-xmark"></i></button>
     <h3><i class="fa-solid fa-image"></i> Custom Background</h3>
     <label>Image URL:<input type="text" id="customBgUrl" placeholder="Enter image URL"></label>
     <div class="button-container">
       <button id="applyBgBtn" onclick="applyCustomBackground()">Apply</button>
       <button id="clearBgBtn" onclick="clearCustomBackground()">Clear</button>
     </div>
+    <button class="close-btn" onclick="toggleElement('bgPopup', false)">Close</button>
+  </div>
+  <div class="weather-popup" id="weatherPopup">
+    <h3><i class="fa-solid fa-cloud-sun"></i> 7-Day Forecast</h3>
+    <div class="forecast-container" id="forecastContainer">
+      <div class="forecast-day">
+        <div class="day">Mo</div>
+        <i class="fas fa-question icon" id="forecastIcon1"></i>
+        <div class="temp" id="forecastTemp1">Loading...</div>
+      </div>
+      <div class="forecast-day">
+        <div class="day">Tu</div>
+        <i class="fas fa-question icon" id="forecastIcon2"></i>
+        <div class="temp" id="forecastTemp2">Loading...</div>
+      </div>
+      <div class="forecast-day">
+        <div class="day">We</div>
+        <i class="fas fa-question icon" id="forecastIcon3"></i>
+        <div class="temp" id="forecastTemp3">Loading...</div>
+      </div>
+      <div class="forecast-day">
+        <div class="day">Th</div>
+        <i class="fas fa-question icon" id="forecastIcon4"></i>
+        <div class="temp" id="forecastTemp4">Loading...</div>
+      </div>
+      <div class="forecast-day">
+        <div class="day">Fr</div>
+        <i class="fas fa-question icon" id="forecastIcon5"></i>
+        <div class="temp" id="forecastTemp5">Loading...</div>
+      </div>
+      <div class="forecast-day">
+        <div class="day">Sa</div>
+        <i class="fas fa-question icon" id="forecastIcon6"></i>
+        <div class="temp" id="forecastTemp6">Loading...</div>
+      </div>
+      <div class="forecast-day">
+        <div class="day">Su</div>
+        <i class="fas fa-question icon" id="forecastIcon7"></i>
+        <div class="temp" id="forecastTemp7">Loading...</div>
+      </div>
+    </div>
+    <button class="close-btn" onclick="toggleElement('weatherPopup', false)">Close</button>
   </div>
   <div class="achievement-container" id="achievementContainer"></div>
   <div class="reset-popup" id="resetPopup">
-    <button class="close-btn" onclick="toggleElement('resetPopup', false)"><i class="fa-regular fa-circle-xmark"></i></button>
     <h3><i class="fa-solid fa-rotate-left"></i> Confirm Reset</h3>
     <p id="resetMessage"></p>
     <div class="button-container">
       <button id="yesButton">Yes</button>
       <button id="noButton">No</button>
     </div>
+    <button class="close-btn" onclick="toggleElement('resetPopup', false)">Close</button>
   </div>
   <script>
     const THEMES = ['default', 'dark-new', 'dark-deep', 'dark-midnight', 'orange-sunset', 'blue-green', 'dark-black', 'custom'];
@@ -888,7 +986,7 @@
       'custom': '#212121'
     };
 
-    const apiUrl = 'https://api.open-meteo.com/v1/forecast?latitude=42.6977&longitude=23.3219&current=temperature_2m,weather_code&timezone=Europe/Sofia';
+    const apiUrl = 'https://api.open-meteo.com/v1/forecast?latitude=42.6977&longitude=23.3219&current=temperature_2m,weather_code&daily=temperature_2m_max,weather_code&timezone=Europe%2FSofia&forecast_days=7';
 
     const weatherCodes = {
       0: { description: 'Clear sky', icon: 'fa-sun' },
@@ -910,7 +1008,7 @@
       draggedCard: null,
       dragOverCard: null,
       timer: {
-        active: null, // null, 'break', or 'lunch'
+        active: null,
         duration: 0,
         startTime: null,
         interval: null
@@ -934,7 +1032,24 @@
       weatherWidget: document.getElementById('weatherWidget'),
       temperature: document.getElementById('temperature'),
       description: document.getElementById('description'),
-      weatherIcon: document.getElementById('weatherIcon')
+      weatherIcon: document.getElementById('weatherIcon'),
+      weatherPlus: document.getElementById('weatherPlus'),
+      weatherPopup: document.getElementById('weatherPopup'),
+      forecastContainer: document.getElementById('forecastContainer'),
+      forecastIcon1: document.getElementById('forecastIcon1'),
+      forecastTemp1: document.getElementById('forecastTemp1'),
+      forecastIcon2: document.getElementById('forecastIcon2'),
+      forecastTemp2: document.getElementById('forecastTemp2'),
+      forecastIcon3: document.getElementById('forecastIcon3'),
+      forecastTemp3: document.getElementById('forecastTemp3'),
+      forecastIcon4: document.getElementById('forecastIcon4'),
+      forecastTemp4: document.getElementById('forecastTemp4'),
+      forecastIcon5: document.getElementById('forecastIcon5'),
+      forecastTemp5: document.getElementById('forecastTemp5'),
+      forecastIcon6: document.getElementById('forecastIcon6'),
+      forecastTemp6: document.getElementById('forecastTemp6'),
+      forecastIcon7: document.getElementById('forecastIcon7'),
+      forecastTemp7: document.getElementById('forecastTemp7')
     };
 
     async function getWeather() {
@@ -942,18 +1057,34 @@
         const response = await fetch(apiUrl);
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         const data = await response.json();
-        if (!data.current) throw new Error('Invalid data structure from API');
+        if (!data.current || !data.daily) throw new Error('Invalid data structure from API');
+
         const temp = Math.round(data.current.temperature_2m);
         const weatherCode = data.current.weather_code;
         const weather = weatherCodes[weatherCode] || { description: 'Unknown', icon: 'fa-question' };
         elements.temperature.textContent = `${temp}°C`;
         elements.description.textContent = weather.description;
         elements.weatherIcon.className = `fas ${weather.icon}`;
+
+        const days = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+        const forecastDays = elements.forecastContainer.querySelectorAll('.forecast-day');
+        for (let i = 0; i < 7; i++) {
+          const maxTemp = Math.round(data.daily.temperature_2m_max[i]);
+          const forecastCode = data.daily.weather_code[i];
+          const forecastWeather = weatherCodes[forecastCode] || { icon: 'fa-question' };
+          forecastDays[i].querySelector('.day').textContent = days[i];
+          elements[`forecastTemp${i + 1}`].textContent = `${maxTemp}°C`;
+          elements[`forecastIcon${i + 1}`].className = `fas ${forecastWeather.icon} icon`;
+        }
       } catch (error) {
         console.error('Weather fetch error:', error);
         elements.temperature.textContent = 'Error';
         elements.description.textContent = 'Unable to load weather';
         elements.weatherIcon.className = 'fas fa-exclamation-triangle';
+        for (let i = 1; i <= 7; i++) {
+          elements[`forecastTemp${i}`].textContent = 'Error';
+          elements[`forecastIcon${i}`].className = 'fas fa-exclamation-triangle icon';
+        }
       }
       updateWeatherAndTimeColors();
     }
@@ -970,18 +1101,35 @@
       elements.temperature.style.color = textColor;
       elements.description.style.color = textColor;
       elements.weatherIcon.style.color = textColor;
+      elements.weatherPlus.style.color = textColor;
     }
 
     function toggleElement(id, show = true) {
       const popup = document.getElementById(id);
-      popup.classList.toggle('show', show);
-      popup.classList.toggle('hide', !show);
-      popup.style.display = show ? 'block' : '';
-      if (!show) {
-        popup.addEventListener('animationend', () => {
-          if (!popup.classList.contains('show')) popup.style.display = 'none';
+      if (show) {
+        popup.style.display = 'block';
+        popup.style.visibility = 'visible';
+        popup.style.opacity = '0';
+        setTimeout(() => {
+          popup.classList.add('show');
+          popup.style.opacity = '1';
+          popup.style.transform = 'translate(-50%, -50%) scale(1)';
+        }, 10);
+      } else {
+        popup.classList.remove('show');
+        popup.style.opacity = '0';
+        popup.style.transform = 'translate(-50%, -50%) scale(0.9)';
+        popup.addEventListener('transitionend', () => {
+          if (!popup.classList.contains('show')) {
+            popup.style.display = 'none';
+            popup.style.visibility = 'hidden';
+          }
         }, { once: true });
       }
+    }
+
+    function toggleWeatherForecast() {
+      toggleElement('weatherPopup');
     }
 
     function startBreakTimer(minutes) {
@@ -999,7 +1147,7 @@
 
       elements.break15Btn.disabled = true;
       elements.lunch1HrBtn.disabled = true;
-      elements.resetTimerBtn.disabled = false;
+      elements.resetTimerBtn.classList.remove('hidden');
       button.classList.add('timer-active');
       updateTimerDisplay(button, state.timer.duration);
 
@@ -1007,11 +1155,6 @@
         const elapsed = Math.floor((Date.now() - state.timer.startTime) / 1000);
         const timeLeft = state.timer.duration - elapsed;
         updateTimerDisplay(button, timeLeft);
-        if (timeLeft < 0) {
-          button.classList.add('timer-negative');
-        } else {
-          button.classList.remove('timer-negative');
-        }
       }, 1000);
     }
 
@@ -1040,11 +1183,11 @@
       localStorage.removeItem('timerActive');
       localStorage.removeItem('timerStartTime');
       localStorage.removeItem('timerDuration');
-      button.classList.remove('timer-active', 'timer-negative');
+      button.classList.remove('timer-active');
       button.textContent = button === elements.break15Btn ? 'Break 15' : 'Lunch 60';
       elements.break15Btn.disabled = false;
       elements.lunch1HrBtn.disabled = false;
-      elements.resetTimerBtn.disabled = true;
+      elements.resetTimerBtn.classList.add('hidden');
     }
 
     function resetTimers() {
@@ -1060,7 +1203,7 @@
       const duration = parseInt(localStorage.getItem('timerDuration') || '0');
 
       if (!active || !startTime || !duration) {
-        elements.resetTimerBtn.disabled = true;
+        elements.resetTimerBtn.classList.add('hidden');
         return;
       }
 
@@ -1077,22 +1220,14 @@
 
       elements.break15Btn.disabled = true;
       elements.lunch1HrBtn.disabled = true;
-      elements.resetTimerBtn.disabled = false;
+      elements.resetTimerBtn.classList.remove('hidden');
       button.classList.add('timer-active');
       updateTimerDisplay(button, timeLeft);
-      if (timeLeft < 0) {
-        button.classList.add('timer-negative');
-      }
 
       state.timer.interval = setInterval(() => {
         const elapsed = Math.floor((Date.now() - state.timer.startTime) / 1000);
         const remaining = state.timer.duration - elapsed;
         updateTimerDisplay(button, remaining);
-        if (remaining < 0) {
-          button.classList.add('timer-negative');
-        } else {
-          button.classList.remove('timer-negative');
-        }
       }, 1000);
     }
 
@@ -1376,11 +1511,6 @@
           const timeLeft = state.timer.duration - elapsed;
           const button = state.timer.active === 'break' ? elements.break15Btn : elements.lunch1HrBtn;
           updateTimerDisplay(button, timeLeft);
-          if (timeLeft < 0) {
-            button.classList.add('timer-negative');
-          } else {
-            button.classList.remove('timer-negative');
-          }
         }
       });
     }

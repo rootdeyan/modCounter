@@ -557,7 +557,7 @@
 
     .popup .content-wrapper {
       padding: 0 10px;
-      max-height: calc(70vh - 80px);
+      max-height: calc(150vh - 80px);
       overflow-y: auto;
     }
 
@@ -740,11 +740,11 @@
     .achievement-popup {
       padding: 14px 24px;
       border-radius: 12px;
-      color: #000;
+      color: #ffffff;
       text-align: center;
       font-size: 1.2rem;
       font-weight: 600;
-      animation: fadeInSlide 0.6s ease forwards;
+      animation: fadeInSlide 0.8s ease forwards;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       display: flex;
       align-items: center;
@@ -918,7 +918,7 @@
     <button class="close-btn" onclick="toggleElement('bgPopup', false)">Close</button>
   </div>
   <div class="weather-popup" id="weatherPopup">
-    <h3><i class="fa-solid fa-cloud-sun"></i> 7-Day Forecast</h3>
+    <h3><i class="fa-solid fa-cloud-sun"></i> Weekly Forecast</h3>
     <div class="forecast-container" id="forecastContainer">
       <div class="forecast-day">
         <div class="day" id="forecastDay1">Mo</div>
@@ -973,7 +973,6 @@
       <button id="yesButton">Yes</button>
       <button id="noButton">No</button>
     </div>
-    <button class="close-btn" onclick="toggleElement('resetPopup', false)">Close</button>
   </div>
   <script>
     const THEMES = ['default', 'dark-new', 'dark-deep', 'dark-midnight', 'orange-sunset', 'blue-green', 'dark-black', 'custom'];
@@ -1323,7 +1322,7 @@
       popup.innerHTML = `<i class="fa-solid fa-trophy"></i> ${type === 'achieved' ? 'Achieved' : 'Surpassed'} ${threshold} Points!`;
       elements.achievementContainer.appendChild(popup);
       setTimeout(() => {
-        popup.style.animation = 'fadeOutSlide 0.6s ease forwards';
+        popup.style.animation = 'fadeOutSlide 0.8s ease forwards';
         popup.addEventListener('animationend', () => popup.remove(), { once: true });
       }, 5000);
     }

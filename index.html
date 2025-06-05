@@ -485,6 +485,7 @@
     #styleAdjuster { background: linear-gradient(135deg, #EC4899, #DB2777); }
     #textColorPicker { background: linear-gradient(135deg, #A78BFA, #7C3AED); }
     #customBgPicker { background: linear-gradient(135deg, #F472B6, #F43F5E); }
+    #keepAwakeBtn { background: linear-gradient(135deg, #FBBF24, #F59E0B); }
 
     .action-btn:hover {
       transform: scale(1.08);
@@ -848,6 +849,7 @@
         <button class="action-btn" id="styleAdjuster" onclick="toggleElement('stylePopup')" data-tooltip="Adjust Style"><i class="fa-solid fa-sliders"></i></button>
         <button class="action-btn" id="textColorPicker" onclick="toggleElement('textPopup')" data-tooltip="Text Colors"><i class="fa-solid fa-font"></i></button>
         <button class="action-btn" id="customBgPicker" onclick="toggleElement('bgPopup')" data-tooltip="Custom Background"><i class="fa-solid fa-image"></i></button>
+        <button class="action-btn" id="keepAwakeBtn" onclick="keepAwake()" data-tooltip="Keep Awake"><i class="fa-solid fa-lightbulb"></i></button>
       </div>
     </div>
     <div class="card" data-id="chats">
@@ -974,6 +976,9 @@
       <button id="noButton">No</button>
     </div>
   </div>
+  <audio id="silentAudio" loop>
+    <source src="KeepAwakeSilentAudioLoop.mp3" type="audio/mpeg">
+  </audio>
   <script>
     const THEMES = ['default', 'dark-new', 'dark-deep', 'dark-midnight', 'orange-sunset', 'blue-green', 'dark-black', 'custom'];
     const POINTS_PER_COUNT = {
@@ -1507,6 +1512,15 @@
       });
       if (totalCard) {
         elements.dashboard.insertBefore(totalCard, elements.dashboard.firstChild);
+      }
+    }
+
+    function keepAwake() {
+      const audio = document.getElementById('silentAudio');
+      if (audio.paused) {
+        audio.play().catch(err => console.log('Audio play failed:', err));
+      } else {
+        audio.pause();
       }
     }
 

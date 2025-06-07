@@ -685,43 +685,40 @@
     .reset-popup #yesButton { background: var(--button-increase); }
     .reset-popup #noButton { background: var(--button-decrease); }
 
-    .weather-popup .forecast-container {
-      display: flex;
-      flex-direction: row;
-      gap: 8px;
-      text-align: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      padding: 0 5px;
-    }
-
-    .weather-popup .forecast-day {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      flex: 1;
-      min-width: 45px;
-      padding: 5px;
-    }
-
-    .weather-popup .forecast-day .day {
+    .weather-popup .forecast-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
       font-size: 0.9rem;
+    }
+
+    .weather-popup .forecast-table th,
+    .weather-popup .forecast-table td {
+      padding: 8px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    .weather-popup .forecast-table th {
+      background-color: rgba(0, 0, 0, 0.1);
       font-weight: 600;
     }
 
-    .weather-popup .forecast-day .date {
-      font-size: 0.8rem;
-      color: #333;
-    }
-
-    .weather-popup .forecast-day .icon {
+    .weather-popup .forecast-table .icon {
       font-size: 1.2rem;
       color: #000;
     }
 
-    .weather-popup .forecast-day .temp {
+    .weather-popup .forecast-table .temp {
       font-size: 0.8rem;
+    }
+
+    .weather-popup .forecast-table .day {
+      font-weight: 600;
+    }
+
+    .weather-popup .forecast-table .date {
+      color: #333;
     }
 
     .achievement-container {
@@ -787,10 +784,11 @@
       .weather-icon, .weather-plus { font-size: 1.2rem; }
       .break-btn, .reset-timer-btn { font-size: 0.9rem; min-width: 100px; }
       .close-btn { width: 100px; height: 36px; font-size: 0.9rem; }
-      .weather-popup .forecast-day .icon { font-size: 1rem; }
-      .weather-popup .forecast-day .day { font-size: 0.8rem; }
-      .weather-popup .forecast-day .date { font-size: 0.7rem; }
-      .weather-popup .forecast-day .temp { font-size: 0.7rem; }
+      .weather-popup .forecast-table { font-size: 0.8rem; }
+      .weather-popup .forecast-table .icon { font-size: 1rem; }
+      .weather-popup .forecast-table .day { font-size: 0.8rem; }
+      .weather-popup .forecast-table .date { font-size: 0.7rem; }
+      .weather-popup .forecast-table .temp { font-size: 0.7rem; }
     }
 
     @media (max-width: 480px) {
@@ -813,11 +811,11 @@
       .weather-icon, .weather-plus { font-size: 1rem; }
       .break-btn, .reset-timer-btn { font-size: 0.85rem; min-width: 90px; }
       .close-btn { width: 90px; height: 32px; font-size: 0.85rem; }
-      .weather-popup .forecast-day .icon { FONT-SIZE: 0.9REM; }
-      .weather-popup .forecast-day .day { font-size: 0.7rem; }
-      .weather-popup .forecast-day .date { font-size: 0.65rem; }
-      .weather-popup .forecast-day .temp { font-size: 0.65rem; }
-      .weather-popup .forecast-container { flex-direction: column; gap: 8px; }
+      .weather-popup .forecast-table { font-size: 0.7rem; }
+      .weather-popup .forecast-table .icon { font-size: 0.9rem; }
+      .weather-popup .forecast-table .day { font-size: 0.7rem; }
+      .weather-popup .forecast-table .date { font-size: 0.65rem; }
+      .weather-popup .forecast-table .temp { font-size: 0.65rem; }
     }
   </style>
 </head>
@@ -919,50 +917,60 @@
   </div>
   <div class="weather-popup" id="weatherPopup">
     <h3><i class="fa-solid fa-cloud-sun"></i> Weekly Forecast</h3>
-    <div class="forecast-container" id="forecastContainer">
-      <div class="forecast-day">
-        <div class="day" id="forecastDay1">Mo</div>
-        <div class="date" id="forecastDate1"></div>
-        <i class="fas fa-question icon" id="forecastIcon1"></i>
-        <div class="temp" id="forecastTemp1">Loading...</div>
-      </div>
-      <div class="forecast-day">
-        <div class="day" id="forecastDay2">Tu</div>
-        <div class="date" id="forecastDate2"></div>
-        <i class="fas fa-question icon" id="forecastIcon2"></i>
-        <div class="temp" id="forecastTemp2">Loading...</div>
-      </div>
-      <div class="forecast-day">
-        <div class="day" id="forecastDay3">We</div>
-        <div class="date" id="forecastDate3"></div>
-        <i class="fas fa-question icon" id="forecastIcon3"></i>
-        <div class="temp" id="forecastTemp3">Loading...</div>
-      </div>
-      <div class="forecast-day">
-        <div class="day" id="forecastDay4">Th</div>
-        <div class="date" id="forecastDate4"></div>
-        <i class="fas fa-question icon" id="forecastIcon4"></i>
-        <div class="temp" id="forecastTemp4">Loading...</div>
-      </div>
-      <div class="forecast-day">
-        <div class="day" id="forecastDay5">Fr</div>
-        <div class="date" id="forecastDate5"></div>
-        <i class="fas fa-question icon" id="forecastIcon5"></i>
-        <div class="temp" id="forecastTemp5">Loading...</div>
-      </div>
-      <div class="forecast-day">
-        <div class="day" id="forecastDay6">Sa</div>
-        <div class="date" id="forecastDate6"></div>
-        <i class="fas fa-question icon" id="forecastIcon6"></i>
-        <div class="temp" id="forecastTemp6">Loading...</div>
-      </div>
-      <div class="forecast-day">
-        <div class="day" id="forecastDay7">Su</div>
-        <div class="date" id="forecastDate7"></div>
-        <i class="fas fa-question icon" id="forecastIcon7"></i>
-        <div class="temp" id="forecastTemp7">Loading...</div>
-      </div>
-    </div>
+    <table class="forecast-table" id="forecastContainer">
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>Date</th>
+          <th>Weather</th>
+          <th>Temp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="day" id="forecastDay1">Mo</td>
+          <td class="date" id="forecastDate1"></td>
+          <td><i class="fas fa-question icon" id="forecastIcon1"></i></td>
+          <td class="temp" id="forecastTemp1">Loading...</td>
+        </tr>
+        <tr>
+          <td class="day" id="forecastDay2">Tu</td>
+          <td class="date" id="forecastDate2"></td>
+          <td><i class="fas fa-question icon" id="forecastIcon2"></i></td>
+          <td class="temp" id="forecastTemp2">Loading...</td>
+        </tr>
+        <tr>
+          <td class="day" id="forecastDay3">We</td>
+          <td class="date" id="forecastDate3"></td>
+          <td><i class="fas fa-question icon" id="forecastIcon3"></i></td>
+          <td class="temp" id="forecastTemp3">Loading...</td>
+        </tr>
+        <tr>
+          <td class="day" id="forecastDay4">Th</td>
+          <td class="date" id="forecastDate4"></td>
+          <td><i class="fas fa-question icon" id="forecastIcon4"></i></td>
+          <td class="temp" id="forecastTemp4">Loading...</td>
+        </tr>
+        <tr>
+          <td class="day" id="forecastDay5">Fr</td>
+          <td class="date" id="forecastDate5"></td>
+          <td><i class="fas fa-question icon" id="forecastIcon5"></i></td>
+          <td class="temp" id="forecastTemp5">Loading...</td>
+        </tr>
+        <tr>
+          <td class="day" id="forecastDay6">Sa</td>
+          <td class="date" id="forecastDate6"></td>
+          <td><i class="fas fa-question icon" id="forecastIcon6"></i></td>
+          <td class="temp" id="forecastTemp6">Loading...</td>
+        </tr>
+        <tr>
+          <td class="day" id="forecastDay7">Su</td>
+          <td class="date" id="forecastDate7"></td>
+          <td><i class="fas fa-question icon" id="forecastIcon7"></i></td>
+          <td class="temp" id="forecastTemp7">Loading...</td>
+        </tr>
+      </tbody>
+    </table>
     <button class="close-btn" onclick="toggleElement('weatherPopup', false)">Close</button>
   </div>
   <div class="achievement-container" id="achievementContainer"></div>
